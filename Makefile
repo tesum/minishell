@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+         #
+#    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/09/08 23:45:18 by arsenijdroz      ###   ########.fr        #
+#    Updated: 2021/09/08 22:49:51 by caugusta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ all : sub_directory $(LIBFT) $(NAME) run
 sub_directory :
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/parser
+	@mkdir -p $(OBJ_DIR)/cmd
 
 $(OBJ_DIR)%.o : $(SOURCE_DIR)%.c
 	$(CC) $(CFLAGS) -c -o $@ $^ $(INCFLAGS)
