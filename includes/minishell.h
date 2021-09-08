@@ -4,11 +4,20 @@
 # include "libft.h"
 # include <errno.h>
 # include <stdio.h>
+# include <signal.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 
-// PREPERSER
+typedef struct s_shell
+{
+	char	**env;
+	int		result;
+}				t_shell;
 
+t_shell	g_shell;
+
+// PREPERSER
+void	init_shell(int argc, char **argv, char **env);
 int		preparser(char *input);
 int		check_second_quote(char quote, char *input, int *i);
 int		check_begin(char *input);
@@ -19,7 +28,7 @@ char	*single_quote(char *input, int *i);
 char	*delete_simbol(char *input, int *i);
 char	*double_quote(char *input, char **env, int *i);
 char	*dollar(char *input, char **env, int *i);
-char	*dollar_utils(char *input, int *i, int *k);
+char	*dollar_utils(char **input, int *i, int *k);
 char	*replace_variable(char *str, char *str_replace, int *start, int end);
 char	*replace_str(char *input, char *str_replace, int *start, int end);
 void	error_malloc(char *a, char *b, char *c);
@@ -33,5 +42,9 @@ char	**find_path(char **env);
 void	executing(char **env, char **cmd);
 void	free_2d_arr(char **arr);
 void	exit_error(char *str, int code);
+
+//signal
+void	signal_handler(void);
+void	ctrl_c(int signal);
 
 #endif

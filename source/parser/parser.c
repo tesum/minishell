@@ -25,8 +25,13 @@ void	parser(char *input, char **env)
 	if (pid == 0)
 		executing(env, formated);
 	else
+	{
 		wait(NULL);
-	free (input);
+		if (input != NULL)
+			free (input);
+		input = NULL;
+		free_2d_arr(formated);
+	}
 }
 
 char	*double_quote(char *input, char **env, int *i)
@@ -88,5 +93,6 @@ void	error_malloc(char *a, char *b, char *c)
 		free(c);
 		c = NULL;
 	}
+	g_shell.result = -1;
 	ft_putstr_fd("Error malloc", 2);
 }

@@ -69,6 +69,8 @@ char	*replace_str(char *input, char *str_replace, int *start, int end)
 	char	*tmp1;
 	char	*tmp2;
 
+	if (str_replace == NULL)
+		return (NULL);
 	tmp1 = ft_strdup(input);
 	tmp2 = ft_strdup(input + end);
 	if (tmp1 == NULL || tmp2 == NULL)
@@ -77,6 +79,7 @@ char	*replace_str(char *input, char *str_replace, int *start, int end)
 		return (NULL);
 	}
 	free(input);
+	input = NULL;
 	tmp1 = ft_strjoin_gnl(tmp1, str_replace);
 	tmp1 = ft_strjoin_gnl(tmp1, tmp2);
 	if (tmp1 == NULL)

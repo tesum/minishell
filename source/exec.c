@@ -14,6 +14,8 @@ char	*correct_path(char **env, char **cmd)
 	{
 		path[i] = ft_strjoin_gnl(path[i], "/");
 		path[i] = ft_strjoin_gnl(path[i], cmd[0]);
+		if (path[i] == NULL)
+			exit_error("Error malloc\n", -1);
 		if (access(path[i], X_OK) == 0)
 		{
 			tmp = ft_strdup(path[i]);
@@ -33,10 +35,14 @@ char	**find_path(char **env)
 	char	**path;
 
 	i = 0;
+	path = NULL;
 	while (env[i])
 	{
 		if (ft_strncmp("PATH=", env[i], 5) == 0)
+		{
 			path = ft_split(env[i] + 5, ':');
+			break ;
+		}
 		i++;
 	}
 	if (path == NULL)
@@ -59,13 +65,12 @@ void	executing(char **env, char **cmd)
 		str = ft_strjoin_gnl(str, "' not found");
 		if (str == NULL)
 			exit_error("Error malloc\n", -1);
-		exit_error(str, 0);
+		exit_error(str, 127);
 	}
 	else
 	{
 		free (path);
 		path = NULL;
-		free_2d_arr(cmd);
 	}
 }
 
@@ -86,6 +91,6 @@ void	free_2d_arr(char **arr)
 
 void	exit_error(char *str, int code)
 {
-	perror(str);
+	ft_putstr_fd(str, 2);
 	exit (code);
 }
