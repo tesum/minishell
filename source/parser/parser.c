@@ -10,29 +10,90 @@ void	parser(char *input, char **env)
 	{
 		if (input != NULL && input[i] == '\'')
 			input = single_quote(input, &i);
-		if (input != NULL && input[i] == '\\')
-		{
-			input = delete_simbol(input, i);
-			i++;
-		}
 		if (input != NULL && input[i] == '\"')
 			input = double_quote(input, env, &i);
 		if (input != NULL && input[i] == '$')
 			input = dollar(input, env, &i);
+		input = double_redirect_handler(input, &i);
+		input = pipe_handler(input, &i);
 		if (input != NULL && (input[i] == ' ' || input[i] == '\t'))
 			input[i] = 127;
 	}
 	printf("str = %s\n", input);
-	formated = ft_split(input, 127);
+	formated = ft_split(input, 127); //TODO: leak
 	i = -1;
 	while (formated[++i])
 		printf("[%d] - %s\n", i, formated[i]);
 	free (input);
 }
 
+char	*pipe_handler(char *input, int *i)
+{
+	if (input != NULL && input[*i] == '|')
+	{
+		input[*i] = '\0';
+		input = replace_str(input, " | ", i, (*i + 1));
+	}
+	if (input != NULL && input[*i] == ' ')
+		input[*i] = 127;
+	if (input != NULL && input[*i - 2] == ' ')
+		input[*i - 2] = 127;
+	return (input);
+}
+
+char	*redirect_handler(char *input, int *i)
+{
+	if (input != NULL && input[*i] == '<')
+	{
+		input[*i] = '\0';
+		input = replace_str(input, " < ", i, (*i + 1));
+		if (input != NULL && input[*i] == ' ')
+			input[*i] = 127;
+		if (input != NULL && input[*i - 2] == ' ')
+			input[*i - 2] = 127;
+		return (input);
+	}
+	if (input != NULL && input[*i] == '>')
+	{
+		input[*i] = '\0';
+		input = replace_str(input, " > ", i, (*i + 1));
+		if (input != NULL && input[*i] == ' ')
+			input[*i] = 127;
+		if (input != NULL && input[*i - 2] == ' ')
+			input[*i - 2] = 127;
+		return (input);
+	}
+	return (input);
+}
+
+char	*double_redirect_handler(char *input, int *i)
+{
+	if (input != NULL && input[*i] == '<' && input[(*i + 1)] == '<')
+	{
+		input[*i] = '\0';
+		input = replace_str(input, " << ", i, (*i + 2));
+		if (input != NULL && input[*i] == ' ')
+			input[*i] = 127;
+		if (input != NULL && input[*i - 3] == ' ')
+			input[*i - 3] = 127;
+		return (input);
+	}
+	if (input != NULL && input[*i] == '>' && input[(*i + 1)] == '>')
+	{
+		input[*i] = '\0';
+		input = replace_str(input, " >> ", i, (*i + 2));
+		if (input != NULL && input[*i - 1] == ' ')
+			input[*i] = 127;
+		if (input != NULL && input[*i - 3] == ' ')
+			input[*i - 3] = 127;
+		return (input);
+	}
+	return (redirect_handler(input, i));
+}
+
 char	*double_quote(char *input, char **env, int *i)
 {
-	input = delete_simbol(input, *i);
+	input = delete_simbol(input, i);
 	if (input == NULL)
 		return (NULL);
 	while (input[*i] != '\"')
@@ -46,7 +107,7 @@ char	*double_quote(char *input, char **env, int *i)
 		else
 			(*i)++;
 	}
-	input = delete_simbol(input, *i);
+	input = delete_simbol(input, i);
 	if (input == NULL)
 		return (NULL);
 	return (input);
@@ -54,10 +115,10 @@ char	*double_quote(char *input, char **env, int *i)
 
 char	*dollar(char *input, char **env, int *i) //TODO: norm 37line
 {
-	int	j;
-	int	k;
-	char *tmp;
-	char *tmp2;
+	int		j;
+	int		k;
+	char	*tmp;
+	char	*tmp2;
 
 	j = 0;
 	k = ++*i;
@@ -90,23 +151,50 @@ char	*dollar(char *input, char **env, int *i) //TODO: norm 37line
 		j++;
 	}
 	free(tmp);
-	return(replace_variable(input, "", i, k));
+	return (replace_variable(input, "", i, k));
+}
+
+char	*replace_str(char *input, char *str_replace, int *start, int end)
+{
+	char	*tmp1;
+	char	*tmp2;
+
+	tmp1 = ft_strdup(input);
+	tmp2 = ft_strdup(input + end);
+	if (tmp1 == NULL || tmp2 == NULL)
+	{
+		error_malloc(tmp1, tmp2, input);
+		return (NULL);
+	}
+	free(input);
+	tmp1 = ft_strjoin_gnl(tmp1, str_replace);
+	tmp1 = ft_strjoin_gnl(tmp1, tmp2);
+	if (tmp1 == NULL)
+	{
+		error_malloc(tmp1, tmp2, input);
+		return (NULL);
+	}
+	free (tmp2);
+	*start += ft_strlen(str_replace) - 1;
+	input = tmp1;
+	return (input);
 }
 
 char	*replace_variable(char *input, char *str_replace, int *start, int end)
 {
 	char	*tmp1;
 	char	*tmp2;
+
 	tmp1 = ft_substr(input, 0, *start - 1);
 	tmp2 = ft_strdup(input + end);
-	if (tmp1 == NULL ||tmp2 == NULL)
+	if (tmp1 == NULL || tmp2 == NULL)
 	{
 		error_malloc(tmp1, tmp2, input);
 		return (NULL);
 	}
 	free(input);
 	end = 0;
-	while(str_replace[end - 1] != '=')
+	while (str_replace[end - 1] != '=')
 		end++;
 	tmp1 = ft_strjoin_gnl(tmp1, str_replace + end);
 	tmp1 = ft_strjoin_gnl(tmp1, tmp2);
@@ -123,39 +211,21 @@ char	*replace_variable(char *input, char *str_replace, int *start, int end)
 
 char	*single_quote(char *input, int *i)
 {
-	input = delete_simbol(input, *i);
+	input = delete_simbol(input, i);
 	if (input == NULL)
 		return (NULL);
 	while (input[*i] != '\'')
 		(*i)++;
-	input = delete_simbol(input, *i);
+	input = delete_simbol(input, i);
 	if (input == NULL)
 		return (NULL);
 	return (input);
 }
 
-char	*delete_simbol(char *input, int i)
+char	*delete_simbol(char *input, int *i)
 {
-	char	*tmp1;
-	char	*tmp2;
-
-	input[i] = '\0';
-	tmp1 = ft_strdup(input);
-	tmp2 = ft_strdup(input + i + 1);
-	if (tmp1 == NULL || tmp2 == NULL)
-	{
-		error_malloc(tmp1, tmp2, input);
-		return (NULL);
-	}
-	free(input);
-	input = ft_strjoin(tmp1, tmp2);
-	if (input == NULL)
-	{
-		error_malloc(tmp1, tmp2, input);
-		return (NULL);
-	}
-	free (tmp1);
-	free (tmp2);
+	input[*i] = 127;
+	(*i)++;
 	return (input);
 }
 
