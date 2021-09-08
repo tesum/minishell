@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char	*input;
+
 	(void)argc;
 	(void)argv;
 	while (1)
@@ -18,7 +19,5 @@ int main(int argc, char **argv, char **env)
 		else
 			free(input);
 	}
-	return 0;
+	return (0);
 }
-
-

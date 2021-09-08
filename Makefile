@@ -6,7 +6,7 @@
 #    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/09/07 05:46:39 by caugusta         ###   ########.fr        #
+#    Updated: 2021/09/08 22:01:31 by caugusta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INCFLAGS			= -I ./includes/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include
 READLINEFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -ltermcap
 
 SOURCE_DIR			= source/
-SOURCE				= main.c parser/preparser.c parser/parser.c
+SOURCE				= main.c parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c exec.c
 OBJ_DIR				= object/
 
 LIBFT				= libft/$(LIBFT_NAME)
