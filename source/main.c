@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		add_history(input);
 		if (preparser(input) != -1)
-			parser(input, g_shell.env);
+			parser(input);
 		else if (input != NULL)
 		{
 			free(input);
@@ -35,6 +35,8 @@ void	init_shell(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
+	// env"SHELL" = argv[0];
+	// shlvl ++;
 	g_shell.env = env;
 	g_shell.result = 0;
 }

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*dollar(char *input, char **env, int *i)
+char	*dollar(char *input, int *i)
 {
 	int		j;
 	int		k;
@@ -15,9 +15,9 @@ char	*dollar(char *input, char **env, int *i)
 	tmp = ft_strjoin_gnl(tmp, "=");
 	if (tmp == NULL)
 		error_malloc(tmp, input, NULL);
-	while (env[j])
+	while (g_shell.env[j])
 	{
-		tmp2 = ft_strnstr(env[j], tmp, ft_strlen(tmp));
+		tmp2 = ft_strnstr(g_shell.env[j], tmp, ft_strlen(tmp));
 		if (tmp2 != NULL)
 		{
 			free(tmp);
