@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	parser(char *input, char **env)
+void	parser(char *input)
 {
 	int		i;
 	char	**formated;
@@ -12,9 +12,9 @@ void	parser(char *input, char **env)
 		if (input != NULL && input[i] == '\'')
 			input = single_quote(input, &i);
 		if (input != NULL && input[i] == '\"')
-			input = double_quote(input, env, &i);
+			input = double_quote(input, &i);
 		if (input != NULL && input[i] == '$')
-			input = dollar(input, env, &i);
+			input = dollar(input, &i);
 		input = double_redirect_handler(input, &i);
 		input = pipe_handler(input, &i);
 		if (input != NULL && (input[i] == ' ' || input[i] == '\t'))
@@ -23,13 +23,19 @@ void	parser(char *input, char **env)
 	formated = ft_split(input, 127);
 	pid = fork();
 	if (pid == 0)
-		executing(env, formated);
+		executing(formated);
 	else
-		wait(NULL);
-	free (input);
+	{
+		waitpid(pid, &g_shell.result, 0);
+		g_shell.result /= 256;
+		if (input != NULL)
+			free (input);
+		input = NULL;
+		free_2d_arr(formated);
+	}
 }
 
-char	*double_quote(char *input, char **env, int *i)
+char	*double_quote(char *input, int *i)
 {
 	input = delete_simbol(input, i);
 	if (input == NULL)
@@ -38,7 +44,7 @@ char	*double_quote(char *input, char **env, int *i)
 	{
 		if (input != NULL && input[*i] == '$')
 		{
-			input = dollar(input, env, i);
+			input = dollar(input, i);
 			if (input == NULL)
 				return (NULL);
 		}
@@ -88,5 +94,6 @@ void	error_malloc(char *a, char *b, char *c)
 		free(c);
 		c = NULL;
 	}
+	g_shell.result = -1;
 	ft_putstr_fd("Error malloc", 2);
 }

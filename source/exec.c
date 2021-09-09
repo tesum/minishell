@@ -1,20 +1,22 @@
 #include "minishell.h"
 
-char	*correct_path(char **env, char **cmd)
+char	*correct_path(char **cmd)
 {
 	int		i;
 	char	**path;
 	char	*tmp;
 
 	i = 0;
-	if (access(cmd[0], X_OK) == 0)
+	if (access(cmd[0], X_OK) == 0) // not allowed
 		return (cmd[0]);
-	path = find_path(env);
+	path = find_path();
 	while (path[i])
 	{
 		path[i] = ft_strjoin_gnl(path[i], "/");
 		path[i] = ft_strjoin_gnl(path[i], cmd[0]);
-		if (access(path[i], X_OK) == 0)
+		if (path[i] == NULL)
+			exit_error("Error malloc\n", -1);
+		if (access(path[i], X_OK) == 0) // not allowed
 		{
 			tmp = ft_strdup(path[i]);
 			if (tmp == NULL)
@@ -27,16 +29,20 @@ char	*correct_path(char **env, char **cmd)
 	return (NULL);
 }
 
-char	**find_path(char **env)
+char	**find_path(void)
 {
 	int		i;
 	char	**path;
 
 	i = 0;
-	while (env[i])
+	path = NULL;
+	while (g_shell.env[i])
 	{
-		if (ft_strncmp("PATH=", env[i], 5) == 0)
-			path = ft_split(env[i] + 5, ':');
+		if (ft_strncmp("PATH=", g_shell.env[i], 5) == 0)
+		{
+			path = ft_split(g_shell.env[i] + 5, ':');
+			break ;
+		}
 		i++;
 	}
 	if (path == NULL)
@@ -44,30 +50,29 @@ char	**find_path(char **env)
 	return (path);
 }
 
-void	executing(char **env, char **cmd)
+void	executing(char **cmd)
 {
 	char	*str;
 	char	*path;
 
 	str = NULL;
-	path = correct_path(env, cmd);
-	if (!exec_ocmd(env, cmd))
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	builtins(cmd);
+	if (!exec_ocmd(g_shell.env, cmd))
 	{
-		if (execve(path, cmd, env) == -1)
+		path = correct_path(cmd);
+		if (execve(path, cmd, g_shell.env) == -1)
 		{
-			str = ft_strjoin("Command '", cmd[0]);
+			str = ft_strjoin_gnl(cmd[0], ": command not found\n");
 			if (str == NULL)
 				exit_error("Error malloc\n", -1);
-			str = ft_strjoin_gnl(str, "' not found");
-			if (str == NULL)
-				exit_error("Error malloc\n", -1);
-			exit_error(str, 0);
+			exit_error(str, 127);
 		}
 		else
 		{
 			free (path);
 			path = NULL;
-			free_2d_arr(cmd);
 		}
 	}
 }
@@ -89,6 +94,6 @@ void	free_2d_arr(char **arr)
 
 void	exit_error(char *str, int code)
 {
-	perror(str);
+	ft_putstr_fd(str, 2);
 	exit (code);
 }

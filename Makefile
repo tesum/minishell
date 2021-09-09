@@ -6,7 +6,7 @@
 #    By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/09/09 09:00:57 by arsenijdroz      ###   ########.fr        #
+#    Updated: 2021/09/09 09:16:20 by arsenijdroz      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME				= minishell
 LIBFT_NAME			= libft.a
 
 CC					= gcc
-CFLAGS				= -Wall -Wextra -Werror -MMD
+CFLAGS				= -Wall -Wextra -Werror -MMD -g
 INCFLAGS			= -I ./includes/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include
 
 READLINEFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -ltermcap
@@ -22,7 +22,9 @@ READLINEFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -lte
 SOURCE_DIR			= source/
 SOURCE				=	main.c exec.c cmd_arr.c \
 						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c \
-						cmd/pwd.c cmd/echo.c cmd/cd.c
+						cmd/pwd.c cmd/echo.c cmd/cd.c \
+						builtin/builtins.c
+						
 OBJ_DIR				= object/
 
 LIBFT				= libft/$(LIBFT_NAME)
@@ -46,21 +48,23 @@ RESET					=	\033[0m
 
 .PHONY : all sub_directory dir_bonus clean fclean re bonus run
 
-all : sub_directory $(LIBFT) $(NAME) run
+all : sub_directory $(LIBFT) $(NAME)
 	@echo "\n$(GREEN)COMPLETE$(RESET)"
+	@${MAKE} run
 
 sub_directory :
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/parser
 	@mkdir -p $(OBJ_DIR)/cmd
+	@mkdir -p $(OBJ_DIR)/builtin
 
 $(OBJ_DIR)%.o : $(SOURCE_DIR)%.c
-	$(CC) $(CFLAGS) -c -o $@ $^ $(INCFLAGS)
-	# @echo "$(GREEN)+$(RESET)\c"
+	@$(CC) $(CFLAGS) -c -o $@ $^ $(INCFLAGS)
+	@echo "$(GREEN)+$(RESET)\c"
 
 $(NAME) : $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(READLINEFLAGS) -o $@ $^ $(INCFLAGS)
-	# @echo "$(GREEN)+$(RESET)\c"
+	@$(CC) $(CFLAGS) $(READLINEFLAGS) -o $@ $^ $(INCFLAGS)
+	@echo "$(GREEN)+$(RESET)\c"
 
 $(LIBFT) :
 	@$(MAKE) -C $(LIBFT_DIR)
