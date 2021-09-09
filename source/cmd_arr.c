@@ -3,10 +3,9 @@
 int	get_cmd_char(char **cmd)
 {
 	int		i;
-	char	**cmds;
+	static char	*cmds[8];
 
 	i = -1;
-	cmds = malloc(sizeof(char *) * 8);
 	cmds[0] = "echo";
 	cmds[1] = "cd";
 	cmds[2] = "pwd";
@@ -24,7 +23,6 @@ int	get_cmd_char(char **cmd)
 			return (i);
 		}
 	}
-	free(cmds);
 	return (-1);
 }
 
