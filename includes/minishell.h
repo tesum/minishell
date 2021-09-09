@@ -13,6 +13,7 @@
 typedef struct s_shell
 {
 	char	**env;
+	char	*arg;
 	int		result;
 }				t_shell;
 
@@ -60,9 +61,13 @@ void	ft_env(char **cmd);
 void	ft_exit(char **cmd);
 
 // COMMAND
-int		exec_ocmd(char **env, char **cmd);
-void	pwd(char **env);
-void	echo(char **env);
-void	cd(char **env);
+int		exec_ocmd(char **cmd);
+void	pwd(void);
+void	echo(void);
+void	cd(void);
+void	unset(void);
+void	export(void);
+void	o_env(void);
+void	o_exit(void);
 
 #endif

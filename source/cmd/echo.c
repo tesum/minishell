@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void	echo(char **env)
+// add redirect in file
+void	echo(void)
 {
-	(void)env;
-
-
+	ft_putstr_fd(g_shell.arg, 1);
+	ft_putchar_fd('\n', 1);
 }

@@ -2,8 +2,8 @@
 
 void	builtins(char **cmd)
 {
-	if (!ft_strncmp(cmd[0], "echo", 5) || !ft_strncmp(cmd[0], "ECHO", 5))
-		ft_echo(cmd);
+	// if (!ft_strncmp(cmd[0], "echo", 5) || !ft_strncmp(cmd[0], "ECHO", 5))
+	// 	ft_echo(cmd);
 	if (!ft_strncmp(cmd[0], "cd", 3))
 		ft_cd(cmd);
 	// if (!ft_strncmp(cmd[0], "pwd", 3) || !ft_strncmp(cmd[0], "PWD", 3))
@@ -14,8 +14,8 @@ void	builtins(char **cmd)
 		ft_unset(cmd);
 	if (!ft_strncmp(cmd[0], "env", 4) || !ft_strncmp(cmd[0], "ENV", 4))
 		ft_env(cmd);
-	if (!ft_strncmp(cmd[0], "exit", 5))
-		ft_exit(cmd);
+	// if (!ft_strncmp(cmd[0], "exit", 5))
+	// 	ft_exit(cmd);
 }
 
 void	ft_echo(char **cmd)

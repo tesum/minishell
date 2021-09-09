@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	cd(void)
+void	export(void)
 {
 	return ;
 }

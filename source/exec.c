@@ -59,7 +59,7 @@ void	executing(char **cmd)
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	builtins(cmd);
-	if (!exec_ocmd(g_shell.env, cmd))
+	if (!exec_ocmd(cmd))
 	{
 		path = correct_path(cmd);
 		if (execve(path, cmd, g_shell.env) == -1)

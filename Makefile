@@ -6,7 +6,7 @@
 #    By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/09/09 09:16:20 by arsenijdroz      ###   ########.fr        #
+#    Updated: 2021/09/09 09:55:21 by arsenijdroz      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ READLINEFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -lte
 SOURCE_DIR			= source/
 SOURCE				=	main.c exec.c cmd_arr.c \
 						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c \
-						cmd/pwd.c cmd/echo.c cmd/cd.c \
+						cmd/pwd.c cmd/echo.c cmd/cd.c  cmd/exit.c cmd/export.c cmd/env.c cmd/unset.c \
 						builtin/builtins.c
 						
 OBJ_DIR				= object/
