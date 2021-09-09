@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
+#    By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/09/08 22:47:25 by caugusta         ###   ########.fr        #
+#    Updated: 2021/09/09 09:00:57 by arsenijdroz      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,9 @@ INCFLAGS			= -I ./includes/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include
 READLINEFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -ltermcap
 
 SOURCE_DIR			= source/
-SOURCE				= main.c parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c exec.c cmd/pwd.c
+SOURCE				=	main.c exec.c cmd_arr.c \
+						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c \
+						cmd/pwd.c cmd/echo.c cmd/cd.c
 OBJ_DIR				= object/
 
 LIBFT				= libft/$(LIBFT_NAME)
@@ -50,7 +52,7 @@ all : sub_directory $(LIBFT) $(NAME) run
 sub_directory :
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)/parser
-	@mkdir -p $(OBJ_DIR)/pwd
+	@mkdir -p $(OBJ_DIR)/cmd
 
 $(OBJ_DIR)%.o : $(SOURCE_DIR)%.c
 	$(CC) $(CFLAGS) -c -o $@ $^ $(INCFLAGS)

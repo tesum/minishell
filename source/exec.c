@@ -51,21 +51,24 @@ void	executing(char **env, char **cmd)
 
 	str = NULL;
 	path = correct_path(env, cmd);
-	if (execve(path, cmd, env) == -1)
+	if (!exec_ocmd(env, cmd))
 	{
-		str = ft_strjoin("Command '", cmd[0]);
-		if (str == NULL)
-			exit_error("Error malloc\n", -1);
-		str = ft_strjoin_gnl(str, "' not found");
-		if (str == NULL)
-			exit_error("Error malloc\n", -1);
-		exit_error(str, 0);
-	}
-	else
-	{
-		free (path);
-		path = NULL;
-		free_2d_arr(cmd);
+		if (execve(path, cmd, env) == -1)
+		{
+			str = ft_strjoin("Command '", cmd[0]);
+			if (str == NULL)
+				exit_error("Error malloc\n", -1);
+			str = ft_strjoin_gnl(str, "' not found");
+			if (str == NULL)
+				exit_error("Error malloc\n", -1);
+			exit_error(str, 0);
+		}
+		else
+		{
+			free (path);
+			path = NULL;
+			free_2d_arr(cmd);
+		}
 	}
 }
 

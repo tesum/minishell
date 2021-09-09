@@ -34,4 +34,10 @@ void	executing(char **env, char **cmd);
 void	free_2d_arr(char **arr);
 void	exit_error(char *str, int code);
 
+// COMMAND
+int		exec_ocmd(char **env, char **cmd);
+void	pwd(char **env);
+void	echo(char **env);
+void	cd(char **env);
+
 #endif
