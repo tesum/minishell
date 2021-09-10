@@ -77,7 +77,7 @@ void	executing(char **cmd)
 	}
 }
 
-void	free_2d_arr(char **arr)
+char	**free_2d_arr(char **arr)
 {
 	int	i;
 
@@ -90,6 +90,7 @@ void	free_2d_arr(char **arr)
 	}
 	free(arr);
 	arr = NULL;
+	return (arr);
 }
 
 void	exit_error(char *str, int code)

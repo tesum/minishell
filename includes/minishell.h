@@ -5,16 +5,26 @@
 # include <errno.h>
 # include <stdio.h>
 # include <signal.h>
+# include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+
+typedef struct s_command
+{
+	char				**argv;
+	char				**redirect;
+	struct s_command	*next;
+}				t_command;
 
 typedef struct s_shell
 {
 	char	**env;
 	char	*arg;
 	int		result;
+	t_list	*cmd;
+	t_command	*command;
 }				t_shell;
 
 t_shell	g_shell;
@@ -27,6 +37,7 @@ int		check_begin(char *input);
 
 // PERSER
 void	parser(char *input);
+void	post_modern_parser(char *input, char **formated);
 char	*single_quote(char *input, int *i);
 char	*delete_simbol(char *input, int *i);
 char	*double_quote(char *input, int *i);
@@ -43,7 +54,7 @@ char	*redirect_handler(char *input, int *i);
 char	*correct_path(char **cmd);
 char	**find_path(void);
 void	executing(char **cmd);
-void	free_2d_arr(char **arr);
+char	**free_2d_arr(char **arr);
 void	exit_error(char *str, int code);
 
 //signal
@@ -69,5 +80,22 @@ void	unset(void);
 void	export(void);
 void	o_env(void);
 void	o_exit(void);
+
+// arr_utils
+char	**arr_add_back(char **array, char *content);
+char	**arr_add_front(char **array, char *content);
+char	**arr_del_str(char **array, char *str);
+char	**arr_copy_n_elem(char **array, int n);
+int		arr_size(char **array);
+
+// command utils
+void	command_add_back(t_command **lst, t_command *new);
+void	command_add_front(t_command **lst, t_command *new);
+t_command	*command_last(t_command *lst);
+t_command	*command_new(char	**formated);
+int	command_size(t_command *lst);
+
+void	who_is_your_daddy(char *input, char **formated);
+void	set_command_struct(char **formated);
 
 #endif

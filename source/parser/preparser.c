@@ -17,7 +17,7 @@ int	preparser(char *input)
 				return (-1);
 			}
 		}
-		if (input[i] == '\'' && i >= 0 && input[i - 1] != '\\')
+		if (input[i] == '\'' && i >= 0 && input[i - 1] != '\\')// TODO: убрать экранирование
 		{
 			if (check_second_quote('\'', input, &i) == -1)
 			{
@@ -68,6 +68,13 @@ int	check_begin(char *input)
 	if (input[0] == ';')
 	{
 		ft_putstr_fd("syntax error near unexpected token `;'\n", 2);
+		return (-1);
+	}
+	while (input[i])
+		i++;
+	if (input[i] == '>' || input[i] == '<' || input[i] == '|')
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		return (-1);
 	}
 	return (0);

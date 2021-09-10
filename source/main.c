@@ -2,7 +2,7 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
+	char	*input = "echo > file 123";
 
 	init_shell(argc, argv, env);
 	while (1)
