@@ -42,12 +42,16 @@ t_command	*command_new(char	**formated)
 	new = malloc(sizeof(t_command));
 	if (new == NULL)
 		return (NULL);
-	while (formated[i][0] != '|')
+	while (formated[i] && formated[i][0] != '|')
 	{
+		printf("\033[0;32mformated is %s\n\033[0m", formated[i]);
 		if (formated[i][0] == '<' || formated[i][0] == '>')
 		{
+			printf("\033[0;31mredir\n");
 			new->redirect = arr_add_back(new->redirect, formated[i]);
+			printf("r = %s\n", new->redirect[0]);
 			new->redirect = arr_add_back(new->redirect, formated[i + 1]);
+			printf("\033[0m");
 			if (new->redirect == NULL)
 			{
 				free(new);
@@ -57,18 +61,24 @@ t_command	*command_new(char	**formated)
 		}
 		else if (formated[i][0] != '|')
 		{
+			printf("cmd = %s\n", formated[i]);
 			new->argv = arr_add_back(new->argv, formated[i]);
+			printf("add back\n");
 			if (new->argv == NULL)
 			{
-				free_2d_arr(new->redirect);
+				// структура полностью чистится же
+				// free_2d_arr(new->redirect);
+				printf("clear\n");
 				free(new);
 				return (NULL);
 			}
+			i++;
 		}
 		else
 			i++;
 	}
 	new->next = NULL;
+	printf("new cmd\n");
 	return (new);
 }
 

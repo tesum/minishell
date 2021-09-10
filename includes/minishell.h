@@ -23,6 +23,7 @@ typedef struct s_shell
 	char	**env;
 	char	*arg;
 	int		result;
+	t_list	*cmd;
 	t_command	*command;
 }				t_shell;
 

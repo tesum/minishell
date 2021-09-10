@@ -4,28 +4,46 @@ char	**arr_add_back(char **array, char *content)
 {
 	char	**tmp;
 	int		i;
+	int		size;
 
 	i = 0;
-	if (array == NULL || content == NULL)
+	if (content == NULL)
 		return (NULL);
-	tmp = malloc(sizeof(char *) * (arr_size(array) + 2));
-	if (tmp == NULL)
-		return (free_2d_arr(array));
-	while (i < arr_size(array))
+	if (array == NULL)
 	{
-		tmp[i] = ft_strdup(array[i]);
-		if (tmp[i] == NULL)
-		{
-			free_2d_arr(array);
-			return (free_2d_arr(tmp));
-		}
-		i++;
+		tmp = malloc(sizeof(char *) * 2);
+		if (tmp == NULL)
+			return (NULL);
+		size = 2;
 	}
-	free_2d_arr(array);
+	else
+	{
+		size = (arr_size(array) + 2);
+		tmp = malloc(sizeof(char *) * size);
+		if (tmp == NULL)
+			return (free_2d_arr(array));
+	}
+	printf("size = %d\n", size);
+	if (array)
+	{
+		while (i < arr_size(array))
+		{
+			tmp[i] = ft_strdup(array[i]);
+			printf("tmp = %s | array = %s\n", tmp[i], array[i]);
+			if (tmp[i] == NULL)
+			{
+				free_2d_arr(array);
+				return (free_2d_arr(tmp));
+			}
+			i++;
+		}
+		free_2d_arr(array);
+	}
 	tmp[i] = ft_strdup(content);
 	if (tmp[i] == NULL)
 		return(free_2d_arr(tmp));
 	tmp[i + 1] = NULL;
+	printf("done add back!\n");
 	return (tmp);
 }
 

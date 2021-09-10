@@ -8,7 +8,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		signal_handler();
-		// input = ; //readline("minishell$ ");
+		input = readline("minishell$ ");
 		if (!input)
 			break ;
 		if (ft_strlen(input) == 0)
