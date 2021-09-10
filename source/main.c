@@ -2,13 +2,13 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
+	char	*input = "echo > file 123";
 
 	init_shell(argc, argv, env);
 	while (1)
 	{
 		signal_handler();
-		input = readline("minishell$ ");
+		// input = ; //readline("minishell$ ");
 		if (!input)
 			break ;
 		if (ft_strlen(input) == 0)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+         #
+#    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/09/09 09:55:21 by arsenijdroz      ###   ########.fr        #
+#    Updated: 2021/09/10 08:20:16 by caugusta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,10 @@ READLINEFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -lte
 
 SOURCE_DIR			= source/
 SOURCE				=	main.c exec.c cmd_arr.c \
-						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c \
+						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c parser/post_modern_parser.c\
 						cmd/pwd.c cmd/echo.c cmd/cd.c  cmd/exit.c cmd/export.c cmd/env.c cmd/unset.c \
-						builtin/builtins.c
+						builtin/builtins.c \
+						utils/array_utils.c utils/struct_command_utils.c
 						
 OBJ_DIR				= object/
 
@@ -57,6 +58,7 @@ sub_directory :
 	@mkdir -p $(OBJ_DIR)/parser
 	@mkdir -p $(OBJ_DIR)/cmd
 	@mkdir -p $(OBJ_DIR)/builtin
+	@mkdir -p $(OBJ_DIR)/utils
 
 $(OBJ_DIR)%.o : $(SOURCE_DIR)%.c
 	@$(CC) $(CFLAGS) -c -o $@ $^ $(INCFLAGS)

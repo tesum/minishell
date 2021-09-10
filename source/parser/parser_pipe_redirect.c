@@ -6,11 +6,11 @@ char	*pipe_handler(char *input, int *i)
 	{
 		input[*i] = '\0';
 		input = replace_str(input, " | ", i, (*i + 1));
+		if (input != NULL && input[*i] == ' ')
+			input[*i] = 127;
+		if (input != NULL && input[*i - 2] == ' ')
+			input[*i - 2] = 127;
 	}
-	if (input != NULL && input[*i] == ' ')
-		input[*i] = 127;
-	if (input != NULL && input[*i - 2] == ' ')
-		input[*i - 2] = 127;
 	return (input);
 }
 

@@ -4,7 +4,6 @@ void	parser(char *input)
 {
 	int		i;
 	char	**formated;
-	pid_t	pid;
 
 	i = -1;
 	while (input != NULL && input[++i])
@@ -21,57 +20,44 @@ void	parser(char *input)
 			input[i] = 127;
 	}
 	formated = ft_split(input, 127);
-	pid = fork();
-	if (pid == 0)
-		executing(formated);
-	else
+	if (formated == NULL)
 	{
-		waitpid(pid, &g_shell.result, 0);
-		g_shell.result /= 256;
-		if (input != NULL)
-			free (input);
-		input = NULL;
-		free_2d_arr(formated);
+		error_malloc(input, NULL, NULL);
+		return ;
 	}
+	post_modern_parser(input, formated);
 }
 
 char	*double_quote(char *input, int *i)
 {
 	input = delete_simbol(input, i);
-	if (input == NULL)
-		return (NULL);
-	while (input[*i] != '\"')
+	while (input != NULL && input[*i] != '\"')
 	{
 		if (input != NULL && input[*i] == '$')
-		{
 			input = dollar(input, i);
-			if (input == NULL)
-				return (NULL);
-		}
+		// if (input != NULL && (input[*i] == '>' || input[*i] == '<' || \
+		// 	input[*i] == '|'))
+		// 	input = replace_str(input, "'|", i, (*i + 1));
 		else
 			(*i)++;
 	}
 	input = delete_simbol(input, i);
-	if (input == NULL)
-		return (NULL);
 	return (input);
 }
 
 char	*single_quote(char *input, int *i)
 {
 	input = delete_simbol(input, i);
-	if (input == NULL)
-		return (NULL);
-	while (input[*i] != '\'')
+	while (input != NULL && input[*i] != '\'')
 		(*i)++;
 	input = delete_simbol(input, i);
-	if (input == NULL)
-		return (NULL);
 	return (input);
 }
 
 char	*delete_simbol(char *input, int *i)
 {
+	if (input == NULL)
+		return (NULL);
 	input[*i] = 127;
 	(*i)++;
 	return (input);
