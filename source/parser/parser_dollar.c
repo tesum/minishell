@@ -86,3 +86,32 @@ char	*replace_variable(char *input, char *str_replace, int *start, int end)
 	input = tmp1;
 	return (input);
 }
+
+char	*replace_str(char *input, char *str_replace, int *start, int end)
+{
+	char	*tmp1;
+	char	*tmp2;
+
+	if (str_replace == NULL)
+		return (NULL);
+	tmp1 = ft_strdup(input);
+	tmp2 = ft_strdup(input + end);
+	if (tmp1 == NULL || tmp2 == NULL)
+	{
+		error_malloc(tmp1, tmp2, input);
+		return (NULL);
+	}
+	free(input);
+	input = NULL;
+	tmp1 = ft_strjoin_gnl(tmp1, str_replace);
+	tmp1 = ft_strjoin_gnl(tmp1, tmp2);
+	if (tmp1 == NULL)
+	{
+		error_malloc(tmp1, tmp2, input);
+		return (NULL);
+	}
+	free (tmp2);
+	*start += ft_strlen(str_replace) - 1;
+	input = tmp1;
+	return (input);
+}

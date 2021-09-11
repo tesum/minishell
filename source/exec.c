@@ -59,8 +59,8 @@ void	executing(char **cmd)
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	builtins(cmd);
-	if (!exec_ocmd(cmd))
-	{
+	// if (!exec_ocmd(cmd))
+	// {
 		path = correct_path(cmd);
 		if (execve(path, cmd, g_shell.env) == -1)
 		{
@@ -74,7 +74,7 @@ void	executing(char **cmd)
 			free (path);
 			path = NULL;
 		}
-	}
+	// }
 }
 
 char	**free_2d_arr(char **arr)

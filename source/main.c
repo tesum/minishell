@@ -21,24 +21,63 @@ int	main(int argc, char **argv, char **env)
 		add_history(input);
 		if (preparser(input) != -1)
 			parser(input);
-		else if (input != NULL)
-		{
-			free(input);
-			input = NULL;
-		}
+		free(input);
+		print_t_list();
+		// if (g_shell.error_malloc != 1)
+		// 	who_is_your_daddy
 	}
 	ft_putstr_fd("exit\n", 1);
 	return (0);
 }
 
+void	print_t_list(void)
+{
+	t_list		*tmp;
+	t_command	*cmd;
+	char		**rdir;
+	int			i;
+
+	tmp = g_shell.cmd;
+	i = 0;
+	while (tmp)
+	{
+		cmd = (t_command *)tmp->content;
+		while (cmd->argv)
+		{
+			printf("argv[%d] = %s\n", i, (char *)cmd->argv->content);
+			i++;
+			cmd->argv = cmd->argv->next;
+		}
+		i = 0;
+		while (cmd->redirect)
+		{
+			rdir =	(char **)cmd->redirect->content;
+			printf("redirect[%d] = %s\n", i, rdir[0]);
+			printf("redirect[%d] = %s\n", i, rdir[1]);
+			i++;
+			cmd->redirect = cmd->redirect->next;
+		}
+		printf("PIPE\n");
+		tmp = tmp->next;
+	}
+}
+
 void	init_shell(int argc, char **argv, char **env)
 {
+	t_command	*new;
+	t_list		*new_list;
 	(void)argc;
 	(void)argv;
 	// env"SHELL" = argv[0];
 	// shlvl ++;
 	g_shell.env = env;
 	g_shell.result = 0;
+	g_shell.error_malloc = 0;
+	new = command_new();
+	new_list = ft_lstnew((void *)new);
+	if (new_list == NULL)
+		free(new);
+	ft_lstadd_back(&g_shell.cmd, (void *)new_list);
 }
 
 void	signal_handler(void)

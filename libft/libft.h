@@ -34,6 +34,7 @@ int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
+int			ft_isspace(int c);
 int			ft_memcmp(const void *str1, const void *str2, size_t len);
 int			ft_strncmp(const char *s1, const char *s2, size_t len);
 int			ft_tolower(int c);

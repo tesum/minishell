@@ -9,7 +9,7 @@ int	preparser(char *input)
 		return (-1);
 	while (input[++i])
 	{
-		if (input[i] == '\"' && i >= 0 && input[i - 1] != '\\')
+		if (input[i] == '\"')
 		{
 			if (check_second_quote('\"', input, &i) == -1)
 			{
@@ -17,7 +17,7 @@ int	preparser(char *input)
 				return (-1);
 			}
 		}
-		if (input[i] == '\'' && i >= 0 && input[i - 1] != '\\')// TODO: убрать экранирование
+		if (input[i] == '\'')
 		{
 			if (check_second_quote('\'', input, &i) == -1)
 			{
@@ -60,22 +60,43 @@ int	check_begin(char *input)
 	int	i;
 
 	i = 0;
-	if (input[0] == '|')
+	while (ft_isspace(input[i]))
+		i++;
+	if (input[i] == '|')
 	{
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 		return (-1);
 	}
-	if (input[0] == ';')
+	if (input[i] == ';')
 	{
 		ft_putstr_fd("syntax error near unexpected token `;'\n", 2);
 		return (-1);
 	}
+	int	flag = 0;
+	i = 0;
 	while (input[i])
-		i++;
-	if (input[i] == '>' || input[i] == '<' || input[i] == '|')
+	{
+		while (input[i] && (input[i] != '>' || input[i] != '<' || \
+			input[i] != '|'))
+			i++;
+		if (input[i] == '>' || input[i] == '<' || input[i] == '|')
+		{
+			flag = 1;
+			i++;
+		}
+		while (ft_isspace(input[i]))
+			i++;
+		if (input[i] != '\0')
+			flag = 0;
+	}
+	if (flag == 1)
 	{
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		return (-1);
 	}
 	return (0);
 }
+
+
+//TODO: проверить что я тут вообще написал
+//TODO: добавить обработку что после редиректа сразу пайп

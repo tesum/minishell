@@ -1,66 +1,100 @@
 #include "minishell.h"
 
-void	parser(char *input)
+void	parser(char const *input)
 {
 	int		i;
-	char	**formated;
+	int		this_is_redirect;
+	char	*tmp;
 
-	i = -1;
-	while (input != NULL && input[++i])
+	i = 0;
+	this_is_redirect = 0;
+	while (input[i] && input[i] != '|')
 	{
-		if (input != NULL && input[i] == '\'')
-			input = single_quote(input, &i);
-		if (input != NULL && input[i] == '\"')
-			input = double_quote(input, &i);
-		if (input != NULL && input[i] == '$')
-			input = dollar(input, &i);
-		input = double_redirect_handler(input, &i);
-		input = pipe_handler(input, &i);
-		if (input != NULL && (input[i] == ' ' || input[i] == '\t'))
-			input[i] = 127;
-	}
-	formated = ft_split(input, 127);
-	if (formated == NULL)
-	{
-		error_malloc(input, NULL, NULL);
-		return ;
-	}
-	post_modern_parser(input, formated);
-}
-
-char	*double_quote(char *input, int *i)
-{
-	input = delete_simbol(input, i);
-	while (input != NULL && input[*i] != '\"')
-	{
-		if (input != NULL && input[*i] == '$')
-			input = dollar(input, i);
-		// if (input != NULL && (input[*i] == '>' || input[*i] == '<' || \
-		// 	input[*i] == '|'))
-		// 	input = replace_str(input, "'|", i, (*i + 1));
+		while (ft_isspace(input[i]))
+			i++;
+		if (input[i] == '<' || input[i] == '>')
+			tmp = double_redirect_handler(input, &i, &this_is_redirect);
+		else if (input[i] == '|')
+		{
+			if (pipe_handler(&i) == -1)
+				return ;
+			continue ;
+		}
 		else
-			(*i)++;
+			tmp = other_handler(input, &i);
+		if (set_arg(tmp, &this_is_redirect) == -1 && tmp != NULL)
+			free(tmp);
 	}
-	input = delete_simbol(input, i);
-	return (input);
 }
 
-char	*single_quote(char *input, int *i)
+int	set_arg(char *str, int *this_is_redirect)
 {
-	input = delete_simbol(input, i);
-	while (input != NULL && input[*i] != '\'')
+	t_command	*tmp;
+	t_list		*new;
+
+	if (str == NULL)
+	{
+		g_shell.error_malloc = 1;
+		return (-1);
+	}
+	if (*this_is_redirect == 1)
+	{
+		*this_is_redirect = 0;
+		return (0);
+	}
+	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;
+	new = ft_lstnew((void *)str);
+	if (new == NULL)
+	{
+		g_shell.error_malloc = 1;
+		return (-1);
+	}
+	ft_lstadd_back(&tmp->argv, new);
+	return (0);
+}
+
+char	*quote_handler(char const *input, int quote, int *i)
+{
+	int		j;
+	char	*tmp_str;
+
+	j = ++(*i);
+	while (input[*i] != '\0' && input[*i] != quote)
 		(*i)++;
-	input = delete_simbol(input, i);
-	return (input);
+	tmp_str = ft_substr(input, j, *i - j);
+	if (quote == 34)
+	{
+		j = 0;
+		while(tmp_str != NULL && tmp_str[j])
+		{
+			if (tmp_str != NULL && tmp_str[j] == '$')
+				tmp_str = dollar(tmp_str, &j);
+			else
+				j++;
+		}
+	}
+	return (tmp_str);
 }
 
-char	*delete_simbol(char *input, int *i)
+char	*other_handler(char const *input, int *i)
 {
-	if (input == NULL)
-		return (NULL);
-	input[*i] = 127;
-	(*i)++;
-	return (input);
+	int		j;
+	char	*tmp;
+
+	j = *i;
+	if (input[*i] == '\0')
+		return (ft_strdup(""));
+	while (ft_isspace(input[*i]))
+		(*i)++;
+	if (input[*i] == '\'' || input[*i] == '\"')
+		return (quote_handler(input, input[*i], i));
+	while (input[*i] != '<' && input[*i] != '>' && input[*i] != '|' && !ft_isspace(input[*i]))
+		(*i)++;
+	tmp = ft_substr(input, j, *i - j);
+	j = 0;
+	if (tmp != NULL && tmp[j] == '$')
+		tmp = dollar(tmp, &j);
+	return (tmp);
 }
 
 void	error_malloc(char *a, char *b, char *c)
