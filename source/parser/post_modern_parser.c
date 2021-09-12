@@ -20,47 +20,49 @@
 // 	who_is_your_daddy(input, formated);
 // }
 
-// void	who_is_your_daddy(char *input, char **formated)
-// {
-// 	pid_t	pid;
+void	who_is_your_daddy(void)
+{
+	pid_t	pid;
+	char	**cmd;
+	int	i = ft_lstsize(g_shell.cmd);
+	while (i)
+	{
+		cmd = set_command_struct();
+		pid = fork();
+		if (pid == 0)
+			executing(cmd);
+		else
+		{
+			waitpid(pid, &g_shell.result, 0);
+			g_shell.result /= 256;
+		}
+		i--;
+	}
+}
 
-// 	set_command_struct(formated);
-// 	printf("%s\n", ((t_command *)(g_shell.cmd->content))->argv[0]);
-// 	printf("%s\n", ((t_command *)(g_shell.cmd->content))->argv[1]);
-// 	printf("%s\n", ((t_command *)(g_shell.cmd->content))->argv[2]);
-// 	pid = fork();
-// 	if (pid == 0)
-// 		executing(formated);
-// 	else
-// 	{
-// 		waitpid(pid, &g_shell.result, 0);
-// 		g_shell.result /= 256;
-// 		if (input != NULL)
-// 			free (input);
-// 		input = NULL;
-// 		free_2d_arr(formated);
-// 	}
-// }
+char	**set_command_struct(void)
+{
+	t_command	*tmp;
+	t_list		*pipe;
+	char		**cmd;
+	int	i;
 
-// void	set_command_struct(char **formated)
-// {
-// 	t_command	*tmp;
-// 	int	i;
-
-// 	i = 0;
-// 	while (formated[i])
-// 	{
-// 		tmp = command_new(formated + i);
-// 		if (tmp == NULL)
-// 			return ;
-// 		printf("SEG NOT AFTER NEW\n");
-// 		ft_lstadd_back(&g_shell.cmd, ft_lstnew(tmp));
-// 		printf("SEG NOT AFTER LST\n");
-// 		// command_add_back(&g_shell.command, tmp);
-// 		while (formated[i] && formated[i][0] != '|')
-// 			i++;
-// 		if (formated[i] && formated[i][0] == '|')
-// 			i++;
-// 		printf("SEG NOT\n");
-// 	}
-// }
+	i = 0;
+	pipe = g_shell.cmd;
+	tmp = (t_command *)pipe->content;
+	while (tmp->complete != 0)
+	{
+		pipe = pipe->next;
+		tmp = (t_command *)pipe->content;
+	}
+	cmd = malloc(sizeof(char *) * (ft_lstsize(tmp->argv) + 1));
+	while (tmp->argv)
+	{
+		cmd[i] = (char *)tmp->argv->content;
+		i++;
+		tmp->argv = tmp->argv->next;
+	}
+	cmd[i] = NULL;
+	tmp->complete = 1;
+	return (cmd);
+}

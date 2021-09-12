@@ -15,6 +15,7 @@ typedef struct s_command
 {
 	t_list	*argv;
 	t_list	*redirect;
+	int		complete;
 }				t_command;
 
 typedef struct s_shell
@@ -94,7 +95,7 @@ int		arr_size(char **array);
 t_command	*command_new(void);
 void	print_t_list(void);
 
-void	who_is_your_daddy(char *input, char **formated);
-void	set_command_struct(char **formated);
+void	who_is_your_daddy(void);
+char	**set_command_struct(void);
 
 #endif

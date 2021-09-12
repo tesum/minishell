@@ -6,5 +6,6 @@ t_command	*command_new(void)
 	new = malloc(sizeof(t_command));
 	new->argv = NULL;
 	new->redirect = NULL;
+	new->complete = 0;
 	return (new);
 }

@@ -22,10 +22,10 @@ int	main(int argc, char **argv, char **env)
 		if (preparser(input) != -1)
 			parser(input);
 		free(input);
-		print_t_list();
-		// if (g_shell.error_malloc != 1)
-		// 	who_is_your_daddy
-		exit (0);
+		// print_t_list();
+		if (g_shell.error_malloc != 1)
+			who_is_your_daddy();
+		// exit (0);
 	}
 	ft_putstr_fd("exit\n", 1);
 	return (0);

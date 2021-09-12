@@ -24,6 +24,8 @@ void	parser(char const *input)
 			tmp = other_handler(input, &i);
 		if (set_arg(tmp, &this_is_redirect) == -1 && tmp != NULL)
 			free(tmp);
+		if (g_shell.error_malloc == 1)
+			return ;
 	}
 }
 

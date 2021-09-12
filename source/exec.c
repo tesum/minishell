@@ -58,22 +58,22 @@ void	executing(char **cmd)
 	str = NULL;
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
-	builtins(cmd);
+	// builtins(cmd); 
 	// if (!exec_ocmd(cmd))
 	// {
-		path = correct_path(cmd);
-		if (execve(path, cmd, g_shell.env) == -1)
-		{
-			str = ft_strjoin_gnl(cmd[0], ": command not found\n");
-			if (str == NULL)
-				exit_error("Error malloc\n", -1);
-			exit_error(str, 127);
-		}
-		else
-		{
-			free (path);
-			path = NULL;
-		}
+	path = correct_path(cmd);
+	if (execve(path, cmd, g_shell.env) == -1)
+	{
+		str = ft_strjoin_gnl(cmd[0], ": command not found\n");
+		if (str == NULL)
+			exit_error("Error malloc\n", -1);
+		exit_error(str, 127);
+	}
+	else
+	{
+		free (path);
+		path = NULL;
+	}
 	// }
 }
 
