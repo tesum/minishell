@@ -42,6 +42,8 @@ int	set_arg(char *str, int *this_is_redirect)
 		*this_is_redirect = 0;
 		return (0);
 	}
+	if (ft_strlen(str) == 0)
+		return (-1);
 	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;
 	new = ft_lstnew((void *)str);
 	if (new == NULL)
@@ -59,7 +61,7 @@ char	*quote_handler(char const *input, int quote, int *i)
 	char	*tmp_str;
 
 	j = ++(*i);
-	while (input[*i] != '\0' && input[*i] != quote)
+	while (input[*i] != quote && input[*i] != '\0')
 		(*i)++;
 	tmp_str = ft_substr(input, j, *i - j);
 	if (quote == 34)
@@ -73,6 +75,7 @@ char	*quote_handler(char const *input, int quote, int *i)
 				j++;
 		}
 	}
+	(*i)++;
 	return (tmp_str);
 }
 
@@ -81,14 +84,15 @@ char	*other_handler(char const *input, int *i)
 	int		j;
 	char	*tmp;
 
-	j = *i;
 	if (input[*i] == '\0')
 		return (ft_strdup(""));
 	while (ft_isspace(input[*i]))
 		(*i)++;
+	j = *i;
 	if (input[*i] == '\'' || input[*i] == '\"')
 		return (quote_handler(input, input[*i], i));
-	while (input[*i] != '<' && input[*i] != '>' && input[*i] != '|' && !ft_isspace(input[*i]))
+	while (input[*i] != '<' && input[*i] != '>' && input[*i] != '|' && \
+		!ft_isspace(input[*i]) && input[*i])
 		(*i)++;
 	tmp = ft_substr(input, j, *i - j);
 	j = 0;

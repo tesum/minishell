@@ -29,9 +29,10 @@ t_shell	g_shell;
 
 // PREPERSER
 void	init_shell(int argc, char **argv, char **env);
-int		preparser(char *input);
-int		check_second_quote(char quote, char *input, int *i);
-int		check_begin(char *input);
+int		preparser(char const *input);
+int		check_second_quote(char quote, char const *input, int *i);
+int		check_begin(char const *input);
+int		check_invalid(char const *input);
 
 // PERSER
 void	post_modern_parser(char *input, char **formated);
