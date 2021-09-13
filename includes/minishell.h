@@ -77,7 +77,11 @@ void	ft_exit(char **cmd);
 // COMMAND
 int		exec_ocmd(char **cmd);
 void	pwd(void);
-void	echo(void);
+void	echo(char	**argv);
+// func //
+int		flag_n(char	**argv, int i);
+int		kill_n(char **argv, int i);
+//      //
 void	cd(void);
 void	unset(void);
 void	export(void);
