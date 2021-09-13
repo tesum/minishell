@@ -57,27 +57,37 @@ int	set_arg(char *str, int *this_is_redirect)
 	return (0);
 }
 
-char	*quote_handler(char const *input, int quote, int *i)
+char	*quote_handler(char *input, int quote, int *i)
 {
 	int		j;
 	char	*tmp_str;
+	char	*tmp_str2;
+	char	*tmp_str3;
 
+	input[*i] = '\0';
 	j = ++(*i);
+	tmp_str = ft_strdup(input);
+	input[*i - 1] = quote;
 	while (input[*i] != quote && input[*i] != '\0')
 		(*i)++;
-	tmp_str = ft_substr(input, j, *i - j);
+	tmp_str2 = ft_substr(input, j, *i - j);
+	tmp_str3 = ft_strdup(input + (*i + 1));
 	if (quote == 34)
 	{
 		j = 0;
-		while(tmp_str != NULL && tmp_str[j])
+		while(tmp_str2 != NULL && tmp_str2[j])
 		{
-			if (tmp_str != NULL && tmp_str[j] == '$')
-				tmp_str = dollar(tmp_str, &j);
+			if (tmp_str2 != NULL && tmp_str2[j] == '$')
+				tmp_str2 = dollar(tmp_str2, &j);
 			else
 				j++;
 		}
 	}
-	(*i)++;
+	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str2);
+	*i = ft_strlen(tmp_str);
+	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str3);
+	free(tmp_str2);
+	free(tmp_str3);
 	return (tmp_str);
 }
 
@@ -91,20 +101,18 @@ char	*other_handler(char const *input, int *i)
 	while (ft_isspace(input[*i]))
 		(*i)++;
 	j = *i;
-	if (input[*i] == '\'' || input[*i] == '\"')
-		return (quote_handler(input, input[*i], i));
 	while (input[*i] != '<' && input[*i] != '>' && input[*i] != '|' && \
 		!ft_isspace(input[*i]) && input[*i])
-		(*i)++;
-	tmp = ft_substr(input, j, *i - j);
-	j = 0;
-	while (tmp[j])
 	{
-		if (tmp != NULL && tmp[j] == '$')
-			tmp = dollar(tmp, &j);
-		else
-			j++;
+		if (input[*i] == '\'' || input[*i] == '\"')
+		{
+			int quote = input[*i];
+			while (input[++(*i)] != quote)
+				;
+		}
+		(*i)++;
 	}
+	tmp = ft_substr(input, j, *i - j);
 	return (tmp);
 }
 

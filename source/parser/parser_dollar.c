@@ -2,116 +2,60 @@
 
 char	*dollar(char *input, int *i)
 {
+	char	*tmp;
+	char	*tmp2;
+	char	*tmp3;
 	int		j;
-	int		k;
-	char	*tmp;
-	char	*tmp2;
 
-	j = 0;
-	k = ++*i;
-	if (dollar_utils(&input, i, &k) != NULL)
-		return (input);
-	tmp = ft_substr(input, *i, k - *i);
-	tmp = ft_strjoin_gnl(tmp, "=");
-	if (tmp == NULL)
-		error_malloc(tmp, input, NULL);
-	while (g_shell.env[j])
-	{
-		tmp2 = ft_strnstr(g_shell.env[j], tmp, ft_strlen(tmp));
-		if (tmp2 != NULL)
-		{
-			free(tmp);
-			return (replace_variable(input, tmp2, i, k));
-		}
+	j = ++(*i);
+	while (input[*i] != '?' && ft_isdigit(input[*i]) != 1 \
+		&& (ft_isalnum(input[j]) || input[j] == '_'))
 		j++;
-	}
-	free(tmp);
-	return (replace_variable(input, "", i, k));
+	if (j == *i && input[*i] != '?' && ft_isdigit(input[*i]) != 1)
+		return (input);
+	else if (input[*i] == '?' || ft_isdigit(input[*i]) == 1)
+		j++;
+	input[*i - 1] = '\0';
+	tmp = ft_strdup(input);
+	input[*i - 1] = '$';
+	tmp2 = ft_substr(input, *i, j - *i);
+	tmp2[ft_strlen(tmp2)] = '=';
+	tmp2 = find_env(tmp2);
+	tmp3 = ft_strdup(input + j);
+	tmp = ft_strjoin_gnl(tmp, tmp2);
+	*i = ft_strlen(tmp) - 1;
+	tmp = ft_strjoin_gnl(tmp, tmp3);
+	free(input);
+	free(tmp2);
+	free(tmp3);
+	return (tmp);
 }
 
-char	*dollar_utils(char **input, int *i, int *k)
+char	*find_env(char *str)
 {
-	char	*tmp;
+	char	**env;
+	int		i;
+	int		j;
 
-	if ((*input)[*k] == '?')
+	i = 0;
+	if (str == NULL)
+		return (NULL);
+	j = ft_strlen(str);
+	env = g_shell.env;
+	if (str[0] == '?')
 	{
-		(*input)[--(*i)] = '\0';
-		tmp = ft_itoa(g_shell.result);
-		(*input) = replace_str((*input), tmp, i, (*k + 1));
-		free(tmp);
-		return (*input);
+		free(str);
+		return (ft_itoa(g_shell.result));
 	}
-	if (ft_isdigit((*input)[*k]) == 1 && ft_isdigit((*input)[(*k) + 1]) == 1)
-		(*k)++;
-	else
+	while (env[i])
 	{
-		while ((*input)[*k])
+		if (ft_strncmp(env[i], str, j) == 0)
 		{
-			if ((*input)[*k] == '_' || ft_isalnum((int)(*input)[*k]) == 1)
-				(*k)++;
-			else
-				break ;
+			free(str);
+			return (ft_strdup(env[i] + j));
 		}
-		if (*k == *i)
-			return (*input);
+		i++;
 	}
-	return (NULL);
-}
-
-char	*replace_variable(char *input, char *str_replace, int *start, int end)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	tmp1 = ft_substr(input, 0, *start - 1);
-	tmp2 = ft_strdup(input + end);
-	if (tmp1 == NULL || tmp2 == NULL)
-	{
-		error_malloc(tmp1, tmp2, input);
-		return (NULL);
-	}
-	free(input);
-	end = 0;
-	while (str_replace[end - 1] != '=')
-		end++;
-	tmp1 = ft_strjoin_gnl(tmp1, str_replace + end);
-	tmp1 = ft_strjoin_gnl(tmp1, tmp2);
-	if (tmp1 == NULL)
-	{
-		error_malloc(tmp1, tmp2, input);
-		return (NULL);
-	}
-	free (tmp2);
-	*start += ft_strlen(str_replace + end) - 1;
-	input = tmp1;
-	return (input);
-}
-
-char	*replace_str(char *input, char *str_replace, int *start, int end)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	if (str_replace == NULL)
-		return (NULL);
-	tmp1 = ft_strdup(input);
-	tmp2 = ft_strdup(input + end);
-	if (tmp1 == NULL || tmp2 == NULL)
-	{
-		error_malloc(tmp1, tmp2, input);
-		return (NULL);
-	}
-	free(input);
-	input = NULL;
-	tmp1 = ft_strjoin_gnl(tmp1, str_replace);
-	tmp1 = ft_strjoin_gnl(tmp1, tmp2);
-	if (tmp1 == NULL)
-	{
-		error_malloc(tmp1, tmp2, input);
-		return (NULL);
-	}
-	free (tmp2);
-	*start += ft_strlen(str_replace) - 1;
-	input = tmp1;
-	return (input);
+	free(str);
+	return (ft_strdup(""));
 }

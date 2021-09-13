@@ -50,19 +50,36 @@ char	**set_command_struct(void)
 	i = 0;
 	pipe = g_shell.cmd;
 	tmp = (t_command *)pipe->content;
-	while (tmp->complete != 0)
-	{
-		pipe = pipe->next;
-		tmp = (t_command *)pipe->content;
-	}
+	// while (tmp->complete != 0)
+	// {
+	// 	pipe = pipe->next;
+	// 	tmp = (t_command *)pipe->content;
+	// }
 	cmd = malloc(sizeof(char *) * (ft_lstsize(tmp->argv) + 1));
 	while (tmp->argv)
 	{
-		cmd[i] = (char *)tmp->argv->content;
+		cmd[i] = clear_quotes((char *)tmp->argv->content);
 		i++;
 		tmp->argv = tmp->argv->next;
 	}
 	cmd[i] = NULL;
 	tmp->complete = 1;
 	return (cmd);
+}
+
+char	*clear_quotes(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			str = quote_handler(str, str[i], &i);
+		else if (str[i] == '$')
+			str = dollar(str, &i);
+		else
+			i++;
+	}
+	return (str);
 }

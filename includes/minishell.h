@@ -39,11 +39,11 @@ int		check_invalid(char const *input);
 void	post_modern_parser(char *input, char **formated);
 void	parser(char const *input);
 int		set_arg(char *str, int *this_is_redirect);
-char	*quote_handler(char const *input, int quote, int *i);
+char	*quote_handler(char *input, int quote, int *i);
 char	*other_handler(char const *input, int *i);
 void	error_malloc(char *a, char *b, char *c);
 char	*dollar(char *input, int *i);
-char	*dollar_utils(char **input, int *i, int *k);
+char	*find_env(char *str);
 char	*replace_variable(char *str, char *str_replace, int *start, int end);
 char	*replace_str(char *input, char *str_replace, int *start, int end);
 int		pipe_handler(int *i);
@@ -51,7 +51,7 @@ char	*double_redirect_handler(char const *input, int *i, \
 			int *this_is_redirect);
 char	*redirect_handler(char const *input, int *i, int *this_is_redirect);
 int		set_redirect(char **str, int *this_is_redirect);
-
+char	*clear_quotes(char *str);
 
 // exec
 char	*correct_path(char **cmd);
@@ -93,7 +93,7 @@ int		arr_size(char **array);
 
 // command utils
 t_command	*command_new(void);
-void	print_t_list(void);
+void		print_t_list(void);
 
 void	who_is_your_daddy(void);
 char	**set_command_struct(void);

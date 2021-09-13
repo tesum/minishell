@@ -2,7 +2,7 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input = "echo 123";
+	char	*input = "\"echo\" \"123\"\"456\"\"789\"$USER $PATH    $?";
 
 	init_shell(argc, argv, env);
 	while (1)
@@ -22,10 +22,10 @@ int	main(int argc, char **argv, char **env)
 		if (preparser(input) != -1)
 			parser(input);
 		free(input);
-		print_t_list();
+		// print_t_list();
 		if (g_shell.error_malloc != 1)
 			who_is_your_daddy();
-		// exit (0);
+		exit (0);
 	}
 	ft_putstr_fd("exit\n", 1);
 	return (0);
