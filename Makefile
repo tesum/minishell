@@ -6,7 +6,7 @@
 #    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/09/10 08:20:16 by caugusta         ###   ########.fr        #
+#    Updated: 2021/09/13 15:30:47 by caugusta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SOURCE				=	main.c exec.c cmd_arr.c \
 						utils/array_utils.c utils/struct_command_utils.c
 						
 OBJ_DIR				= object/
+OBJ_DIRS			= $(sort $(dir $(OBJ)))
 
 LIBFT				= libft/$(LIBFT_NAME)
 LIBFT_DIR			= libft/
@@ -36,29 +37,25 @@ D_FILES				= $(wildcard $(OBJ_DIR)%.d)
 
 # COLORS
 
-BLACK					=	\033[0;30m
-RED						=	\033[0;31m
-GREEN					=	\033[0;32m
-YELLOW					=	\033[0;33m
-BLUE					=	\033[0;34m
-MAGENTA					=	\033[0;35m
-CYAN					=	\033[0;36m
-RESET					=	\033[0m
+BLACK				=	\033[0;30m
+RED					=	\033[0;31m
+GREEN				=	\033[0;32m
+YELLOW				=	\033[0;33m
+BLUE				=	\033[0;34m
+MAGENTA				=	\033[0;35m
+CYAN				=	\033[0;36m
+RESET				=	\033[0m
 
 # 
 
-.PHONY : all sub_directory dir_bonus clean fclean re bonus run
+.PHONY : all dir_bonus clean fclean re bonus run
 
-all : sub_directory $(LIBFT) $(NAME)
+all : $(OBJ_DIRS) $(LIBFT) $(NAME)
 	@echo "\n$(GREEN)COMPLETE$(RESET)"
 	@${MAKE} run
 
-sub_directory :
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/parser
-	@mkdir -p $(OBJ_DIR)/cmd
-	@mkdir -p $(OBJ_DIR)/builtin
-	@mkdir -p $(OBJ_DIR)/utils
+$(OBJ_DIRS):
+	@mkdir -p $@
 
 $(OBJ_DIR)%.o : $(SOURCE_DIR)%.c
 	@$(CC) $(CFLAGS) -c -o $@ $^ $(INCFLAGS)

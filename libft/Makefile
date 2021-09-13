@@ -21,6 +21,7 @@ SRC =		ft_atoi.c		ft_isalpha.c		ft_itoa.c\
 			ft_printf/ft_utils.c		ft_printf/print.c			gnl/get_next_line.c
 
 OBJ_DIR		= object/
+OBJ_DIRS	= $(sort $(dir $(OBJ)))
 OBJ			= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 D_FILES		= $(wildcard $(OBJ_DIR)*.d)
 
@@ -40,13 +41,12 @@ RESET					=	\033[0m
 
 # 
 
-.PHONY : 	all sub_directory clean fclean re bonus
+.PHONY : 	all clean fclean re bonus
 
-all : sub_directory $(NAME)
+all :  $(OBJ_DIRS) $(NAME)
 
-sub_directory :
-	@mkdir -p $(OBJ_DIR)/ft_printf
-	@mkdir -p $(OBJ_DIR)/gnl
+$(OBJ_DIRS):
+	@mkdir -p $@
 
 $(OBJ_DIR)%.o : %.c
 	@$(CC) -c -MMD $(CFLAGS) $< -o $@

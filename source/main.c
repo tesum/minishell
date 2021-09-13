@@ -2,7 +2,7 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input = "ee";
+	char	*input = "echo 123";
 
 	init_shell(argc, argv, env);
 	while (1)
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **env)
 		if (preparser(input) != -1)
 			parser(input);
 		free(input);
-		// print_t_list();
+		print_t_list();
 		if (g_shell.error_malloc != 1)
 			who_is_your_daddy();
 		// exit (0);

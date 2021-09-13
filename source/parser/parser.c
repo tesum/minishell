@@ -98,8 +98,13 @@ char	*other_handler(char const *input, int *i)
 		(*i)++;
 	tmp = ft_substr(input, j, *i - j);
 	j = 0;
-	if (tmp != NULL && tmp[j] == '$')
-		tmp = dollar(tmp, &j);
+	while (tmp[j])
+	{
+		if (tmp != NULL && tmp[j] == '$')
+			tmp = dollar(tmp, &j);
+		else
+			j++;
+	}
 	return (tmp);
 }
 
