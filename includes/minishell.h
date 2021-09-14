@@ -76,17 +76,17 @@ void	ft_exit(char **cmd);
 
 // COMMAND
 int		exec_ocmd(char **cmd);
-void	pwd(void);
-void	echo(char	**argv);
+void	pwd(char **arg);
+void	echo(char **arg);
 // func //
 int		flag_n(char	**argv, int i);
 int		kill_n(char **argv, int i);
 //      //
-void	cd(void);
-void	unset(void);
-void	export(void);
-void	o_env(void);
-void	o_exit(void);
+void	cd(char **arg);
+void	unset(char **arg);
+void	export(char **arg);
+void	o_env(char **arg);
+void	o_exit(char **arg);
 
 // arr_utils
 char	**arr_add_back(char **array, char *content);
@@ -100,6 +100,6 @@ t_command	*command_new(void);
 void		print_t_list(void);
 
 void	who_is_your_daddy(void);
-char	**set_command_struct(void);
+char	**set_command_struct(t_list *pipe);
 
 #endif

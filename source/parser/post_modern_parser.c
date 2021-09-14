@@ -25,9 +25,12 @@ void	who_is_your_daddy(void)
 	pid_t	pid;
 	char	**cmd;
 	int	i = ft_lstsize(g_shell.cmd);
+
 	while (i)
 	{
-		cmd = set_command_struct();
+		cmd = set_command_struct(g_shell.cmd);
+		if (exec_ocmd(cmd))
+			return ;
 		pid = fork();
 		if (pid == 0)
 			executing(cmd);
@@ -40,29 +43,64 @@ void	who_is_your_daddy(void)
 	}
 }
 
-char	**set_command_struct(void)
+// void	get_pwd(void)
+// {
+// 	int		i;
+// 	char	*pwd;
+// 	char	**env;
+
+// 	i = -1;
+// 	env = g_shell.env;
+// 	while (env[++i])
+// 	{
+// 		if (!ft_strncmp(env[i], "PWD=", 4))
+// 			return (env[i] + 4);
+// 	}
+// }
+
+void	redirect_create(t_command *redirect)
+{
+	t_list	*tmp;
+	int		fd;
+
+	tmp = redirect->redirect;
+	while (tmp)
+	{
+		if (!ft_strncmp(((char **)tmp->content)[0], ">>", 2))
+		{
+			fd = open(((char **)tmp->content)[1], O_WRONLY | O_CREAT | O_APPEND, 0666);
+		}
+		else
+			fd = open(((char **)tmp->content)[1], O_WRONLY| O_CREAT | O_TRUNC, 0666);
+		tmp = tmp->next;
+	}
+	dup2(fd, 1);
+}
+
+char	**set_command_struct(t_list *pipe)
 {
 	t_command	*tmp;
-	t_list		*pipe;
+	t_list		*tmp_arg;
 	char		**cmd;
 	int	i;
 
 	i = 0;
-	pipe = g_shell.cmd;
 	tmp = (t_command *)pipe->content;
 	// while (tmp->complete != 0)
 	// {
 	// 	pipe = pipe->next;
 	// 	tmp = (t_command *)pipe->content;
 	// }
-	cmd = malloc(sizeof(char *) * (ft_lstsize(tmp->argv) + 1));
-	while (tmp->argv)
+	tmp_arg = ((t_command *)pipe->content)->argv;
+	cmd = malloc(sizeof(char *) * (ft_lstsize(tmp_arg) + 1));
+	while (tmp_arg)
 	{
-		cmd[i] = clear_quotes((char *)tmp->argv->content);
+		cmd[i] = clear_quotes((char *)tmp_arg->content);
 		i++;
-		tmp->argv = tmp->argv->next;
+		tmp_arg = tmp_arg->next;
 	}
 	cmd[i] = NULL;
+	redirect_create(((t_command *)pipe->content));
 	tmp->complete = 1;
 	return (cmd);
 }

@@ -1,6 +1,8 @@
 #include "minishell.h"
 
-void	cd(void)
+void	cd(char **argv)
 {
+		(void)argv;
+
 	return ;
 }

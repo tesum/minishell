@@ -1,7 +1,9 @@
 #include "minishell.h"
 
-void	unset(void)
+void	unset(char **argv)
 {
+		(void)argv;
+
 		return ;
 
 }

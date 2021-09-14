@@ -1,6 +1,8 @@
 #include "minishell.h"
 
-void	export(void)
+void	export(char **argv)
 {
+		(void)argv;
+
 	return ;
 }

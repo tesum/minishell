@@ -23,13 +23,11 @@ char	**arr_add_back(char **array, char *content)
 		if (tmp == NULL)
 			return (free_2d_arr(array));
 	}
-	printf("size = %d\n", size);
 	if (array)
 	{
 		while (i < arr_size(array))
 		{
 			tmp[i] = ft_strdup(array[i]);
-			printf("tmp = %s | array = %s\n", tmp[i], array[i]);
 			if (tmp[i] == NULL)
 			{
 				free_2d_arr(array);
@@ -37,13 +35,12 @@ char	**arr_add_back(char **array, char *content)
 			}
 			i++;
 		}
-		free_2d_arr(array);
+		// free_2d_arr(array);
 	}
 	tmp[i] = ft_strdup(content);
 	if (tmp[i] == NULL)
 		return(free_2d_arr(tmp));
 	tmp[i + 1] = NULL;
-	printf("done add back!\n");
 	return (tmp);
 }
 
