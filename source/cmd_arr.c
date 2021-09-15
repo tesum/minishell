@@ -73,7 +73,7 @@ int	exec_ocmd(char **cmd)
 			// close(g_shell.fd);
 			// close(1);
 			// dup(1);
-			// dup2(1, g_shell.fd);
+			dup2(g_shell.fd_1, 1);
 			cleaning();
 			return (1);
 		}

@@ -5,6 +5,7 @@
 # include <errno.h>
 # include <stdio.h>
 # include <signal.h>
+# include <dirent.h>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -23,6 +24,8 @@ typedef struct s_shell
 	char	**env;
 	char	*pwd;
 	int		fd;
+	int		fd_1;
+	int		fd_0;
 	int		result;
 	int		error_malloc;
 	t_list	*cmd;

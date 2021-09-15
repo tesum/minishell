@@ -66,6 +66,7 @@ void	init_shell(int argc, char **argv, char **env)
 {
 	t_command	*new;
 	t_list		*new_list;
+
 	(void)argc;
 	(void)argv;
 	// env"SHELL" = argv[0];
@@ -74,6 +75,8 @@ void	init_shell(int argc, char **argv, char **env)
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;
 	g_shell.pwd = get_pwd();
+	g_shell.fd_1 = dup(1);
+	g_shell.fd_0 = dup(0);
 	new = command_new();
 	new_list = ft_lstnew((void *)new);
 	if (new_list == NULL)
@@ -92,7 +95,7 @@ void	ctrl_c(int signal)
 	(void)signal;
 	ft_putchar_fd('\n', 1);
 	rl_on_new_line();
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 	g_shell.result = 1;
 }

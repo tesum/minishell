@@ -86,9 +86,8 @@ char	**arr_del_str(char **array, char *str)
 	tmp = malloc(sizeof(char *) * (arr_size(array) + 1));
 	if (tmp == NULL)
 		return (NULL);
-	while (i < arr_size(array) + 1)
+	while (++i < arr_size(array))
 	{
-		i++;
 		if (!ft_strncmp(array[i], str, ft_strlen(str)))
 			continue;
 		tmp[j] = ft_strdup(array[i]);

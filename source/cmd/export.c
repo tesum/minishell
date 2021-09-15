@@ -41,21 +41,22 @@ char	**sort_export(char **exp)
 	return (exp);
 }
 
-
 static	int	check_arg(char *arg, char ***env)
 {
 	int	i;
-	int	r;
 
 	i = 0;
-	r = 0;
 	if (arg[i] == '=')
 		return (0);
 	while(arg[i])
 	{
+		printf("%c\n", arg[i]);
+		if (arg[i] == '=' && arg[i + 1] == '=')
+		{
+			ft_putstr_fd("export: not found\n", 2);
+			return (0);
+		}
 		if (arg[i] == '=')
-			r = 1;
-		if (arg[i] && r == 1)
 		{
 			*env = arr_add_back(*env, arg);
 			return (1);
@@ -96,17 +97,27 @@ void	put_export(void)
 	}
 }
 
+
+// если есть такой же аргумент - заменяется только значение
+// zsh or bash?
 void	export(char **argv)
 {
+	int	i;
+
+	i = 1;
 	if (argv[1])
 	{
-		if (check_arg(argv[1], &g_shell.env));
-			// put_export();
-		else
+		while (argv[i])
 		{
-			ft_putstr_fd("export: No such file or directory\n", 2);
-			return ;
+			if (check_arg(argv[i], &g_shell.env));
+				// put_export();
+			else
+			{
+				return ;
+			}
+			i++;
 		}
+		
 	}
 	else
 		put_export();

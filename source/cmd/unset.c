@@ -28,7 +28,10 @@ void	unset(char **argv)
 		while (argv[i])
 		{
 			if (check_arg(argv[i]))
+			{
+				ft_putstr_fd("unset: Invalid parameter name\n", 2);
 				return ;
+			}
 			else
 				g_shell.env = arr_del_str(g_shell.env, argv[i]);
 			i++;
