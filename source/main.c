@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 		if (g_shell.error_malloc != 1)
 			who_is_your_daddy();
-		exit (0);
+		// exit (0);
 	}
 	ft_putstr_fd("exit\n", 1);
 	return (0);
@@ -73,6 +73,7 @@ void	init_shell(int argc, char **argv, char **env)
 	g_shell.env = env;
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;
+	g_shell.pwd = get_pwd();
 	new = command_new();
 	new_list = ft_lstnew((void *)new);
 	if (new_list == NULL)

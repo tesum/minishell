@@ -18,7 +18,7 @@ int	get_cmd_char(char *cmd)
 	{
 		// if (ft_strnstr("echo", cmd, ft_strlen(cmd)) || ft_strnstr("cd", cmd, ft_strlen(cmd)))
 		// 	g_shell.arg = cmd[1];
-		if (ft_strnstr(cmds[i], cmd, ft_strlen(cmd)))
+		if (ft_strnstr(cmds[i], cmd, ft_strlen(cmd)) && ft_strlen(cmds[i]) == ft_strlen(cmd))
 			return (i);
 	}
 	return (-1);
@@ -44,6 +44,17 @@ void	cmd_func(int cmd, char **cmd_ex)
 	}
 }
 
+void	cleaning(void)
+{
+	free(((t_command *)g_shell.cmd->content)->argv);
+	free(((t_command *)g_shell.cmd->content)->redirect);
+	free(g_shell.cmd->content);
+	g_shell.cmd->content = NULL;
+	free(g_shell.cmd);
+	g_shell.cmd = NULL;
+	ft_lstadd_back(&g_shell.cmd, ft_lstnew((void *)command_new()));
+}
+
 // our command
 int	exec_ocmd(char **cmd)
 {
@@ -58,8 +69,15 @@ int	exec_ocmd(char **cmd)
 		{
 			cmd_func(j, cmd);
 			printf("	Exec command\n");
+			// free(g_shell.cmd);
+			// close(g_shell.fd);
+			// close(1);
+			// dup(1);
+			// dup2(1, g_shell.fd);
+			cleaning();
 			return (1);
 		}
 	// }
+	cleaning();
 	return (0);
 }

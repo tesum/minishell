@@ -43,38 +43,37 @@ void	who_is_your_daddy(void)
 	}
 }
 
-// void	get_pwd(void)
-// {
-// 	int		i;
-// 	char	*pwd;
-// 	char	**env;
+char	*get_pwd(void)
+{
+	int		i;
+	char	**env;
 
-// 	i = -1;
-// 	env = g_shell.env;
-// 	while (env[++i])
-// 	{
-// 		if (!ft_strncmp(env[i], "PWD=", 4))
-// 			return (env[i] + 4);
-// 	}
-// }
+	i = -1;
+	env = g_shell.env;
+	while (env[++i])
+	{
+		if (!ft_strncmp(env[i], "PWD=", 4))
+			return (env[i] + 4);
+	}
+	return (NULL);
+}
 
 void	redirect_create(t_command *redirect)
 {
 	t_list	*tmp;
-	int		fd;
-
+	
 	tmp = redirect->redirect;
 	while (tmp)
 	{
 		if (!ft_strncmp(((char **)tmp->content)[0], ">>", 2))
 		{
-			fd = open(((char **)tmp->content)[1], O_WRONLY | O_CREAT | O_APPEND, 0666);
+			g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY | O_CREAT | O_APPEND, 0666);
 		}
 		else
-			fd = open(((char **)tmp->content)[1], O_WRONLY| O_CREAT | O_TRUNC, 0666);
+			g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY| O_CREAT | O_TRUNC, 0666);
 		tmp = tmp->next;
 	}
-	dup2(fd, 1);
+	dup2(g_shell.fd, 1);
 }
 
 char	**set_command_struct(t_list *pipe)

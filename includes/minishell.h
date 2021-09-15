@@ -21,6 +21,8 @@ typedef struct s_command
 typedef struct s_shell
 {
 	char	**env;
+	char	*pwd;
+	int		fd;
 	int		result;
 	int		error_malloc;
 	t_list	*cmd;
@@ -101,5 +103,6 @@ void		print_t_list(void);
 
 void	who_is_your_daddy(void);
 char	**set_command_struct(t_list *pipe);
+char	*get_pwd(void);
 
 #endif
