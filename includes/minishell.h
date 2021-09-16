@@ -19,6 +19,14 @@ typedef struct s_command
 	int		complete;
 }				t_command;
 
+typedef struct s_env
+{
+	char			*key;
+	int				env;
+	int				exp;
+	struct s_env	*next;
+}				t_env;
+
 typedef struct s_shell
 {
 	char	**env;
@@ -122,5 +130,12 @@ void	create_pipes(t_pipex *pipex, int count);
 void	get_path(t_pipex *pipex, char **env);
 void	exc_dup(t_pipex *pipex);
 void	exc_cmd(t_pipex *pipex, char **env, t_list *cmd, int argc);
+
+
+t_env	*init_env(char **env);
+t_env	*new_env(char *key, int env, int exp);
+void	add_back_env(t_env **env, t_env *new);
+void	exit_malloc_error(void);
+
 
 #endif

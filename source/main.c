@@ -4,6 +4,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*input = "pwd | pwd";
 
+	rl_outstream = STDERR_FILENO;
 	init_shell(argc, argv, env);
 	while (1)
 	{
