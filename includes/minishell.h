@@ -23,6 +23,7 @@ typedef struct s_shell
 {
 	char	**env;
 	char	*pwd;
+	pid_t	*pid;
 	int		fd;
 	int		fd_1;
 	int		fd_0;
@@ -30,6 +31,14 @@ typedef struct s_shell
 	int		error_malloc;
 	t_list	*cmd;
 }				t_shell;
+
+typedef struct s_pipex
+{
+	int		pipes[100][2];
+	int		iter;
+	char	**path;
+	char	*cmd;
+}			t_pipex;
 
 t_shell	g_shell;
 
@@ -107,5 +116,11 @@ void		print_t_list(void);
 void	who_is_your_daddy(void);
 char	**set_command_struct(t_list *pipe);
 char	*get_pwd(void);
+
+int		pipes(int argc, char **env);
+void	create_pipes(t_pipex *pipex, int count);
+void	get_path(t_pipex *pipex, char **env);
+void	exc_dup(t_pipex *pipex);
+void	exc_cmd(t_pipex *pipex, char **env, t_list *cmd, int argc);
 
 #endif

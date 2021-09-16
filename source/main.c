@@ -2,7 +2,7 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input = "\"echo\" \"123\"\"456\"\"789\"$USER $PATH    $?";
+	char	*input = "pwd | pwd";
 
 	init_shell(argc, argv, env);
 	while (1)
@@ -21,9 +21,25 @@ int	main(int argc, char **argv, char **env)
 		add_history(input);
 		if (preparser(input) != -1)
 			parser(input);
+		// pipes(argc, &input, g_shell.env);
 		free(input);
 		if (g_shell.error_malloc != 1)
-			who_is_your_daddy();
+		{
+			// printf("%d\n",ft_lstsize(g_shell.cmd));
+			if (ft_lstsize(g_shell.cmd) > 1)
+			{
+				// printf("%d\n",ft_lstsize(g_shell.cmd));
+				// printf("here\n");
+				pipes(argc, g_shell.env);
+				dup2(g_shell.fd_1, 1);
+				dup2(g_shell.fd_0, 0);
+			}
+			else
+			{
+				// printf("tut\n");				
+				who_is_your_daddy();
+			}
+		}
 		// exit (0);
 	}
 	ft_putstr_fd("exit\n", 1);
