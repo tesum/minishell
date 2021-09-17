@@ -69,7 +69,7 @@ void	redirect_create(t_command *redirect)
 		{
 			g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY | O_CREAT | O_APPEND, 0666);
 		}
-		else
+		else if (!ft_strncmp(((char **)tmp->content)[0], ">", 1))
 			g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY| O_CREAT | O_TRUNC, 0666);
 		tmp = tmp->next;
 	}
