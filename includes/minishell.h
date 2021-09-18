@@ -35,6 +35,7 @@ typedef struct s_shell
 typedef struct s_pipex
 {
 	int		pipes[100][2];
+	int		c_pipe;
 	int		iter;
 	char	**path;
 	char	*cmd;
