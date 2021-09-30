@@ -4,7 +4,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*input = "pwd | pwd";
 
-	rl_outstream = STDERR_FILENO;
+	// rl_outstream = STDERR_FILENO;
 	init_shell(argc, argv, env);
 	while (1)
 	{
@@ -21,27 +21,8 @@ int	main(int argc, char **argv, char **env)
 		}
 		add_history(input);
 		if (preparser(input) != -1)
-			parser(input);
-		// pipes(argc, &input, g_shell.env);
+			parser(input), who_is_your_daddy();
 		free(input);
-		if (g_shell.error_malloc != 1)
-		{
-			// printf("%d\n",ft_lstsize(g_shell.cmd));
-			if (ft_lstsize(g_shell.cmd) > 1)
-			{
-				// printf("%d\n",ft_lstsize(g_shell.cmd));
-				// printf("here\n");
-				pipes(argc, g_shell.env);
-				dup2(g_shell.fd_1, 1);
-				dup2(g_shell.fd_0, 0);
-			}
-			else
-			{
-				// printf("tut\n");				
-				who_is_your_daddy();
-			}
-		}
-		// exit (0);
 	}
 	ft_putstr_fd("exit\n", 1);
 	return (0);
@@ -86,8 +67,6 @@ void	init_shell(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	// env"SHELL" = argv[0];
-	// shlvl ++;
 	g_shell.env = env;
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;
