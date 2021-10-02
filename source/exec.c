@@ -62,6 +62,7 @@ void	executing(char **cmd)
 	// if (!exec_ocmd(cmd))
 	// {
 	path = correct_path(cmd);
+	// printf("%s\n", path);
 	if (execve(path, cmd, g_shell.env) == -1)
 	{
 		str = ft_strjoin_gnl(cmd[0], ": command not found\n");
@@ -75,6 +76,7 @@ void	executing(char **cmd)
 		path = NULL;
 	}
 	// }
+	// cleaning();
 }
 
 char	**free_2d_arr(char **arr)

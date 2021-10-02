@@ -37,8 +37,10 @@ int	main(int argc, char **argv, char **env)
 				// printf("tut\n");				
 				who_is_your_daddy();
 			}
-				dup2(g_shell.fd_1, 1);
-				dup2(g_shell.fd_0, 0);
+				// dup2(g_shell.fd_1, 1);
+				// dup2(g_shell.fd_0, 0);
+				cleaning();
+
 		}
 		// exit (0);
 	}

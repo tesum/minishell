@@ -63,17 +63,20 @@ void	redirect_create(t_command *redirect)
 	t_list	*tmp;
 	
 	tmp = redirect->redirect;
-	while (tmp)
+	if (tmp)
 	{
-		if (!ft_strncmp(((char **)tmp->content)[0], ">>", 2))
+		while (tmp)
 		{
-			g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY | O_CREAT | O_APPEND, 0666);
+			if (!ft_strncmp(((char **)tmp->content)[0], ">>", 2))
+			{
+				g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY | O_CREAT | O_APPEND, 0666);
+			}
+			else if (!ft_strncmp(((char **)tmp->content)[0], ">", 1))
+				g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY| O_CREAT | O_TRUNC, 0666);
+			tmp = tmp->next;
 		}
-		else if (!ft_strncmp(((char **)tmp->content)[0], ">", 1))
-			g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY| O_CREAT | O_TRUNC, 0666);
-		tmp = tmp->next;
+		dup2(g_shell.fd, 1);
 	}
-	dup2(g_shell.fd, 1);
 }
 
 char	**set_command_struct(t_list *pipe)

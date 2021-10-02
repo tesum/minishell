@@ -124,4 +124,6 @@ void	get_path(t_pipex *pipex, char **env);
 void	exc_dup(t_pipex *pipex);
 void	exc_cmd(t_pipex *pipex, char **env, t_list *cmd, int argc);
 
+void	cleaning(void);
+
 #endif
