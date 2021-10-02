@@ -50,21 +50,23 @@ char	**find_path(void)
 	return (path);
 }
 
-void	executing(char **cmd)
+void	executing(t_list *cmd)
 {
 	char	*str;
 	char	*path;
+	char	**_cmd;
 
 	str = NULL;
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-	// builtins(cmd); 
-	// if (!builtins(cmd))
-	// {
-	path = correct_path(cmd);
-	if (execve(path, cmd, g_shell.env) == -1)
+	_cmd = set_command_struct(cmd);
+	// signal(SIGQUIT, SIG_DFL);
+	// signal(SIGINT, SIG_DFL);
+	if (exec_ocmd(_cmd))
+		exit(0);
+
+	path = correct_path(_cmd);
+	if (execve(path, _cmd, g_shell.env) == -1)
 	{
-		str = ft_strjoin_gnl(cmd[0], ": command not found\n");
+		str = ft_strjoin_gnl(_cmd[0], ": command not found\n");
 		if (str == NULL)
 			exit_error("Error malloc\n", -1);
 		exit_error(str, 127);
@@ -74,7 +76,6 @@ void	executing(char **cmd)
 		free (path);
 		path = NULL;
 	}
-	// }
 }
 
 char	**free_2d_arr(char **arr)

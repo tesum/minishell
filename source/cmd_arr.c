@@ -73,11 +73,11 @@ int	builtins(char **cmd)
 			// close(g_shell.fd);
 			// close(1);
 			// dup(1);
-			dup2(g_shell.fd_1, 1);
-			cleaning();
+			// dup2(g_shell.fd_1, 1);
+			// cleaning();
 			return (1);
 		}
 	// }
-	cleaning();
+	// cleaning();
 	return (0);
 }
