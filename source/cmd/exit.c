@@ -1,9 +1,17 @@
 #include "minishell.h"
 
-void	o_exit(char **argv)
+void	ft_exit(char **argv)
 {
-	(void)argv;
+	int	i;
 
-	ft_putstr_fd("Saving session...\n", 1);
-	exit(0);
+	i = 0;
+	while(argv[i] != NULL)
+		i++;
+	if (i > 2)
+	{
+		printf("exit: too many arguments");
+		return ;
+	}
+	printf("exit");
+	exit((unsigned char)ft_atoi(argv[1]));
 }

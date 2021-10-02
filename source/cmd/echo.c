@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	echo(char **argv)
+void	ft_echo(char **argv)
 {
 	int	i;
 	int	k;

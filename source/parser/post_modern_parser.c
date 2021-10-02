@@ -30,7 +30,7 @@ void	who_is_your_daddy(void)
 	while (i)
 	{
 		cmd = set_command_struct(g_shell.cmd);
-		if (exec_ocmd(cmd))
+		if (builtins(cmd))
 			return ;
 		pid = fork();
 		if (pid == 0)
