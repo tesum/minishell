@@ -19,6 +19,14 @@ typedef struct s_command
 	int		complete;
 }				t_command;
 
+typedef struct s_env
+{
+	char			*key;
+	int				env;
+	int				exp;
+	struct s_env	*next;
+}				t_env;
+
 typedef struct s_shell
 {
 	char	**env;
@@ -79,29 +87,15 @@ void	exit_error(char *str, int code);
 void	signal_handler(void);
 void	ctrl_c(int signal);
 
-// biltins
-void	builtins(char **cmd);
-void	ft_echo(char **cmd);
-void	ft_cd(char **cmd);
-void	ft_pwd(char **cmd);
-void	ft_export(char **cmd);
-void	ft_unset(char **cmd);
-void	ft_env(char **cmd);
-void	ft_exit(char **cmd);
-
-// COMMAND
-int		exec_ocmd(char **cmd);
-void	pwd(char **arg);
-void	echo(char **arg);
-// func //
-int		flag_n(char	**argv, int i);
-int		kill_n(char **argv, int i);
-//      //
-void	cd(char **arg);
-void	unset(char **arg);
-void	export(char **arg);
-void	o_env(char **arg);
-void	o_exit(char **arg);
+// builtins
+int		builtins(char **cmd);
+void	ft_pwd(char **argv);
+void	ft_echo(char **argv);
+void	ft_cd(char **argv);
+void	ft_unset(char **argv);
+void	ft_export(char **argv);
+void	ft_env(char **argv);
+void	ft_exit(char **argv);
 
 // arr_utils
 char	**arr_add_back(char **array, char *content);
@@ -124,7 +118,14 @@ void	get_path(t_pipex *pipex, char **env);
 void	exc_dup(t_pipex *pipex);
 void	exc_cmd(t_pipex *pipex, char **env, t_list *cmd, int argc);
 
+
 void	cleaning(void);
 int		parsing(void);
+
+t_env	*init_env(char **env);
+t_env	*new_env(char *key, int env, int exp);
+void	add_back_env(t_env **env, t_env *new);
+void	exit_malloc_error(void);
+
 
 #endif

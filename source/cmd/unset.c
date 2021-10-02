@@ -18,7 +18,7 @@ static	int	check_arg(char *arg)
 	return (0);
 }
 
-void	unset(char **argv)
+void	ft_unset(char **argv)
 {
 	int	i;
 

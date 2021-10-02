@@ -86,6 +86,10 @@ int	set_redirect(char **str, int *this_is_redirect)
 		*this_is_redirect = -1;
 		return (-1);
 	}
+	if (!ft_strncmp(str[0], "<<", 3))
+	{
+
+	}
 	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;
 	new = ft_lstnew((void *)str);
 	if (new == NULL)
@@ -95,4 +99,33 @@ int	set_redirect(char **str, int *this_is_redirect)
 	}
 	ft_lstadd_back(&tmp->redirect, new);
 	return (0);
+}
+
+char	**limiter_handler(char **str)
+{
+	char		*tmp;
+	char		*name;
+	int static	i = 0;
+	int			fd;
+
+	name = ft_itoa(i);
+	i++;
+	tmp = ft_strjoin(".tmp/", name);
+	free(name);
+	name = tmp;
+	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	if (fd < 0)
+		exit_error("File discriptor error", -1);
+	while(1)
+	{
+		tmp = readline("heredoc> ");
+		if (!ft_strncmp(str[1], tmp, ft_strlen(str[1])))
+			break ;
+		ft_putendl_fd(tmp, fd);
+		free(tmp);
+	}
+	close(fd);
+	str[0][1] = '\0';
+	free(str[1]);
+	str[1] = name;
 }

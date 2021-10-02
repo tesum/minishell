@@ -29,13 +29,13 @@ void	cmd_func(int cmd, char **cmd_ex)
 	void	(*cmds[7])(char **cmd);
 	int		i;
 
-	cmds[0] = echo;
-	cmds[1] = cd;
-	cmds[2] = pwd;
-	cmds[3] = export;
-	cmds[4] = unset;
-	cmds[5] = o_env;
-	cmds[6] = o_exit;
+	cmds[0] = ft_echo;
+	cmds[1] = ft_cd;
+	cmds[2] = ft_pwd;
+	cmds[3] = ft_export;
+	cmds[4] = ft_unset;
+	cmds[5] = ft_env;
+	cmds[6] = ft_exit;
 	i = -1;
 	while (cmds[++i])
 	{
@@ -56,7 +56,7 @@ void	cleaning(void)
 }
 
 // our command
-int	exec_ocmd(char **cmd)
+int	builtins(char **cmd)
 {
 	int	i;
 	int	j;

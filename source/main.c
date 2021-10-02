@@ -4,6 +4,7 @@ int	main(int argc, char **argv, char **env)
 {
 	int	status;
 
+	// rl_outstream = STDERR_FILENO;
 	init_shell(argc, argv, env);
 	while (1)
 	{
@@ -66,8 +67,6 @@ void	init_shell(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	// env"SHELL" = argv[0];
-	// shlvl ++;
 	g_shell.env = env;
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;

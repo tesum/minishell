@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: demilan <demilan@student.42.fr>            +#+  +:+       +#+         #
+#    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
 #    Updated: 2021/10/03 01:10:50 by demilan          ###   ########.fr        #
@@ -26,6 +26,7 @@ SOURCE				=	main.c exec.c cmd_arr.c \
 						builtin/builtins.c \
 						utils/array_utils.c utils/struct_command_utils.c utils/utils.c \
 						pipex/pipes.c
+						utils/array_utils.c utils/struct_command_utils.c \
 						
 OBJ_DIR				= object/
 OBJ_DIRS			= $(sort $(dir $(OBJ)))

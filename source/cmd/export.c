@@ -100,7 +100,7 @@ void	put_export(void)
 
 // если есть такой же аргумент - заменяется только значение
 // zsh or bash?
-void	export(char **argv)
+void	ft_export(char **argv)
 {
 	int	i;
 

@@ -13,7 +13,7 @@ void	put_env(char **env)
 	}
 }
 
-void	o_env(char **argv)
+void	ft_env(char **argv)
 {
 	int	i;
 	char	**env;
