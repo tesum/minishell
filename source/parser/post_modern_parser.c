@@ -29,11 +29,11 @@ void	who_is_your_daddy(void)
 	while (i)
 	{
 		cmd = set_command_struct(g_shell.cmd);
-		if (exec_ocmd(cmd))
-			return ;
+		// if (exec_ocmd(cmd))
+		// 	return ;
 		pid = fork();
 		if (pid == 0)
-			executing(cmd);
+			executing(g_shell.cmd);
 		else
 		{
 			waitpid(pid, &g_shell.result, 0);

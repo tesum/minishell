@@ -14,8 +14,7 @@ void	echo(char **argv)
 	}
 	while (argv[i])
 	{
-		// ft_putstr_fd(argv[i], STDOUT_FILENO);
-		printf("%s", argv[i]);
+		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		if (argv[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;

@@ -34,11 +34,11 @@ typedef struct s_shell
 
 typedef struct s_pipex
 {
-	int		pipes[100][2];
+	t_list	*cmd;
 	int		c_pipe;
 	int		iter;
+	int		flag;
 	char	**path;
-	char	*cmd;
 }			t_pipex;
 
 t_shell	g_shell;
@@ -71,7 +71,7 @@ char	*clear_quotes(char *str);
 // exec
 char	*correct_path(char **cmd);
 char	**find_path(void);
-void	executing(char **cmd);
+void	executing(t_list *cmd);
 char	**free_2d_arr(char **arr);
 void	exit_error(char *str, int code);
 
@@ -118,12 +118,13 @@ void	who_is_your_daddy(void);
 char	**set_command_struct(t_list *pipe);
 char	*get_pwd(void);
 
-int		pipes(int argc, char **env);
+void	pipes(int argc);
 void	create_pipes(t_pipex *pipex, int count);
 void	get_path(t_pipex *pipex, char **env);
 void	exc_dup(t_pipex *pipex);
 void	exc_cmd(t_pipex *pipex, char **env, t_list *cmd, int argc);
 
 void	cleaning(void);
+int		parsing(void);
 
 #endif

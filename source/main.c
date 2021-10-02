@@ -2,47 +2,26 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input = "echo 123 | grep 123 > t";
+	int	status;
 
 	init_shell(argc, argv, env);
 	while (1)
 	{
-		signal_handler();
-		input = readline("minishell$ ");
-		if (!input)
-			break ;
-		if (ft_strlen(input) == 0)
-		{
-			g_shell.result = 0;
-			free(input);
-			input = NULL;
+		status = parsing();
+		if (status == 1)
 			continue ;
-		}
-		add_history(input);
-		if (preparser(input) != -1)
-			parser(input);
-		// pipes(argc, &input, g_shell.env);
-		free(input);
+		if (status == -1)
+			break ;
 		if (g_shell.error_malloc != 1)
 		{
-			// printf("%d\n",ft_lstsize(g_shell.cmd));
 			if (ft_lstsize(g_shell.cmd) > 1)
-			{
-				// printf("%d\n",ft_lstsize(g_shell.cmd));
-				// printf("here\n");
-				pipes(argc, g_shell.env);
-			}	
+				pipes(ft_lstsize(g_shell.cmd));
 			else
-			{
-				// printf("tut\n");				
 				who_is_your_daddy();
-			}
-				// dup2(g_shell.fd_1, 1);
-				// dup2(g_shell.fd_0, 0);
-				cleaning();
-
+			dup2(g_shell.fd_1, 1);
+			dup2(g_shell.fd_0, 0);
+			cleaning();
 		}
-		// exit (0);
 	}
 	ft_putstr_fd("exit\n", 1);
 	return (0);
