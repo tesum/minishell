@@ -6,8 +6,8 @@ void	ft_putendl_fd(char *s, int fd)
 
 	if (s == NULL)
 		return ;
-	i = 0;
-	while (s[i++] != '\0')
-		ft_putchar_fd(s[i - 1], fd);
+	i = -1;
+	while (s[++i] != '\0')
+		ft_putchar_fd(s[i], fd);
 	ft_putchar_fd('\n', fd);
 }

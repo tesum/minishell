@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+static int	flag_n(char	**argv, int i)
+{
+	int	m;
+
+	while(argv[i][0] == '-')
+	{
+		m = 1;
+		while (argv[i][m] == 'n')
+			m++;
+		if (m != (int)ft_strlen(argv[i]))
+			break ;
+		i++;
+	}
+	return (i);
+}
+
 void	ft_echo(char **argv)
 {
 	int	i;
@@ -22,20 +38,4 @@ void	ft_echo(char **argv)
 	if (k == 0)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	g_shell.result = 0;
-}
-
-int		flag_n(char	**argv, int i)
-{
-	int	m;
-
-	while(argv[i][0] == '-')
-	{
-		m = 1;
-		while (argv[i][m] == 'n')
-			m++;
-		if (m != (int)ft_strlen(argv[i]))
-			break ;
-		i++;
-	}
-	return (i);
 }
