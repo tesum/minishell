@@ -68,7 +68,6 @@ int	builtins(char **cmd)
 		if (j != -1)
 		{
 			cmd_func(j, cmd);
-			printf("	Exec command\n");
 			// free(g_shell.cmd);
 			// close(g_shell.fd);
 			// close(1);

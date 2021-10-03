@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 08:59:37 by arsenijdroz       #+#    #+#             */
-/*   Updated: 2021/10/03 20:50:04 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:03:16 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	ft_pwd(char **argv)
 {
 	char	*pwd;
+	char	*buf;
 
 	(void)argv;
-	pwd = find_list_env(g_shell.new_env, "PWD")->value;
+	buf = NULL;
+	pwd = getcwd(buf, 0);
 	ft_putendl_fd(pwd, STDOUT_FILENO);
+	free(pwd);
 }
