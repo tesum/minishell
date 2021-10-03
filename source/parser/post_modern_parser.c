@@ -75,6 +75,14 @@ void	redirect_create(t_command *redirect)
 				g_shell.fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0666);
 			else if (!ft_strncmp(((char **)tmp->content)[0], ">", 2))
 				g_shell.fd = open(str, O_WRONLY| O_CREAT | O_TRUNC, 0666);
+			else if (!ft_strncmp(((char **)tmp->content)[0], "<", 2))
+			{
+				g_shell.fd_r = open(str, O_RDONLY, 0666);
+				if (g_shell.fd_r == 0)
+					exit_error("Error back-redirect", 254);
+				
+				dup2(g_shell.fd_r, 0);
+			}
 			free(str);
 			tmp = tmp->next;
 			dup2(g_shell.fd, 1);

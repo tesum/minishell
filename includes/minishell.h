@@ -35,6 +35,7 @@ typedef struct s_shell
 	char	*pwd;
 	pid_t	*pid;
 	int		fd;
+	int		fd_r;
 	int		fd_1;
 	int		fd_0;
 	int		result;
