@@ -78,17 +78,24 @@ void	redirect_create(t_command *redirect)
 			else if (!ft_strncmp(((char **)tmp->content)[0], "<", 2))
 			{
 				g_shell.fd_r = open(str, O_RDONLY, 0666);
-				if (g_shell.fd_r == 0)
+				if (g_shell.fd_r < 0)
 					exit_error("Error back-redirect", 254);
-				
 				dup2(g_shell.fd_r, 0);
+				close(g_shell.fd_r);
 			}
 			free(str);
+			if (g_shell.fd < 0)
+			{
+
+			}
 			tmp = tmp->next;
 			dup2(g_shell.fd, 1);
+			close(g_shell.fd);
 		}
 	}
 }
+
+
 
 char	**set_command_struct(t_list *pipe)
 {

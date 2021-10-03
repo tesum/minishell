@@ -44,6 +44,8 @@ int	check_begin(char const *input)
 	i = 0;
 	while (ft_isspace(input[i]))
 		i++;
+	if (input[i] == '\0')
+		return (-1);
 	if (input[i] == '|')
 	{
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);

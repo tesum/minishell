@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 04:52:41 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/03 20:23:07 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	parsing(void)
 	add_history(input);
 	if (preparser(input) != -1)
 		parser(input);
+	else
+		return (1);
 	free(input);
 	return (0);
 }
