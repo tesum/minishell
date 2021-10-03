@@ -58,11 +58,10 @@ void	executing(t_list *cmd)
 
 	str = NULL;
 	_cmd = set_command_struct(cmd);
-	// signal(SIGQUIT, SIG_DFL);
-	// signal(SIGINT, SIG_DFL);
-	if (exec_ocmd(_cmd))
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	if (builtins(_cmd))
 		exit(0);
-
 	path = correct_path(_cmd);
 	if (execve(path, _cmd, g_shell.env) == -1)
 	{

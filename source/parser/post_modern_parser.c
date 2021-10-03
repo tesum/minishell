@@ -30,7 +30,7 @@ void	who_is_your_daddy(void)
 	while (i)
 	{
 		cmd = set_command_struct(g_shell.cmd);
-		if (exec_ocmd(cmd))
+		if (builtins(cmd))
 			return ;
 		pid = fork();
 		if (pid == 0)
@@ -63,31 +63,21 @@ void	redirect_create(t_command *redirect)
 {
 	t_list	*tmp;
 	char	*str;
-	
+
 	tmp = redirect->redirect;
 	if (tmp)
 	{
-///////////
 		while (tmp)
 		{
-			if (!ft_strncmp(((char **)tmp->content)[0], ">>", 2))
-			{
-				g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY | O_CREAT | O_APPEND, 0666);
-			}
-			else if (!ft_strncmp(((char **)tmp->content)[0], ">", 1))
-				g_shell.fd = open(((char **)tmp->content)[1], O_WRONLY| O_CREAT | O_TRUNC, 0666);
+			str = clear_quotes(((char **)tmp->content)[1]);
+			if (!ft_strncmp(((char **)tmp->content)[0], ">>", 3))
+				g_shell.fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0666);
+			else if (!ft_strncmp(((char **)tmp->content)[0], ">", 2))
+				g_shell.fd = open(str, O_WRONLY| O_CREAT | O_TRUNC, 0666);
+			free(str);
 			tmp = tmp->next;
+			dup2(g_shell.fd, 1);
 		}
-		dup2(g_shell.fd, 1);
-
-		str = clear_quotes(((char **)tmp->content)[1]);
-		if (!ft_strncmp(((char **)tmp->content)[0], ">>", 3))
-			g_shell.fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0666);
-		else if (!ft_strncmp(((char **)tmp->content)[0], ">", 2))
-			g_shell.fd = open(str, O_WRONLY| O_CREAT | O_TRUNC, 0666);
-		free(str);
-		tmp = tmp->next;
-
 	}
 }
 

@@ -13,6 +13,19 @@ void	put_env(char **env)
 	}
 }
 
+void	put_new_env(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		printf("%s=%s\n", tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
+}
+
+
 void	ft_env(char **argv)
 {
 	int	i;
@@ -23,4 +36,6 @@ void	ft_env(char **argv)
 	env = g_shell.env;
 	
 		put_env(g_shell.env);
+		printf("========================================================\n");
+		put_new_env(g_shell.new_env);
 }

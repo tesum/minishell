@@ -22,6 +22,7 @@ typedef struct s_command
 typedef struct s_env
 {
 	char			*key;
+	char			*value;
 	int				env;
 	int				exp;
 	struct s_env	*next;
@@ -30,6 +31,7 @@ typedef struct s_env
 typedef struct s_shell
 {
 	char	**env;
+	t_env	*new_env;
 	char	*pwd;
 	pid_t	*pid;
 	int		fd;
@@ -124,6 +126,9 @@ int		parsing(void);
 
 t_env	*init_env(char **env);
 t_env	*new_env(char *key, int env, int exp);
+t_env	*find_list_env(t_env *env, char *str);
+void	edit_env_line(t_env *env, char *find, char *edit);
+void	edit_shlvl(t_env *env);
 void	add_back_env(t_env **env, t_env *new);
 void	exit_malloc_error(void);
 

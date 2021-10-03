@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **env)
 			dup2(g_shell.fd_1, 1);
 			dup2(g_shell.fd_0, 0);
 			cleaning();
+			exit (0);
 		}
 	}
 	ft_putstr_fd("exit\n", 1);
@@ -68,6 +69,9 @@ void	init_shell(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	g_shell.env = env;
+	g_shell.new_env = init_env(env);
+	// edit_env_line(g_shell.new_env, "SHELL", argv[0]);
+	// edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;
 	g_shell.pwd = get_pwd();

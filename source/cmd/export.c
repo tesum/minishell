@@ -50,7 +50,6 @@ static	int	check_arg(char *arg, char ***env)
 		return (0);
 	while(arg[i])
 	{
-		printf("%c\n", arg[i]);
 		if (arg[i] == '=' && arg[i + 1] == '=')
 		{
 			ft_putstr_fd("export: not found\n", 2);

@@ -128,4 +128,5 @@ char	**limiter_handler(char **str)
 	str[0][1] = '\0';
 	free(str[1]);
 	str[1] = name;
+	return (str);
 }
