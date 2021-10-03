@@ -18,6 +18,27 @@ static	int	check_arg(char *arg)
 	return (0);
 }
 
+void	del_env_line(t_env *env, char *key)
+{
+	t_env	*tmp;
+	t_env	*tmp_del;
+
+	tmp_del = find_list_env(env, key);
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->next->key, key, ft_strlen(key)))
+			break ;
+		tmp = tmp->next;
+	}
+	tmp->next = tmp_del->next;
+	free(tmp_del->key);
+	free(tmp_del->value);
+	tmp_del->next = NULL;
+	free(tmp_del);
+	tmp_del = NULL;
+}
+
 void	ft_unset(char **argv)
 {
 	int	i;
@@ -33,10 +54,9 @@ void	ft_unset(char **argv)
 				return ;
 			}
 			else
-				g_shell.env = arr_del_str(g_shell.env, argv[i]);
+				del_env_line(g_shell.new_env, argv[i]);
 			i++;
 		}
 	}
 	return ;
-
 }

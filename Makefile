@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
+#    By: demilan <demilan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/10/03 04:51:11 by caugusta         ###   ########.fr        #
+#    Updated: 2021/10/03 20:29:08 by demilan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SOURCE				=	main.c exec.c cmd_arr.c \
 						utils/array_utils.c utils/struct_command_utils.c utils/utils.c \
 						utils/array_utils.c utils/struct_command_utils.c \
 						env/init_env.c env/export_utils.c \
-						# pipex/pipes.c \
+						pipex/pipes.c \
 						
 OBJ_DIR				= object/
 OBJ_DIRS			= $(sort $(dir $(OBJ)))

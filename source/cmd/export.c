@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/03 20:20:44 by demilan           #+#    #+#             */
+/*   Updated: 2021/10/03 20:20:45 by demilan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		export_sort(char **exp)
+int	export_sort(char **exp)
 {
 	int	i;
 
@@ -16,7 +28,7 @@ int		export_sort(char **exp)
 
 char	**sort_export(char **exp)
 {
-	int	i	;
+	int		i;
 	char	*tmp;
 
 	while (1)
@@ -37,43 +49,45 @@ char	**sort_export(char **exp)
 			}
 		}
 	}
-
 	return (exp);
 }
 
-static	int	check_arg(char *arg, char ***env)
+static	int	check_arg(char *arg, t_env *env)
 {
-	int	i;
+	int		i;
+	int		*flags;
 
-	i = 0;
-	if (arg[i] == '=')
+	i = -1;
+	flags = malloc(sizeof(int) * 2);
+	flags[0] = 0;
+	flags[1] = 0;
+	if (arg[++i] == '=')
 		return (0);
-	while(arg[i])
+	while (arg[++i])
 	{
-		if (arg[i] == '=' && arg[i + 1] == '=')
+		if (arg[i] == '+' && arg[i + 1] == '=')
 		{
-			ft_putstr_fd("export: not found\n", 2);
-			return (0);
+			flags[0] = 1;
+			break ;
 		}
 		if (arg[i] == '=')
 		{
-			*env = arr_add_back(*env, arg);
-			return (1);
+			flags[1] = 1;
+			break ;
 		}
-		i++;
 	}
-	return (0);
+	logic_export(flags, i, env, arg);
+	return (1);
 }
 
-void	put_export(void)
+void	put_export(t_env *env)
 {
-	// char	**new;
 	char	**exp;
 	int		size;
 	int		i;
-	// int		j;
 
-	exp = sort_export(g_shell.env);
+	exp = env_arr(env);
+	exp = sort_export(exp);
 	size = arr_size(exp);
 	// new = malloc(sizeof(char *) * (size + 1));
 	// i = -1;
@@ -85,20 +99,14 @@ void	put_export(void)
 	// }
 	// new[j] = NULL;
 	// free(new);
-
-
 	i = 0;
 	while (exp[i])
 	{
-		// printf("%s\n",exp[i]);
 		ft_putstr_fd(ft_strjoin(exp[i], "\n"), STDOUT_FILENO);
 		i++;
 	}
 }
 
-
-// если есть такой же аргумент - заменяется только значение
-// zsh or bash?
 void	ft_export(char **argv)
 {
 	int	i;
@@ -108,17 +116,14 @@ void	ft_export(char **argv)
 	{
 		while (argv[i])
 		{
-			if (check_arg(argv[i], &g_shell.env));
-				// put_export();
+			if (check_arg(argv[i], g_shell.new_env))
+				;
 			else
-			{
 				return ;
-			}
 			i++;
 		}
-		
 	}
 	else
-		put_export();
+		put_export(g_shell.new_env);
 	return ;
 }

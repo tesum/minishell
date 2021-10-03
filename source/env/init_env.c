@@ -34,6 +34,7 @@ t_env	*new_env(char *str, int env, int exp)
 	if (new == NULL)
 		return (NULL);
 	i = -1;
+	j = 0;
 	while (str[++i])
 	{
 		if (str[i] == '=')
@@ -42,7 +43,13 @@ t_env	*new_env(char *str, int env, int exp)
 			new->key = ft_substr(str, 0, i);
 		}
 	}
-	new->value = ft_substr(str, j, i);
+	if (j != 0)
+		new->value = ft_substr(str, j, i);
+	else
+	{
+		new->key = ft_substr(str, 0, i);
+		new->value = ft_strdup("");
+	}
 	new->env = env;
 	new->exp = exp;
 	new->next = NULL;
@@ -77,6 +84,8 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 	// printf("fff\n");
 	tmp = find_list_env(env, find);
 	// printf("fff\n");
+	if (edit)
+		tmp->env = 1;
 	tmp->value = edit;
 }
 

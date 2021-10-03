@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 20:23:07 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/03 20:27:14 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,29 @@ int	parsing(void)
 		return (1);
 	free(input);
 	return (0);
+}
+
+// utils for export
+void	logic_export(int *flags, int i, t_env *env, char *arg)
+{
+	char	*key;
+	char	*value;
+	int		f_eq;
+	int		f_plus;
+
+	f_plus = flags[0];
+	f_eq = flags[1];
+	key = ft_substr(arg, 0, i);
+	if (f_plus)
+		value = ft_substr(arg, i + 2, ft_strlen(arg) - i);
+	else
+		value = ft_substr(arg, i + 1, ft_strlen(arg) - i);
+	if (find_list_env(env, key) && !f_plus)
+		edit_env_line(env, key, value);
+	else if (find_list_env(env, key) && f_plus)
+		export_plus(env, key, value);
+	else if (f_eq)
+		add_back_env(&env, new_env(arg, 1, 1));
+	else
+		add_back_env(&env, new_env(arg, 0, 1));
 }

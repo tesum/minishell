@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/03 20:22:29 by demilan           #+#    #+#             */
+/*   Updated: 2021/10/03 20:22:30 by demilan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 void	put_env(char **env)
 {
@@ -20,22 +31,19 @@ void	put_new_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->key, tmp->value);
+		if (tmp->env == 1)
+			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }
 
-
 void	ft_env(char **argv)
 {
-	int	i;
+	int		i;
 	char	**env;
 
 	(void)argv;
 	i = -1;
 	env = g_shell.env;
-	
-		put_env(g_shell.env);
-		printf("========================================================\n");
-		put_new_env(g_shell.new_env);
+	put_new_env(g_shell.new_env);
 }

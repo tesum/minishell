@@ -1,28 +1,14 @@
 #include "minishell.h"
 
-void	export_plus(t_env *env, char *str, int i)
+void	export_plus(t_env *env, char *key, char *value)
 {
 	t_env	*tmp;
-	char	*key;
-	char	*value;
 
-	key = ft_substr(str, 0, i);
-	key[i] = '=';
-	value = ft_strdup(str + i + 2);
 	tmp = find_list_env(env, key);
-	if (tmp == NULL)
-	{
-		key = ft_strjoin_gnl(key, value);
-		tmp = new_env(key, 1, 1);
-		free(value);
-		add_back_env(&env, tmp);
-		return ;
-	}
-	tmp->key = ft_strjoin_gnl(tmp->key, value);
-	tmp->env = 1;
+	tmp->value = ft_strjoin_gnl(tmp->value, value);
+	if (value)
+		tmp->env = 1;
 	tmp->exp = 1;
-	free(key);
-	free(value);
 }
 
 void	export_no_oper(t_env *env, char *str)
