@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:22:44 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 20:22:45 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/03 20:52:12 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	flag_n(char	**argv, int i)
 {
 	int	m;
 
-	while(argv[i][0] == '-')
+	while (argv[i][0] == '-')
 	{
 		m = 1;
 		while (argv[i][m] == 'n')

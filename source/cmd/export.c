@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:20:44 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 20:20:45 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/03 20:53:49 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,11 @@ void	put_export(t_env *env)
 	exp = env_arr(env);
 	exp = sort_export(exp);
 	size = arr_size(exp);
-	// new = malloc(sizeof(char *) * (size + 1));
-	// i = -1;
-	// j = 0;
-	// while (exp[++i])
-	// {
-	// 	new[j] = ft_strjoin("declare -x ", exp[i]);
-	// 	j++;
-	// }
-	// new[j] = NULL;
-	// free(new);
 	i = 0;
 	while (exp[i])
 	{
-		ft_putstr_fd(ft_strjoin(exp[i], "\n"), STDOUT_FILENO);
+		ft_putstr_fd(ft_strjoin("declare -x ", \
+			ft_strjoin(exp[i], "\n")), STDOUT_FILENO);
 		i++;
 	}
 }

@@ -6,20 +6,20 @@
 #    By: demilan <demilan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/10/03 20:29:08 by demilan          ###   ########.fr        #
+#    Updated: 2021/10/03 20:32:46 by demilan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME				= minishell
-LIBFT_NAME			= libft.a
+NAME				=	minishell
+LIBFT_NAME			=	libft.a
 
-CC					= gcc
-CFLAGS				= -Wall -Wextra -Werror -MMD -g
-INCFLAGS			= -I ./includes/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include
+CC					=	gcc
+CFLAGS				=	-Wall -Wextra -Werror -MMD -g
+INCFLAGS			=	-I ./includes/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include
 
-READLINEFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -ltermcap
+READLINEFLAGS		=	-L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -ltermcap
 
-SOURCE_DIR			= source/
+SOURCE_DIR			=	source/
 SOURCE				=	main.c exec.c cmd_arr.c \
 						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c parser/post_modern_parser.c\
 						cmd/pwd.c cmd/echo.c cmd/cd.c  cmd/exit.c cmd/export.c cmd/env.c cmd/unset.c \
@@ -28,14 +28,14 @@ SOURCE				=	main.c exec.c cmd_arr.c \
 						env/init_env.c env/export_utils.c \
 						pipex/pipes.c \
 						
-OBJ_DIR				= object/
-OBJ_DIRS			= $(sort $(dir $(OBJ)))
+OBJ_DIR				=	object/
+OBJ_DIRS			=	$(sort $(dir $(OBJ)))
 
-LIBFT				= libft/$(LIBFT_NAME)
-LIBFT_DIR			= libft/
+LIBFT				=	libft/$(LIBFT_NAME)
+LIBFT_DIR			=	libft/
 
-OBJ					= $(addprefix $(OBJ_DIR), $(SOURCE:.c=.o))
-D_FILES				= $(wildcard $(OBJ_DIR)%.d)
+OBJ					=	$(addprefix $(OBJ_DIR), $(SOURCE:.c=.o))
+D_FILES				=	$(wildcard $(OBJ_DIR)%.d)
 
 # COLORS
 
