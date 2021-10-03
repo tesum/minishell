@@ -29,6 +29,7 @@ void	who_is_your_daddy(void)
 	i = ft_lstsize(g_shell.cmd);
 	while (i)
 	{
+		g_shell.env = env_arr(g_shell.new_env);
 		cmd = set_command_struct(g_shell.cmd);
 		if (builtins(cmd))
 			return ;
@@ -90,11 +91,11 @@ char	**set_command_struct(t_list *pipe)
 
 	i = 0;
 	tmp = (t_command *)pipe->content;
-	while (tmp && tmp->complete != 0)
-	{
-		pipe = pipe->next;
-		tmp = (t_command *)pipe->content;
-	}
+	// while (tmp && tmp->complete != 0)   //// вот это говно не запускало команды
+	// {
+	// 	pipe = pipe->next;
+	// 	tmp = (t_command *)pipe->content;
+	// }
 	tmp_arg = ((t_command *)pipe->content)->argv;
 	cmd = malloc(sizeof(char *) * (ft_lstsize(tmp_arg) + 1));
 	while (tmp_arg)
@@ -124,4 +125,30 @@ char	*clear_quotes(char *str)
 			i++;
 	}
 	return (str);
+}
+
+char	**env_arr(t_env *new_env)
+{
+	char	**env;
+	char	*str;
+	int		i;
+	int		j;
+
+	i = env_size(new_env);
+	env = malloc(sizeof(char *) * (i + 1));
+	j = 0;
+	env[i] = NULL;
+	while (j < i)
+	{
+		str = ft_strdup("");
+		str = ft_strjoin_gnl(str, new_env->key);
+		str = ft_strjoin_gnl(str, "=");
+		str = ft_strjoin_gnl(str, new_env->value);
+		env[j] = str;
+		// printf("env[%d] = %s\n", j, env[j]);
+		j++;
+		new_env = new_env->next;
+	}
+	
+	return (env);
 }

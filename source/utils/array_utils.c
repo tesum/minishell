@@ -18,6 +18,7 @@ char	**arr_add_back(char **array, char *content)
 	}
 	else
 	{
+		write(1, "here\n", 5);
 		size = (arr_size(array) + 2);
 		tmp = malloc(sizeof(char *) * size);
 		if (tmp == NULL)
@@ -25,7 +26,7 @@ char	**arr_add_back(char **array, char *content)
 	}
 	if (array)
 	{
-		while (i < arr_size(array))
+		while (i < size)
 		{
 			tmp[i] = ft_strdup(array[i]);
 			if (tmp[i] == NULL)

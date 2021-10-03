@@ -131,6 +131,7 @@ void	edit_env_line(t_env *env, char *find, char *edit);
 void	edit_shlvl(t_env *env);
 void	add_back_env(t_env **env, t_env *new);
 void	exit_malloc_error(void);
-
+char	**env_arr(t_env *new_env);
+int		env_size(t_env *env);
 
 #endif

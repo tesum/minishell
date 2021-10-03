@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 03:53:54 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/03 04:52:41 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ int	parsing(void)
 	char	*input = "env";
 
 	signal_handler();
-	// input = readline("minishell$ ");
+	input = readline("minishell$ ");
 	if (!input)
 		return (-1);
 	if (ft_strlen(input) == 0)
 	{
 		g_shell.result = 0;
-		// free(input);
+		free(input);
 		input = NULL;
 		return (1);
 	}
 	add_history(input);
 	if (preparser(input) != -1)
 		parser(input);
-	// free(input);
+	free(input);
 	return (0);
 }

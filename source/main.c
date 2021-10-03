@@ -15,14 +15,13 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (g_shell.error_malloc != 1)
 		{
-			if (ft_lstsize(g_shell.cmd) > 1)
-				pipes(ft_lstsize(g_shell.cmd));
-			else
-				who_is_your_daddy();
+			// if (ft_lstsize(g_shell.cmd) > 1)
+			// 	pipes(ft_lstsize(g_shell.cmd));
+			// else
+			who_is_your_daddy();
 			dup2(g_shell.fd_1, 1);
 			dup2(g_shell.fd_0, 0);
 			cleaning();
-			exit (0);
 		}
 	}
 	ft_putstr_fd("exit\n", 1);
@@ -71,7 +70,7 @@ void	init_shell(int argc, char **argv, char **env)
 	g_shell.env = env;
 	g_shell.new_env = init_env(env);
 	// edit_env_line(g_shell.new_env, "SHELL", argv[0]);
-	// edit_shlvl(g_shell.new_env);
+	edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;
 	g_shell.pwd = get_pwd();

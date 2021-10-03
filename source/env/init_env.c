@@ -6,15 +6,20 @@ t_env	*init_env(char **env)
 	char	*str;
 	t_env	*envs;
 
-	i = -1;
-	envs = NULL;
+	i = 0;
+	if (env != NULL && env[0] != NULL)
+	{
+		str = ft_strdup(env[i]);
+		if (str == NULL)
+			exit_malloc_error();
+		envs = new_env(str, 1, 1);
+	}
 	while (env[++i])
 	{
 		str = ft_strdup(env[i]);
 		if (str == NULL)
 			exit_malloc_error();
 		add_back_env(&envs, new_env(str, 1, 1));
-		printf("%s\n", str);
 	}
 	return (envs);
 }
@@ -40,6 +45,7 @@ t_env	*new_env(char *str, int env, int exp)
 	new->value = ft_substr(str, j, i);
 	new->env = env;
 	new->exp = exp;
+	new->next = NULL;
 	return (new);
 }
 
@@ -72,4 +78,17 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 	tmp = find_list_env(env, find);
 	// printf("fff\n");
 	tmp->value = edit;
+}
+
+int		env_size(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	return (i);
 }

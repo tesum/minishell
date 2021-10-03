@@ -23,6 +23,11 @@ void	ft_echo(char **argv)
 
 	i = 1;
 	k = 0;
+	if (argv[1] == NULL)
+	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		return ;
+	}
 	if (argv[i][0] == '-' && argv[i][1] == 'n')
 	{
 		i = flag_n(argv, i);
