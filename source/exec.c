@@ -7,7 +7,7 @@ char	*correct_path(char **cmd)
 	char	*tmp;
 
 	i = 0;
-	if (access(cmd[0], X_OK) == 0) // not allowed
+	if (access(cmd[0], X_OK) == 0)
 		return (cmd[0]);
 	path = find_path();
 	while (path[i])
@@ -16,7 +16,7 @@ char	*correct_path(char **cmd)
 		path[i] = ft_strjoin_gnl(path[i], cmd[0]);
 		if (path[i] == NULL)
 			exit_error("Error malloc\n", -1);
-		if (access(path[i], X_OK) == 0) // not allowed
+		if (access(path[i], X_OK) == 0)
 		{
 			tmp = ft_strdup(path[i]);
 			if (tmp == NULL)
