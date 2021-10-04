@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:51:16 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 20:51:23 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/04 16:10:27 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	ft_cd(char **argv)
 	int		dir;
 
 	buf = NULL;
+	if (!argv[1] || !ft_strncmp(argv[1], "~", 1))
+		argv[1] = find_list_env(g_shell.new_env, "HOME")->value;
 	oldpwd = getcwd(buf, 0);
 	dir = chdir(argv[1]);
 	if (dir == -1)

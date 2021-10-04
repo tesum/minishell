@@ -136,5 +136,6 @@ char	**env_arr(t_env *new_env);
 int		env_size(t_env *env);
 void	export_plus(t_env *env, char *key, char *value);
 void	logic_export(int *flags, int i, t_env *env, char *arg);
+void	clear_env(t_env **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 20:27:14 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/04 16:31:53 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,15 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 		add_back_env(&env, new_env(arg, 1, 1));
 	else
 		add_back_env(&env, new_env(arg, 0, 1));
+}
+
+// utils env
+void	edit_env_line(t_env *env, char *find, char *edit)
+{
+	t_env	*tmp;
+
+	tmp = find_list_env(env, find);
+	if (edit)
+		tmp->env = 1;
+	tmp->value = edit;
 }

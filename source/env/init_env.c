@@ -5,6 +5,7 @@ t_env	*init_env(char **env)
 	int		i;
 	char	*str;
 	t_env	*envs;
+	t_env	*new;
 
 	i = 0;
 	if (env != NULL && env[0] != NULL)
@@ -13,15 +14,30 @@ t_env	*init_env(char **env)
 		if (str == NULL)
 			exit_malloc_error();
 		envs = new_env(str, 1, 1);
+		free(str);
 	}
 	while (env[++i])
 	{
 		str = ft_strdup(env[i]);
 		if (str == NULL)
 			exit_malloc_error();
-		add_back_env(&envs, new_env(str, 1, 1));
+		new = new_env(str, 1, 1);
+		add_back_env(&envs, new);
+		free(str);
 	}
 	return (envs);
+}
+
+void	set_new_env(t_env *new, char *str, int i, int j)
+{
+	if (j != 0)
+		new->value = ft_substr(str, j, i);
+	else
+	{
+		new->key = ft_substr(str, 0, i);
+		new->value = ft_strdup("");
+	}
+	new->next = NULL;
 }
 
 t_env	*new_env(char *str, int env, int exp)
@@ -43,16 +59,9 @@ t_env	*new_env(char *str, int env, int exp)
 			new->key = ft_substr(str, 0, i);
 		}
 	}
-	if (j != 0)
-		new->value = ft_substr(str, j, i);
-	else
-	{
-		new->key = ft_substr(str, 0, i);
-		new->value = ft_strdup("");
-	}
+	set_new_env(new, str, i, j);
 	new->env = env;
 	new->exp = exp;
-	new->next = NULL;
 	return (new);
 }
 
@@ -77,27 +86,3 @@ void	exit_malloc_error(void)
 	exit (-1);
 }
 
-void	edit_env_line(t_env *env, char *find, char *edit)
-{
-	t_env	*tmp;
-
-	// printf("fff\n");
-	tmp = find_list_env(env, find);
-	// printf("fff\n");
-	if (edit)
-		tmp->env = 1;
-	tmp->value = edit;
-}
-
-int		env_size(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
-}

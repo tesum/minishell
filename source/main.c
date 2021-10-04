@@ -25,6 +25,8 @@ int	main(int argc, char **argv, char **env)
 		}
 	}
 	ft_putstr_fd("exit\n", 1);
+	cleaning();
+	clear_env(&g_shell.new_env);
 	return (0);
 }
 
@@ -69,7 +71,6 @@ void	init_shell(int argc, char **argv, char **env)
 	(void)argv;
 	g_shell.env = env;
 	g_shell.new_env = init_env(env);
-	// edit_env_line(g_shell.new_env, "SHELL", argv[0]);
 	edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;

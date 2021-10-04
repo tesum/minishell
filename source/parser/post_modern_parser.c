@@ -29,7 +29,7 @@ void	who_is_your_daddy(void)
 	i = ft_lstsize(g_shell.cmd);
 	while (i)
 	{
-		g_shell.env = env_arr(g_shell.new_env);
+		// g_shell.env = env_arr(g_shell.new_env);
 		cmd = set_command_struct(g_shell.cmd);
 		if (builtins(cmd))
 			return ;
