@@ -46,7 +46,7 @@ void	cmd_func(int cmd, char **cmd_ex)
 
 void	cleaning(void)
 {
-	free(((t_command *)g_shell.cmd->content)->argv);
+	ft_lstclear(&((t_command *)g_shell.cmd->content)->argv, free);
 	free(((t_command *)g_shell.cmd->content)->redirect);
 	free(g_shell.cmd->content);
 	g_shell.cmd->content = NULL;

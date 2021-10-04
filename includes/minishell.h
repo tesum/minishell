@@ -132,7 +132,7 @@ void	edit_env_line(t_env *env, char *find, char *edit);
 void	edit_shlvl(t_env *env);
 void	add_back_env(t_env **env, t_env *new);
 void	exit_malloc_error(void);
-char	**env_arr(t_env *new_env);
+char	**env_arr(t_env *new_env, int export);
 int		env_size(t_env *env);
 void	export_plus(t_env *env, char *key, char *value);
 void	logic_export(int *flags, int i, t_env *env, char *arg);

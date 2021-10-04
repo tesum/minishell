@@ -6,7 +6,7 @@
 #    By: demilan <demilan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/10/03 20:32:46 by demilan          ###   ########.fr        #
+#    Updated: 2021/10/04 18:10:46 by demilan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,3 +89,7 @@ re : fclean all
 
 run :
 	./${NAME}
+
+
+bonus :
+ make OBJ="$(OBJ_B)" all

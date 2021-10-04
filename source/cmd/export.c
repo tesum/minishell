@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:20:44 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 20:53:49 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/04 23:02:19 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ static	int	check_arg(char *arg, t_env *env)
 	int		i;
 	int		*flags;
 
-	i = -1;
+	i = 0;
 	flags = malloc(sizeof(int) * 2);
 	flags[0] = 0;
 	flags[1] = 0;
-	if (arg[++i] == '=')
+	if (!ft_isalpha(arg[i]) && arg[i] != '-')
 		return (0);
 	while (arg[++i])
 	{
@@ -83,17 +83,16 @@ static	int	check_arg(char *arg, t_env *env)
 void	put_export(t_env *env)
 {
 	char	**exp;
-	int		size;
 	int		i;
+	// char	*str;
 
-	exp = env_arr(env);
+	exp = env_arr(env, 1);
 	exp = sort_export(exp);
-	size = arr_size(exp);
 	i = 0;
 	while (exp[i])
 	{
-		ft_putstr_fd(ft_strjoin("declare -x ", \
-			ft_strjoin(exp[i], "\n")), STDOUT_FILENO);
+		// str = ft_strjoin_gnl(exp[i], "\n");
+		ft_putendl_fd(exp[i], STDOUT_FILENO);
 		i++;
 	}
 }
@@ -110,7 +109,10 @@ void	ft_export(char **argv)
 			if (check_arg(argv[i], g_shell.new_env))
 				;
 			else
+			{
+				ft_putendl_fd("export: not a valid identifier", 2);
 				return ;
+			}
 			i++;
 		}
 	}

@@ -22,10 +22,10 @@ int	main(int argc, char **argv, char **env)
 			dup2(g_shell.fd_1, 1);
 			dup2(g_shell.fd_0, 0);
 			cleaning();
+			// while(1);
 		}
 	}
 	ft_putstr_fd("exit\n", 1);
-	cleaning();
 	clear_env(&g_shell.new_env);
 	return (0);
 }

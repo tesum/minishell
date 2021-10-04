@@ -29,7 +29,8 @@ void	who_is_your_daddy(void)
 	i = ft_lstsize(g_shell.cmd);
 	while (i)
 	{
-		// g_shell.env = env_arr(g_shell.new_env);
+		// g_shell.env = env_arr(g_shell.new_env, 0);
+
 		cmd = set_command_struct(g_shell.cmd);
 		if (builtins(cmd))
 			return ;
@@ -81,9 +82,9 @@ void	redirect_create(t_command *redirect)
 				if (g_shell.fd_r < 0)
 					exit_error("Error back-redirect", 254);
 				dup2(g_shell.fd_r, 0);
-				close(g_shell.fd_r);
+				// close(g_shell.fd_r);
 			}
-			free(str);
+			// free(str);
 			if (g_shell.fd < 0)
 			{
 
@@ -142,7 +143,8 @@ char	*clear_quotes(char *str)
 	return (str);
 }
 
-char	**env_arr(t_env *new_env)
+// LEAKS!!
+char	**env_arr(t_env *new_env, int export)
 {
 	char	**env;
 	char	*str;
@@ -155,14 +157,18 @@ char	**env_arr(t_env *new_env)
 	env[i] = NULL;
 	while (j < i)
 	{
-		str = ft_strdup("");
-		str = ft_strjoin_gnl(str, new_env->key);
-		str = ft_strjoin_gnl(str, "=");
-		str = ft_strjoin_gnl(str, new_env->value);
-		env[j] = str;
+		if ((export && new_env->exp) || !export)
+		{
+			str = ft_strdup("");
+			str = ft_strjoin_gnl(str, new_env->key);
+			str = ft_strjoin_gnl(str, "=");
+			str = ft_strjoin_gnl(str, new_env->value);
+			env[j] = str;
+		}
 		// printf("env[%d] = %s\n", j, env[j]);
 		j++;
 		new_env = new_env->next;
+			// free(str);
 	}
 	
 	return (env);

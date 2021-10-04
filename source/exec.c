@@ -75,6 +75,7 @@ void	executing(t_list *cmd)
 		free (path);
 		path = NULL;
 	}
+	free_2d_arr(_cmd);
 }
 
 char	**free_2d_arr(char **arr)
