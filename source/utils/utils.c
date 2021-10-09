@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/04 17:15:32 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/05 01:40:32 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,12 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 	if (edit)
 		tmp->env = 1;
 	tmp->value = edit;
+}
+
+void	free_2d_arr_list(void *content)
+{
+	char	**tmp;
+
+	tmp = (char **)content;
+	free_2d_arr(tmp);
 }

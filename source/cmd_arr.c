@@ -46,8 +46,8 @@ void	cmd_func(int cmd, char **cmd_ex)
 
 void	cleaning(void)
 {
-	ft_lstclear(&((t_command *)g_shell.cmd->content)->argv, free);
-	free(((t_command *)g_shell.cmd->content)->redirect);
+	ft_lstclear(&(((t_command *)g_shell.cmd->content)->argv), free);
+	ft_lstclear(&(((t_command *)g_shell.cmd->content)->redirect), free);
 	free(g_shell.cmd->content);
 	g_shell.cmd->content = NULL;
 	free(g_shell.cmd);
@@ -63,7 +63,8 @@ int	builtins(char **cmd)
 
 	i = -1;
 	// while (cmd[++i])
-	// {
+	if (cmd != NULL)
+	{
 		j = get_cmd_char(cmd[0]);
 		if (j != -1)
 		{
@@ -76,7 +77,7 @@ int	builtins(char **cmd)
 			// cleaning();
 			return (1);
 		}
-	// }
+	}
 	// cleaning();
 	return (0);
 }

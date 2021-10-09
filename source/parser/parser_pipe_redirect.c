@@ -21,74 +21,56 @@ int		pipe_handler(int *i)
 
 char	*double_redirect_handler(char const *input, int *i, int *this_is_redirect)
 {
-	char	**tmp_str;
+	char	*redirect;
+	char	*tmp;
 
-	tmp_str = malloc(sizeof(char *) * 3);
 	*this_is_redirect = 1;
-	if (input[*i] == '<' && input[(*i + 1)] == '<')
+	if ((input[*i] == '<' && input[(*i + 1)] == '<') || \
+		(input[*i] == '>' && input[(*i + 1)] == '>'))
 	{
-		tmp_str[0] = ft_substr(input, *i, 2);
+		redirect = ft_substr(input, *i, 2);
 		*i += 2;
-		tmp_str[1] = other_handler(input, i);
-		tmp_str[2] = NULL;
-		if (set_redirect(tmp_str, this_is_redirect) == 0)
-			return (tmp_str[0]);
-	}
-	else if (input[*i] == '>' && input[(*i + 1)] == '>')
-	{
-		tmp_str[0] = ft_substr(input, *i, 2);
-		*i += 2;
-		tmp_str[1] = other_handler(input, i);
-		tmp_str[2] = NULL;
-		if (set_redirect(tmp_str, this_is_redirect) == 0)
-			return (tmp_str[0]);
+		tmp = other_handler(input, i);
+		redirect = ft_strjoin_gnl(redirect, tmp);
+		free(tmp);
+		if (set_redirect(redirect, this_is_redirect) == 0)
+			return (redirect);
 	}
 	if (*this_is_redirect == -1)
-		error_malloc(tmp_str[0], tmp_str[1], NULL);
+		error_malloc(redirect, NULL, NULL);
 	return (redirect_handler(input, i, this_is_redirect));
 }
 
 char	*redirect_handler(char const *input, int *i, int *this_is_redirect)
 {
-	char	**tmp_str;
+	char	*redirect;
+	char	*tmp;
 
-	tmp_str = malloc(sizeof(char *) * 3);
-	if (input[*i] == '<' && *this_is_redirect != -1)
+	if ((input[*i] == '<' && *this_is_redirect != -1) || \
+		(input[*i] == '>' && *this_is_redirect != -1))
 	{
-		tmp_str[0] = ft_substr(input, *i, 1);
+		redirect = ft_substr(input, *i, 1);
 		*i += 1;
-		tmp_str[1] = other_handler(input, i);
-		tmp_str[2] = NULL;
-		if (set_redirect(tmp_str, this_is_redirect) == 0)
-			return (tmp_str[0]);
-	}
-	else if (input[*i] == '>' && *this_is_redirect != -1)
-	{
-		tmp_str[0] = ft_substr(input, *i, 1);
-		*i += 1;
-		tmp_str[1] = other_handler(input, i);
-		tmp_str[2] = NULL;
-		if (set_redirect(tmp_str, this_is_redirect) == 0)
-			return (tmp_str[0]);
+		tmp = other_handler(input, i);
+		redirect = ft_strjoin_gnl(redirect, tmp);
+		free(tmp);
+		if (set_redirect(redirect, this_is_redirect) == 0)
+			return (redirect);
 	}
 	if (*this_is_redirect == -1)
-		error_malloc(tmp_str[0], tmp_str[1], NULL);
+		error_malloc(tmp, NULL, NULL);
 	return (NULL);
 }
 
-int	set_redirect(char **str, int *this_is_redirect)
+int	set_redirect(char *str, int *this_is_redirect)
 {
 	t_command	*tmp;
 	t_list		*new;
 
-	if (str[0] == NULL || str[1] == NULL)
+	if (str == NULL)
 	{
 		*this_is_redirect = -1;
 		return (-1);
-	}
-	if (!ft_strncmp(str[0], "<<", 3))
-	{
-
 	}
 	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;
 	new = ft_lstnew((void *)str);

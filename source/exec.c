@@ -58,8 +58,8 @@ void	executing(t_list *cmd)
 
 	str = NULL;
 	_cmd = set_command_struct(cmd);
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
+	g_shell.env = env_arr(g_shell.new_env, 0);
+	signal(SIGQUIT, SIG_DFL), signal(SIGINT, SIG_DFL);
 	if (builtins(_cmd))
 		exit(0);
 	path = correct_path(_cmd);
@@ -70,12 +70,6 @@ void	executing(t_list *cmd)
 			exit_error("Error malloc\n", -1);
 		exit_error(str, 127);
 	}
-	else
-	{
-		free (path);
-		path = NULL;
-	}
-	free_2d_arr(_cmd);
 }
 
 char	**free_2d_arr(char **arr)

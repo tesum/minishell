@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **env)
 			if (ft_lstsize(g_shell.cmd) > 1)
 				pipes(ft_lstsize(g_shell.cmd));
 			else
-			who_is_your_daddy();
+				who_is_your_daddy();
 			dup2(g_shell.fd_1, 1);
 			dup2(g_shell.fd_0, 0);
 			cleaning();

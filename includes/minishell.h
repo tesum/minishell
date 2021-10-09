@@ -76,7 +76,7 @@ int		pipe_handler(int *i);
 char	*double_redirect_handler(char const *input, int *i, \
 			int *this_is_redirect);
 char	*redirect_handler(char const *input, int *i, int *this_is_redirect);
-int		set_redirect(char **str, int *this_is_redirect);
+int		set_redirect(char *str, int *this_is_redirect);
 char	*clear_quotes(char *str);
 
 // exec
@@ -137,5 +137,6 @@ int		env_size(t_env *env);
 void	export_plus(t_env *env, char *key, char *value);
 void	logic_export(int *flags, int i, t_env *env, char *arg);
 void	clear_env(t_env **env);
+void	free_2d_arr_list(void *content);
 
 #endif

@@ -25,9 +25,7 @@ char	*dollar(char *input, int *i)
 	tmp = ft_strjoin_gnl(tmp, tmp2);
 	*i = ft_strlen(tmp) - 1;
 	tmp = ft_strjoin_gnl(tmp, tmp3);
-	free(input);
-	free(tmp2);
-	free(tmp3);
+	free(input), free(tmp2), free(tmp3);
 	return (tmp);
 }
 
