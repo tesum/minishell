@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_pipe_redirect.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/11 16:12:48 by caugusta          #+#    #+#             */
+/*   Updated: 2021/10/11 16:12:49 by caugusta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		pipe_handler(int *i)
+int	pipe_handler(int *i)
 {
-	t_command *new;
-	t_list *new_list;
-	*i += 1;
+	t_command	*new;
+	t_list		*new_list;
 
+	*i += 1;
 	new = command_new();
 	if (new == NULL)
 		return (-1);
@@ -19,7 +31,8 @@ int		pipe_handler(int *i)
 	return (0);
 }
 
-char	*double_redirect_handler(char const *input, int *i, int *this_is_redirect)
+char	*double_redirect_handler(char const *input, int *i, \
+	int *this_is_redirect)
 {
 	char	*redirect;
 	char	*tmp;
@@ -98,7 +111,7 @@ char	**limiter_handler(char **str)
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd < 0)
 		exit_error("File discriptor error", -1);
-	while(1)
+	while (1)
 	{
 		tmp = readline("heredoc> ");
 		if (!ft_strncmp(str[1], tmp, ft_strlen(str[1])))
@@ -106,9 +119,8 @@ char	**limiter_handler(char **str)
 		ft_putendl_fd(tmp, fd);
 		free(tmp);
 	}
-	close(fd);
+	close(fd), free(str[1]);
 	str[0][1] = '\0';
-	free(str[1]);
 	str[1] = name;
 	return (str);
 }

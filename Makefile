@@ -6,7 +6,7 @@
 #    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/10/04 23:39:05 by caugusta         ###   ########.fr        #
+#    Updated: 2021/10/11 16:07:00 by caugusta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,7 @@ SOURCE_DIR			=	source/
 SOURCE				=	main.c exec.c cmd_arr.c \
 						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c parser/post_modern_parser.c\
 						cmd/pwd.c cmd/echo.c cmd/cd.c  cmd/exit.c cmd/export.c cmd/env.c cmd/unset.c \
-						utils/array_utils.c utils/struct_command_utils.c utils/utils.c \
-						utils/array_utils.c utils/struct_command_utils.c \
+						utils/struct_command_utils.c utils/utils.c \
 						env/init_env.c env/export_utils.c \
 						pipex/pipes.c \
 						

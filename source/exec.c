@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/11 15:59:59 by caugusta          #+#    #+#             */
+/*   Updated: 2021/10/11 18:29:08 by caugusta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*correct_path(char **cmd)
@@ -77,6 +89,8 @@ char	**free_2d_arr(char **arr)
 	int	i;
 
 	i = 0;
+	if (arr == NULL)
+		return (NULL);
 	while (arr[i] != NULL)
 	{
 		free(arr[i]);

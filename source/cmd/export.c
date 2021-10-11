@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:20:44 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/04 23:02:19 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/11 17:30:17 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ static	int	check_arg(char *arg, t_env *env)
 	int		*flags;
 
 	i = 0;
+	if (!ft_isalpha(arg[i]) && arg[i] != '-')
+		return (0);
 	flags = malloc(sizeof(int) * 2);
 	flags[0] = 0;
 	flags[1] = 0;
-	if (!ft_isalpha(arg[i]) && arg[i] != '-')
-		return (0);
 	while (arg[++i])
 	{
 		if (arg[i] == '+' && arg[i + 1] == '=')
@@ -84,17 +84,16 @@ void	put_export(t_env *env)
 {
 	char	**exp;
 	int		i;
-	// char	*str;
 
 	exp = env_arr(env, 1);
 	exp = sort_export(exp);
 	i = 0;
 	while (exp[i])
 	{
-		// str = ft_strjoin_gnl(exp[i], "\n");
 		ft_putendl_fd(exp[i], STDOUT_FILENO);
 		i++;
 	}
+	free_2d_arr(exp);
 }
 
 void	ft_export(char **argv)

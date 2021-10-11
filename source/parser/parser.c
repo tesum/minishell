@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/11 16:54:36 by caugusta          #+#    #+#             */
+/*   Updated: 2021/10/11 18:20:34 by caugusta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	parser(char const *input)
@@ -57,6 +69,24 @@ int	set_arg(char *str, int *this_is_redirect)
 	return (0);
 }
 
+static char	*quote_helper(char *tmp_str2, int quote)
+{
+	int	j;
+
+	if (quote == 34)
+	{
+		j = 0;
+		while (tmp_str2 != NULL && tmp_str2[j])
+		{
+			if (tmp_str2 != NULL && tmp_str2[j] == '$')
+				tmp_str2 = dollar(tmp_str2, &j);
+			else
+				j++;
+		}
+	}
+	return (tmp_str2);
+}
+
 char	*quote_handler(char *input, int quote, int *i)
 {
 	int		j;
@@ -72,20 +102,11 @@ char	*quote_handler(char *input, int quote, int *i)
 		(*i)++;
 	tmp_str2 = ft_substr(input, j, *i - j);
 	tmp_str3 = ft_strdup(input + (*i + 1));
-	if (quote == 34)
-	{
-		j = 0;
-		while(tmp_str2 != NULL && tmp_str2[j])
-		{
-			if (tmp_str2 != NULL && tmp_str2[j] == '$')
-				tmp_str2 = dollar(tmp_str2, &j);
-			else
-				j++;
-		}
-	}
+	tmp_str2 = quote_helper(tmp_str2, quote);
 	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str2);
 	*i = ft_strlen(tmp_str);
 	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str3);
+	free(input);
 	free(tmp_str2);
 	free(tmp_str3);
 	return (tmp_str);
@@ -95,6 +116,7 @@ char	*other_handler(char const *input, int *i)
 {
 	int		j;
 	char	*tmp;
+	int		quote;
 
 	if (input[*i] == '\0')
 		return (ft_strdup(""));
@@ -106,7 +128,7 @@ char	*other_handler(char const *input, int *i)
 	{
 		if (input[*i] == '\'' || input[*i] == '\"')
 		{
-			int quote = input[*i];
+			quote = input[*i];
 			while (input[++(*i)] != quote)
 				;
 		}
@@ -114,25 +136,4 @@ char	*other_handler(char const *input, int *i)
 	}
 	tmp = ft_substr(input, j, *i - j);
 	return (tmp);
-}
-
-void	error_malloc(char *a, char *b, char *c)
-{
-	if (a != NULL)
-	{
-		free(a);
-		a = NULL;
-	}
-	if (b != NULL)
-	{
-		free(b);
-		b = NULL;
-	}
-	if (c != NULL)
-	{
-		free(c);
-		c = NULL;
-	}
-	g_shell.result = -1;
-	ft_putstr_fd("Error malloc", 2);
 }

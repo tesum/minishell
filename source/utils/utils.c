@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/05 01:40:32 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/11 18:00:48 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // parsing main
 int	parsing(void)
 {
-	char	*input = "env";
+	char	*input;
 
 	signal_handler();
 	input = readline("minishell$ ");
@@ -60,6 +60,11 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 		add_back_env(&env, new_env(arg, 1, 1));
 	else
 		add_back_env(&env, new_env(arg, 0, 1));
+	if (key)
+		free(key);
+	if (value)
+		free(value);
+	free(flags);
 }
 
 // utils env
@@ -70,13 +75,28 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 	tmp = find_list_env(env, find);
 	if (edit)
 		tmp->env = 1;
+	free(tmp->value);
 	tmp->value = edit;
 }
 
-void	free_2d_arr_list(void *content)
+void	error_malloc(char *a, char *b, char *c)
 {
-	char	**tmp;
-
-	tmp = (char **)content;
-	free_2d_arr(tmp);
+	if (a != NULL)
+	{
+		free(a);
+		a = NULL;
+	}
+	if (b != NULL)
+	{
+		free(b);
+		b = NULL;
+	}
+	if (c != NULL)
+	{
+		free(c);
+		c = NULL;
+	}
+	g_shell.result = -1;
+	ft_putstr_fd("Error malloc", 2);
 }
+

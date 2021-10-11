@@ -1,42 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   post_modern_parser.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/11 16:08:15 by caugusta          #+#    #+#             */
+/*   Updated: 2021/10/11 18:32:08 by caugusta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-// void	post_modern_parser(char *input, char **formated)
-// {
-// 	int	i;
-
-// 	i = 1;
-// 	while(formated[i])
-// 	{
-// 		if (formated[i - 1][0] == '>' && formated[i][0] == '|')
-// 		{
-// 			ft_putstr_fd("syntax error near unexpected token `|'", 2);
-// 			free(input);
-// 			input = NULL;
-// 			free_2d_arr(formated);
-// 			return ;
-// 		}
-// 		i++;
-// 	}
-// 	who_is_your_daddy(input, formated);
-// }
 
 void	who_is_your_daddy(void)
 {
 	pid_t	pid;
 	char	**cmd;
 
-		// g_shell.env = env_arr(g_shell.new_env, 0);
-		cmd = set_command_struct(g_shell.cmd);
-		if (cmd == NULL || builtins(cmd))
-			return ;
-		pid = fork();
-		if (pid == 0)
-			executing(g_shell.cmd);
-		else
-		{
-			waitpid(pid, &g_shell.result, 0);
-			g_shell.result /= 256;
-		}
+	cmd = set_command_struct(g_shell.cmd);
+	if (cmd == NULL || builtins(cmd))
+	{
+		if (cmd != NULL)
+			free_2d_arr(cmd);
+		return ;
+	}
+	if (cmd != NULL)
+		free_2d_arr(cmd);
+	pid = fork();
+	if (pid == 0)
+		executing(g_shell.cmd);
+	else
+	{
+		waitpid(pid, &g_shell.result, 0);
+		g_shell.result /= 256;
+	}
 }
 
 char	*get_pwd(void)
@@ -57,22 +54,23 @@ char	*get_pwd(void)
 void	redirect_create(t_command *redirect)
 {
 	t_list	*tmp;
+	char	*str;
 
 	tmp = redirect->redirect;
 	if (tmp)
 	{
 		while (tmp)
 		{
-			tmp->content = (void *)clear_quotes(((char *)tmp->content));
-			if (!ft_strncmp(((char *)tmp->content), ">>", 2))
-				g_shell.fd = open(((char *)tmp->content) + 2, \
+			str = (void *)clear_quotes(((char *)tmp->content));
+			if (!ft_strncmp(str, ">>", 2))
+				g_shell.fd = open(str + 2, \
 					O_WRONLY | O_CREAT | O_APPEND, 0666);
-			else if (!ft_strncmp(((char *)tmp->content), ">", 1))
-				g_shell.fd = open(((char *)tmp->content) + 1, \
-					O_WRONLY| O_CREAT | O_TRUNC, 0666);
-			else if (!ft_strncmp(((char *)tmp->content), "<", 1))
+			else if (!ft_strncmp(str, ">", 1))
+				g_shell.fd = open(str + 1, \
+					O_WRONLY | O_CREAT | O_TRUNC, 0666);
+			else if (!ft_strncmp(str, "<", 1))
 			{
-				g_shell.fd_r = open(((char *)tmp->content) + 1, O_RDONLY, 0666);
+				g_shell.fd_r = open(str + 1, O_RDONLY, 0666);
 				if (g_shell.fd_r < 0)
 					exit_error("Error back-redirect", 254);
 				dup2(g_shell.fd_r, 0);
@@ -86,11 +84,10 @@ void	redirect_create(t_command *redirect)
 			tmp = tmp->next;
 			dup2(g_shell.fd, 1);
 			close(g_shell.fd);
+			free(str);
 		}
 	}
 }
-
-
 
 char	**set_command_struct(t_list *pipe)
 {
@@ -119,11 +116,13 @@ char	**set_command_struct(t_list *pipe)
 	return (cmd);
 }
 
-char	*clear_quotes(char *str)
+char	*clear_quotes(char *input)
 {
-	int	i;
+	int		i;
+	char	*str;
 
 	i = 0;
+	str = ft_strdup(input);
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -158,11 +157,8 @@ char	**env_arr(t_env *new_env, int export)
 			str = ft_strjoin_gnl(str, new_env->value);
 			env[j] = str;
 		}
-		// printf("env[%d] = %s\n", j, env[j]);
 		j++;
 		new_env = new_env->next;
-			// free(str);
 	}
-	
 	return (env);
 }

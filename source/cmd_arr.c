@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_arr.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/11 15:59:22 by caugusta          #+#    #+#             */
+/*   Updated: 2021/10/11 18:48:01 by caugusta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	get_cmd_char(char *cmd)
 {
 	int		i;
-	static char	*cmds[8];
+	char	*cmds[8];
 
 	i = -1;
 	cmds[0] = "echo";
@@ -13,12 +25,11 @@ int	get_cmd_char(char *cmd)
 	cmds[4] = "unset";
 	cmds[5] = "env";
 	cmds[6] = "exit";
-	cmds[7] = "\0";
+	cmds[7] = NULL;
 	while (cmds[++i])
 	{
-		// if (ft_strnstr("echo", cmd, ft_strlen(cmd)) || ft_strnstr("cd", cmd, ft_strlen(cmd)))
-		// 	g_shell.arg = cmd[1];
-		if (ft_strnstr(cmds[i], cmd, ft_strlen(cmd)) && ft_strlen(cmds[i]) == ft_strlen(cmd))
+		if (ft_strnstr(cmds[i], cmd, ft_strlen(cmd)) && \
+			ft_strlen(cmds[i]) == ft_strlen(cmd))
 			return (i);
 	}
 	return (-1);
@@ -46,38 +57,34 @@ void	cmd_func(int cmd, char **cmd_ex)
 
 void	cleaning(void)
 {
-	ft_lstclear(&(((t_command *)g_shell.cmd->content)->argv), free);
-	ft_lstclear(&(((t_command *)g_shell.cmd->content)->redirect), free);
-	free(g_shell.cmd->content);
-	g_shell.cmd->content = NULL;
-	free(g_shell.cmd);
+	t_list	*tmp;
+
+	while (g_shell.cmd)
+	{
+		ft_lstclear(&(((t_command *)g_shell.cmd->content)->argv), free);
+		ft_lstclear(&(((t_command *)g_shell.cmd->content)->redirect), free);
+		tmp = g_shell.cmd->next;
+		ft_lstdelone(g_shell.cmd, free);
+		g_shell.cmd = tmp;
+	}
 	g_shell.cmd = NULL;
 	ft_lstadd_back(&g_shell.cmd, ft_lstnew((void *)command_new()));
 }
 
-// our command
 int	builtins(char **cmd)
 {
 	int	i;
 	int	j;
 
 	i = -1;
-	// while (cmd[++i])
 	if (cmd != NULL)
 	{
 		j = get_cmd_char(cmd[0]);
 		if (j != -1)
 		{
 			cmd_func(j, cmd);
-			// free(g_shell.cmd);
-			// close(g_shell.fd);
-			// close(1);
-			// dup(1);
-			// dup2(g_shell.fd_1, 1);
-			// cleaning();
 			return (1);
 		}
 	}
-	// cleaning();
 	return (0);
 }

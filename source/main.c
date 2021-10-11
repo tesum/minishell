@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
+/*   Updated: 2021/10/11 17:26:40 by caugusta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	main(int argc, char **argv, char **env)
 {
 	int	status;
 
-	// rl_outstream = STDERR_FILENO;
+	rl_outstream = stderr;
 	init_shell(argc, argv, env);
 	while (1)
 	{
@@ -22,44 +34,11 @@ int	main(int argc, char **argv, char **env)
 			dup2(g_shell.fd_1, 1);
 			dup2(g_shell.fd_0, 0);
 			cleaning();
-			// while(1);
 		}
 	}
 	ft_putstr_fd("exit\n", 1);
 	clear_env(&g_shell.new_env);
 	return (0);
-}
-
-void	print_t_list(void)
-{
-	t_list		*tmp;
-	t_command	*cmd;
-	char		**rdir;
-	int			i;
-
-	tmp = g_shell.cmd;
-	i = 0;
-	while (tmp)
-	{
-		cmd = (t_command *)tmp->content;
-		while (cmd->argv)
-		{
-			printf("argv[%d] = %s\n", i, (char *)cmd->argv->content);
-			i++;
-			cmd->argv = cmd->argv->next;
-		}
-		i = 0;
-		while (cmd->redirect)
-		{
-			rdir =	(char **)cmd->redirect->content;
-			printf("redirect[%d] = %s\n", i, rdir[0]);
-			printf("redirect[%d] = %s\n", i, rdir[1]);
-			i++;
-			cmd->redirect = cmd->redirect->next;
-		}
-		printf("PIPE\n");
-		tmp = tmp->next;
-	}
 }
 
 void	init_shell(int argc, char **argv, char **env)

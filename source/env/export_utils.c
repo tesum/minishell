@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/11 16:03:40 by caugusta          #+#    #+#             */
+/*   Updated: 2021/10/11 16:03:54 by caugusta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	export_plus(t_env *env, char *key, char *value)
@@ -11,7 +23,7 @@ void	export_plus(t_env *env, char *key, char *value)
 	tmp->exp = 1;
 }
 
-t_env	*find_list_env(t_env *env, char *str) //TODO: а если нет равно.
+t_env	*find_list_env(t_env *env, char *str)
 {
 	t_env	*tmp;
 
@@ -51,7 +63,7 @@ void	clear_env(t_env **env)
 	(*env) = NULL;
 }
 
-int		env_size(t_env *env)
+int	env_size(t_env *env)
 {
 	int	i;
 
