@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:59:34 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 11:05:57 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 13:08:50 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ t_env		*find_list_env(t_env *env, char *str);
 void		edit_shlvl(t_env *env);
 int			env_size(t_env *env);
 
-
 // exec
 void		executing(t_list *lst_cmd);
 int			builtins(char **cmd);
 
 // parser
+int			preparser(char const *input);
 void		parser(char const *input);
 char		*other_handler(char const *input, int *i);
 void		pipe_handler(int *i);
@@ -115,13 +115,5 @@ char		**free_2d_arr(char **arr);
 void		exit_error(char *str, int code);
 void		ctrl_c_(int signal);
 void		ctrl_c(int signal);
-
-
-//govno
-int	preparser(char const *input);
-int	check_second_quote(char quote, char const *input, int *i);
-int	check_begin(char const *input);
-int	check_invalid(char const *input);
-
 
 #endif
