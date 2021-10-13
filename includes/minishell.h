@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:59:34 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 06:19:30 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:42:40 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_shell
 	int		fd_1;
 	int		fd_0;
 	int		result;
-	int		error_malloc;
+	int		signal;
 }				t_shell;
 
 typedef struct s_pipex
@@ -72,19 +72,17 @@ int			check_invalid(char const *input);
 // PARSER
 void		parser(char const *input);
 int			set_arg(char *str, int *this_is_redirect);
-char		*quote_handler(char *input, int quote, int *i);
 char		*other_handler(char const *input, int *i);
-void		error_malloc(char *a, char *b, char *c);
 char		*dollar(char *input, int *i);
 char		*find_env(char *str);
 char		*replace_variable(char *str, char *str_replace, \
 				int *start, int end);
 char		*replace_str(char *input, char *str_replace, int *start, int end);
-int			pipe_handler(int *i);
+void		pipe_handler(int *i);
 char		*double_redirect_handler(char const *input, int *i, \
 				int *this_is_redirect);
 char		*redirect_handler(char const *input, int *i, int *this_is_redirect);
-int			set_redirect(char *str, int *this_is_redirect);
+int			set_redirect(char *str);
 char		*clear_quotes(char *str);
 char		*limiter_handler(char *rd, char *limiter);
 
@@ -96,8 +94,8 @@ char		**free_2d_arr(char **arr);
 void		exit_error(char *str, int code);
 
 //signal
-void		signal_handler(void);
 void		ctrl_c(int signal);
+void		ctrl_c_(int signal);
 
 // builtins
 int			builtins(char **cmd);
@@ -137,5 +135,7 @@ int			env_size(t_env *env);
 void		export_plus(t_env *env, char *key, char *value);
 void		logic_export(int *flags, int i, t_env *env, char *arg);
 void		clear_env(t_env **env);
+
+void		try_free(void *target);
 
 #endif

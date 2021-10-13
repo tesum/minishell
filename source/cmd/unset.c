@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:52:26 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 20:52:27 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/13 10:06:19 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	del_env_line(t_env *env, char *key)
 		tmp = tmp->next;
 	}
 	tmp->next = tmp_del->next;
-	free(tmp_del->key);
-	free(tmp_del->value);
+	try_free(tmp_del->key);
+	try_free(tmp_del->value);
 	tmp_del->next = NULL;
-	free(tmp_del);
+	try_free(tmp_del);
 	tmp_del = NULL;
 }
 

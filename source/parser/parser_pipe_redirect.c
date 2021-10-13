@@ -6,29 +6,21 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:12:48 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 05:04:53 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:28:04 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pipe_handler(int *i)
+void	pipe_handler(int *i)
 {
-	t_command	*new;
 	t_list		*new_list;
 
 	*i += 1;
-	new = command_new();
-	if (new == NULL)
-		return (-1);
-	new_list = ft_lstnew((void *)new);
+	new_list = ft_lstnew((void *)command_new());
 	if (new_list == NULL)
-	{
-		free(new);
-		return (-1);
-	}
+		exit_error("Malloc error", -1);
 	ft_lstadd_back(&g_shell.cmd, (void *)new_list);
-	return (0);
 }
 
 char	*double_redirect_handler(char const *input, int *i, \
@@ -44,18 +36,18 @@ char	*double_redirect_handler(char const *input, int *i, \
 		redirect = ft_substr(input, *i, 2);
 		*i += 2;
 		tmp = other_handler(input, i);
-		if (!ft_strncmp(redirect, "<<", 2))
+		if (redirect != NULL && tmp != NULL && !ft_strncmp(redirect, "<<", 2))
 			redirect = limiter_handler(redirect, tmp);
 		else
 		{
 			redirect = ft_strjoin_gnl(redirect, tmp);
-			free(tmp);
+			try_free(tmp);
 		}
-		if (set_redirect(redirect, this_is_redirect) == 0)
+		if (set_redirect(redirect) == 0)
 			return (redirect);
 	}
 	if (*this_is_redirect == -1)
-		error_malloc(redirect, NULL, NULL);
+		exit_error("Malloc error", -1);
 	return (redirect_handler(input, i, this_is_redirect));
 }
 
@@ -71,60 +63,31 @@ char	*redirect_handler(char const *input, int *i, int *this_is_redirect)
 		*i += 1;
 		tmp = other_handler(input, i);
 		redirect = ft_strjoin_gnl(redirect, tmp);
-		free(tmp);
-		if (set_redirect(redirect, this_is_redirect) == 0)
+		try_free(tmp);
+		if (set_redirect(redirect) == 0)
 			return (redirect);
 	}
 	if (*this_is_redirect == -1)
-		error_malloc(tmp, NULL, NULL);
+		exit_error("Malloc error", -1);
 	return (NULL);
 }
 
-int	set_redirect(char *str, int *this_is_redirect)
+int	set_redirect(char *str)
 {
 	t_command	*tmp;
 	t_list		*new;
 
-	if (str == NULL)
+	if (g_shell.signal != 0)
 	{
-		*this_is_redirect = -1;
-		return (-1);
+		try_free(str);
+		return (0);
 	}
+	if (str == NULL)
+		exit_error("Malloc error\n", -1);
 	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;
 	new = ft_lstnew((void *)str);
 	if (new == NULL)
-	{
-		*this_is_redirect = -1;
-		return (-1);
-	}
+		exit_error("Malloc error\n", -1);
 	ft_lstadd_back(&tmp->redirect, new);
 	return (0);
-}
-
-char	*limiter_handler(char *rd, char *limiter)
-{
-	int		pip[2];
-	pid_t	pid;
-	char	*input;
-
-	free(rd), pipe(pip);
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL), close (pip[0]);
-		while (1)
-		{
-			input = readline("> ");
-			if (!input || !ft_strncmp(input, limiter, ft_strlen(limiter)))
-				free(input), exit(0);
-			ft_putendl_fd(input, pip[1]);
-		}
-	}
-	else
-		waitpid(pid, &g_shell.result, 0);
-	g_shell.result /= 256;
-	if (g_shell.result != 0)
-		g_shell.error_malloc = 1;
-	free(limiter), close(pip[1]);
-	return (ft_itoa(pip[0]));
 }

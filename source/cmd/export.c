@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:20:44 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/11 17:30:17 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:08:20 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,11 @@ char	**sort_export(char **exp)
 static	int	check_arg(char *arg, t_env *env)
 {
 	int		i;
-	int		*flags;
+	int		flags[2];
 
 	i = 0;
 	if (!ft_isalpha(arg[i]) && arg[i] != '-')
 		return (0);
-	flags = malloc(sizeof(int) * 2);
 	flags[0] = 0;
 	flags[1] = 0;
 	while (arg[++i])

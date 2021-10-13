@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:36 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/12 20:40:18 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:41:39 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,15 @@ void	parser(char const *input)
 			tmp = double_redirect_handler(input, &i, &this_is_redirect);
 		else if (input[i] == '|')
 		{
-			if (pipe_handler(&i) == -1)
-				return ;
+			pipe_handler(&i);
 			continue ;
 		}
 		else
 			tmp = other_handler(input, &i);
-		if (set_arg(tmp, &this_is_redirect) == -1 && tmp != NULL)
-			free(tmp);
-		if (g_shell.error_malloc == 1)
+		if (g_shell.signal != 0)
 			return ;
+		if (set_arg(tmp, &this_is_redirect) == -1)
+			try_free(tmp);
 	}
 }
 
@@ -47,10 +46,7 @@ int	set_arg(char *str, int *this_is_redirect)
 	t_list		*new;
 
 	if (str == NULL)
-	{
-		g_shell.error_malloc = 1;
-		return (-1);
-	}
+		exit_error("Malloc error", -1);
 	if (*this_is_redirect == 1)
 	{
 		*this_is_redirect = 0;
@@ -61,61 +57,14 @@ int	set_arg(char *str, int *this_is_redirect)
 	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;
 	new = ft_lstnew((void *)str);
 	if (new == NULL)
-	{
-		g_shell.error_malloc = 1;
-		return (-1);
-	}
+		exit_error("Malloc error", -1);
 	ft_lstadd_back(&tmp->argv, new);
 	return (0);
-}
-
-static char	*quote_helper(char *tmp_str2, int quote)
-{
-	int	j;
-
-	if (quote == 34)
-	{
-		j = 0;
-		while (tmp_str2 != NULL && tmp_str2[j])
-		{
-			if (tmp_str2 != NULL && tmp_str2[j] == '$')
-				tmp_str2 = dollar(tmp_str2, &j);
-			else
-				j++;
-		}
-	}
-	return (tmp_str2);
-}
-
-char	*quote_handler(char *input, int quote, int *i)
-{
-	int		j;
-	char	*tmp_str;
-	char	*tmp_str2;
-	char	*tmp_str3;
-
-	input[*i] = '\0';
-	j = ++(*i);
-	tmp_str = ft_strdup(input);
-	input[*i - 1] = quote;
-	while (input[*i] != quote && input[*i] != '\0')
-		(*i)++;
-	tmp_str2 = ft_substr(input, j, *i - j);
-	tmp_str3 = ft_strdup(input + (*i + 1));
-	tmp_str2 = quote_helper(tmp_str2, quote);
-	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str2);
-	*i = ft_strlen(tmp_str);
-	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str3);
-	free(input);
-	free(tmp_str2);
-	free(tmp_str3);
-	return (tmp_str);
 }
 
 char	*other_handler(char const *input, int *i)
 {
 	int		j;
-	char	*tmp;
 	int		quote;
 
 	if (input[*i] == '\0')
@@ -134,6 +83,5 @@ char	*other_handler(char const *input, int *i)
 		}
 		(*i)++;
 	}
-	tmp = ft_substr(input, j, *i - j);
-	return (tmp);
+	return (ft_substr(input, j, *i - j));
 }

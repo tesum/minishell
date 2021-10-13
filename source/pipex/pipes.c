@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:05:23 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/13 06:47:53 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:09:43 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,5 @@ void	pipes(int argc)
 		g_shell.result /= 256;
 		pipex.iter++;
 	}
-	free(pid);
+	try_free(pid);
 }

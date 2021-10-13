@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:03:40 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 07:09:35 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:05:22 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	edit_shlvl(t_env *env)
 	tmp = find_list_env(env, "SHLVL");
 	num = atoi(tmp->value);
 	num += 1;
-	free(tmp->value);
+	try_free(tmp->value);
 	tmp->value = ft_itoa(num);
 }
 
@@ -56,10 +56,10 @@ void	clear_env(t_env **env)
 {
 	if ((*env)->next)
 		clear_env(&(*env)->next);
-	free((*env)->key);
-	free((*env)->value);
+	try_free((*env)->key);
+	try_free((*env)->value);
 	(*env)->next = NULL;
-	free((*env));
+	try_free((*env));
 	(*env) = NULL;
 }
 

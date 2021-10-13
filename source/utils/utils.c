@@ -6,36 +6,11 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/13 06:43:48 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:10:29 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// parsing main
-int	parsing(void)
-{
-	char	*input;
-
-	signal_handler();
-	input = readline("minishell$ ");
-	if (!input)
-		return (-1);
-	if (ft_strlen(input) == 0)
-	{
-		g_shell.result = 0;
-		free(input);
-		input = NULL;
-		return (1);
-	}
-	add_history(input);
-	if (preparser(input) != -1)
-		parser(input);
-	else
-		return (1);
-	free(input);
-	return (0);
-}
 
 // utils for export
 void	logic_export(int *flags, int i, t_env *env, char *arg)
@@ -61,10 +36,9 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 	else
 		add_back_env(&env, new_env(arg, 0, 1));
 	if (key)
-		free(key);
+		try_free(key);
 	if (value)
-		free(value);
-	free(flags);
+		try_free(value);
 }
 
 // utils env
@@ -79,28 +53,6 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 	tmp->value = edit;
 }
 
-void	error_malloc(char *a, char *b, char *c)
-{
-	if (a != NULL)
-	{
-		free(a);
-		a = NULL;
-	}
-	if (b != NULL)
-	{
-		free(b);
-		b = NULL;
-	}
-	if (c != NULL)
-	{
-		free(c);
-		c = NULL;
-	}
-	g_shell.result = -1;
-	ft_putstr_fd("Error malloc", 2);
-}
-
-// LEAKS!!
 char	**env_arr(t_env *new_env, int export)
 {
 	char	**env;
@@ -126,4 +78,21 @@ char	**env_arr(t_env *new_env, int export)
 		new_env = new_env->next;
 	}
 	return (env);
+}
+
+void	try_free(void *target)
+{
+	if (target == NULL)
+		return ;
+	free(target);
+	target = NULL;
+}
+
+void	ctrl_c_(int signal)
+{
+	(void)signal;
+	ft_putchar_fd('\r', 2);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	exit(130);
 }

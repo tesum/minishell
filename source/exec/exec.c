@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:59:59 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 06:49:04 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 09:47:30 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	executing(t_list *lst_cmd)
 	char	*path;
 	char	**cmd;
 
-	signal(SIGQUIT, SIG_DFL), signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL), signal(SIGINT, ctrl_c_);
 	str = NULL;
 	cmd = set_command_struct(lst_cmd);
 	if (cmd == NULL || builtins(cmd))
