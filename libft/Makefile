@@ -15,10 +15,6 @@ SRC =		ft_atoi.c		ft_isalpha.c		ft_itoa.c\
 			ft_lstnew.c		ft_lstadd_front.c	ft_lstsize.c\
 			ft_lstlast.c	ft_lstadd_back.c	ft_lstdelone.c\
 			ft_lstclear.c	ft_lstiter.c		ft_lstmap.c\
-			ft_printf/ft_printf.c		ft_printf/parsing.c			ft_printf/proc_char.c\
-			ft_printf/proc_hex.c		ft_printf/proc_int.c		ft_printf/proc_percent.c\
-			ft_printf/proc_pointer.c	ft_printf/proc_string.c		ft_printf/proc_uint.c\
-			ft_printf/ft_utils.c		ft_printf/print.c			gnl/get_next_line.c
 
 OBJ_DIR		= object/
 OBJ_DIRS	= $(sort $(dir $(OBJ)))

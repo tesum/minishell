@@ -6,11 +6,12 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:59:22 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/11 18:48:01 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 07:09:20 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+// #include "../includes/minishell.h"
 
 int	get_cmd_char(char *cmd)
 {
@@ -37,7 +38,7 @@ int	get_cmd_char(char *cmd)
 
 void	cmd_func(int cmd, char **cmd_ex)
 {
-	void	(*cmds[7])(char **cmd);
+	void	(*cmds[8])(char **cmd);
 	int		i;
 
 	cmds[0] = ft_echo;
@@ -47,6 +48,7 @@ void	cmd_func(int cmd, char **cmd_ex)
 	cmds[4] = ft_unset;
 	cmds[5] = ft_env;
 	cmds[6] = ft_exit;
+	cmds[7] = NULL;
 	i = -1;
 	while (cmds[++i])
 	{
@@ -83,6 +85,7 @@ int	builtins(char **cmd)
 		if (j != -1)
 		{
 			cmd_func(j, cmd);
+			g_shell.result = 0;
 			return (1);
 		}
 	}

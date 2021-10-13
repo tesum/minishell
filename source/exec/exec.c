@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:59:59 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/11 18:29:08 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 06:49:04 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,21 @@ char	**find_path(void)
 	return (path);
 }
 
-void	executing(t_list *cmd)
+void	executing(t_list *lst_cmd)
 {
 	char	*str;
 	char	*path;
-	char	**_cmd;
+	char	**cmd;
 
-	str = NULL;
-	_cmd = set_command_struct(cmd);
-	g_shell.env = env_arr(g_shell.new_env, 0);
 	signal(SIGQUIT, SIG_DFL), signal(SIGINT, SIG_DFL);
-	if (builtins(_cmd))
-		exit(0);
-	path = correct_path(_cmd);
-	if (execve(path, _cmd, g_shell.env) == -1)
+	str = NULL;
+	cmd = set_command_struct(lst_cmd);
+	if (cmd == NULL || builtins(cmd))
+		exit(g_shell.result);
+	path = correct_path(cmd);
+	if (execve(path, cmd, g_shell.env) == -1)
 	{
-		str = ft_strjoin_gnl(_cmd[0], ": command not found\n");
+		str = ft_strjoin_gnl(cmd[0], ": command not found\n");
 		if (str == NULL)
 			exit_error("Error malloc\n", -1);
 		exit_error(str, 127);

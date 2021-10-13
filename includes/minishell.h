@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:59:34 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/11 18:12:51 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 06:19:30 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_command
 {
 	t_list	*argv;
 	t_list	*redirect;
-	int		complete;
 }				t_command;
 
 typedef struct s_env
@@ -44,24 +43,21 @@ typedef struct s_shell
 {
 	char	**env;
 	t_env	*new_env;
-	char	*pwd;
 	pid_t	*pid;
-	int		fd;
-	int		fd_r;
+	t_list	*cmd;
 	int		fd_1;
 	int		fd_0;
 	int		result;
 	int		error_malloc;
-	t_list	*cmd;
 }				t_shell;
 
 typedef struct s_pipex
 {
+	char	**path;
 	t_list	*cmd;
 	int		c_pipe;
 	int		iter;
 	int		flag;
-	char	**path;
 }			t_pipex;
 
 t_shell	g_shell;
@@ -90,6 +86,7 @@ char		*double_redirect_handler(char const *input, int *i, \
 char		*redirect_handler(char const *input, int *i, int *this_is_redirect);
 int			set_redirect(char *str, int *this_is_redirect);
 char		*clear_quotes(char *str);
+char		*limiter_handler(char *rd, char *limiter);
 
 // exec
 char		*correct_path(char **cmd);
@@ -118,7 +115,6 @@ void		print_t_list(void);
 
 void		who_is_your_daddy(void);
 char		**set_command_struct(t_list *pipe);
-char		*get_pwd(void);
 
 void		pipes(int argc);
 void		create_pipes(t_pipex *pipex, int count);

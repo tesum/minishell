@@ -6,7 +6,7 @@
 #    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/10/11 16:07:00 by caugusta         ###   ########.fr        #
+#    Updated: 2021/10/13 06:36:00 by caugusta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,17 @@ INCFLAGS			=	-I ./includes/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include
 
 READLINEFLAGS		=	-L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -ltermcap
 
+CMD					=	cd.c echo.c env.c exit.c export.c pwd.c unset.c
+ENV					=	export_utils.c init_env.c
+EXEC				=	cmd_arr.c exec.c
+PARSER				=	parser.c parser_dollar.c parser_pipe_redirect.c post_modern_parser.c preparser.c
+PIPEX				=	pipes.c
+UTILS				=	struct_command_utils.c utils.c
 SOURCE_DIR			=	source/
-SOURCE				=	main.c exec.c cmd_arr.c \
-						parser/preparser.c parser/parser.c parser/parser_dollar.c parser/parser_pipe_redirect.c parser/post_modern_parser.c\
-						cmd/pwd.c cmd/echo.c cmd/cd.c  cmd/exit.c cmd/export.c cmd/env.c cmd/unset.c \
-						utils/struct_command_utils.c utils/utils.c \
-						env/init_env.c env/export_utils.c \
-						pipex/pipes.c \
-						
+SOURCE				=	main.c $(addprefix cmd/, $(CMD)) $(addprefix env/, $(ENV)) \
+						$(addprefix exec/, $(EXEC)) $(addprefix parser/, $(PARSER)) \
+						$(addprefix pipex/, $(PIPEX)) $(addprefix utils/, $(UTILS))
+
 OBJ_DIR				=	object/
 OBJ_DIRS			=	$(sort $(dir $(OBJ)))
 
@@ -85,6 +88,8 @@ fclean : clean
 	@echo FCLEAN COMPLETE
 
 re : fclean all
+debug:
+	gcc -g ./libft/*.c $(addprefix $(SOURCE_DIR), $(SOURCE)) -I./includes -I/Users/$(USER)/.brew/Cellar/readline/8.1/include -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline 
 
 run :
 	./${NAME}

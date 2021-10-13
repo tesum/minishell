@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/11 17:26:40 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 06:46:00 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ void	init_shell(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	g_shell.env = env;
+	g_shell.env = NULL;
 	g_shell.new_env = init_env(env);
 	edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
 	g_shell.error_malloc = 0;
-	g_shell.pwd = get_pwd();
 	g_shell.fd_1 = dup(1);
 	g_shell.fd_0 = dup(0);
 	new = command_new();

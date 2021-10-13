@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/11 18:00:48 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 06:43:48 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,3 +100,30 @@ void	error_malloc(char *a, char *b, char *c)
 	ft_putstr_fd("Error malloc", 2);
 }
 
+// LEAKS!!
+char	**env_arr(t_env *new_env, int export)
+{
+	char	**env;
+	char	*str;
+	int		i;
+	int		j;
+
+	i = env_size(new_env);
+	env = malloc(sizeof(char *) * (i + 1));
+	j = 0;
+	env[i] = NULL;
+	while (j < i)
+	{
+		if ((export && new_env->exp) || !export)
+		{
+			str = ft_strdup("");
+			str = ft_strjoin_gnl(str, new_env->key);
+			str = ft_strjoin_gnl(str, "=");
+			str = ft_strjoin_gnl(str, new_env->value);
+			env[j] = str;
+		}
+		j++;
+		new_env = new_env->next;
+	}
+	return (env);
+}

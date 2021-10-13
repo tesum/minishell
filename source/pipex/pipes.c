@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:05:23 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/03 01:05:42 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/13 06:47:53 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,9 @@ void	pipes(int argc)
 	pipex.iter = 0;
 	while (pipex.iter < pipex.c_pipe)
 	{
-		waitpid(-1, 0, 0);
+		waitpid(pid[pipex.iter], &g_shell.result, 0);
+		g_shell.result /= 256;
 		pipex.iter++;
 	}
+	free(pid);
 }

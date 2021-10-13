@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:12:48 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/11 16:12:49 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 05:04:53 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,13 @@ char	*double_redirect_handler(char const *input, int *i, \
 		redirect = ft_substr(input, *i, 2);
 		*i += 2;
 		tmp = other_handler(input, i);
-		redirect = ft_strjoin_gnl(redirect, tmp);
-		free(tmp);
+		if (!ft_strncmp(redirect, "<<", 2))
+			redirect = limiter_handler(redirect, tmp);
+		else
+		{
+			redirect = ft_strjoin_gnl(redirect, tmp);
+			free(tmp);
+		}
 		if (set_redirect(redirect, this_is_redirect) == 0)
 			return (redirect);
 	}
@@ -96,31 +101,30 @@ int	set_redirect(char *str, int *this_is_redirect)
 	return (0);
 }
 
-char	**limiter_handler(char **str)
+char	*limiter_handler(char *rd, char *limiter)
 {
-	char		*tmp;
-	char		*name;
-	int static	i = 0;
-	int			fd;
+	int		pip[2];
+	pid_t	pid;
+	char	*input;
 
-	name = ft_itoa(i);
-	i++;
-	tmp = ft_strjoin(".tmp/", name);
-	free(name);
-	name = tmp;
-	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (fd < 0)
-		exit_error("File discriptor error", -1);
-	while (1)
+	free(rd), pipe(pip);
+	pid = fork();
+	if (pid == 0)
 	{
-		tmp = readline("heredoc> ");
-		if (!ft_strncmp(str[1], tmp, ft_strlen(str[1])))
-			break ;
-		ft_putendl_fd(tmp, fd);
-		free(tmp);
+		signal(SIGINT, SIG_DFL), close (pip[0]);
+		while (1)
+		{
+			input = readline("> ");
+			if (!input || !ft_strncmp(input, limiter, ft_strlen(limiter)))
+				free(input), exit(0);
+			ft_putendl_fd(input, pip[1]);
+		}
 	}
-	close(fd), free(str[1]);
-	str[0][1] = '\0';
-	str[1] = name;
-	return (str);
+	else
+		waitpid(pid, &g_shell.result, 0);
+	g_shell.result /= 256;
+	if (g_shell.result != 0)
+		g_shell.error_malloc = 1;
+	free(limiter), close(pip[1]);
+	return (ft_itoa(pip[0]));
 }
