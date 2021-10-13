@@ -6,13 +6,13 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:05:23 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/13 10:09:43 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:38:54 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child(int flag, t_pipex *pipex, int *a, int *b)
+static void	child(int flag, t_pipex *pipex, int *a, int *b)
 {
 	if (!flag && pipex->iter == 0)
 	{
@@ -35,7 +35,7 @@ void	child(int flag, t_pipex *pipex, int *a, int *b)
 	}
 }
 
-void	parent(int flag, t_list *cmd, int *a, int *b)
+static void	parent(int flag, t_list *cmd, int *a, int *b)
 {
 	if (!flag && !cmd->next)
 	{
@@ -60,7 +60,7 @@ void	parent(int flag, t_list *cmd, int *a, int *b)
 	}
 }
 
-void	procces_pipe(t_pipex *pipex, int *a, int *b, pid_t *pid)
+static void	procces_pipe(t_pipex *pipex, int *a, int *b, pid_t *pid)
 {
 	pid[pipex->iter] = fork();
 	if (!pid[pipex->iter])
@@ -87,7 +87,7 @@ void	procces_pipe(t_pipex *pipex, int *a, int *b, pid_t *pid)
 	}
 }
 
-void	if_have_next(t_pipex *pipex, int *a, int *b)
+static void	if_have_next(t_pipex *pipex, int *a, int *b)
 {
 	if (pipex->cmd->next)
 	{

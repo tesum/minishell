@@ -6,11 +6,13 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:36 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 09:41:39 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:44:41 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	set_arg(char *str, int *this_is_redirect);
 
 void	parser(char const *input)
 {
@@ -40,7 +42,7 @@ void	parser(char const *input)
 	}
 }
 
-int	set_arg(char *str, int *this_is_redirect)
+static int	set_arg(char *str, int *this_is_redirect)
 {
 	t_command	*tmp;
 	t_list		*new;

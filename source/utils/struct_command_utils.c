@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:04:57 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 09:45:19 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 12:24:31 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ static int	redirect_create(t_list *tmp)
 				free(str);
 				return (-1);
 			}
-			dup2(fd[1], 1), dup2(fd[0], 0), close(fd[0]), close(fd[1]);
 			free(str);
 			tmp = tmp->next;
 		}
+		dup2(fd[1], 1), dup2(fd[0], 0), close(fd[0]), close(fd[1]);
 	}
 	return (0);
 }

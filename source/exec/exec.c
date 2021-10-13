@@ -6,13 +6,34 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:59:59 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 09:47:30 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:52:14 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*correct_path(char **cmd)
+static char	**find_path(void)
+{
+	int		i;
+	char	**path;
+
+	i = 0;
+	path = NULL;
+	while (g_shell.env[i])
+	{
+		if (ft_strncmp("PATH=", g_shell.env[i], 5) == 0)
+		{
+			path = ft_split(g_shell.env[i] + 5, ':');
+			break ;
+		}
+		i++;
+	}
+	if (path == NULL)
+		exit_error("Error malloc\n", -1);
+	return (path);
+}
+
+static char	*correct_path(char **cmd)
 {
 	int		i;
 	char	**path;
@@ -41,27 +62,6 @@ char	*correct_path(char **cmd)
 	return (NULL);
 }
 
-char	**find_path(void)
-{
-	int		i;
-	char	**path;
-
-	i = 0;
-	path = NULL;
-	while (g_shell.env[i])
-	{
-		if (ft_strncmp("PATH=", g_shell.env[i], 5) == 0)
-		{
-			path = ft_split(g_shell.env[i] + 5, ':');
-			break ;
-		}
-		i++;
-	}
-	if (path == NULL)
-		exit_error("Error malloc\n", -1);
-	return (path);
-}
-
 void	executing(t_list *lst_cmd)
 {
 	char	*str;
@@ -81,28 +81,4 @@ void	executing(t_list *lst_cmd)
 			exit_error("Error malloc\n", -1);
 		exit_error(str, 127);
 	}
-}
-
-char	**free_2d_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (arr == NULL)
-		return (NULL);
-	while (arr[i] != NULL)
-	{
-		free(arr[i]);
-		arr[i] = NULL;
-		i++;
-	}
-	free(arr);
-	arr = NULL;
-	return (arr);
-}
-
-void	exit_error(char *str, int code)
-{
-	ft_putstr_fd(str, 2);
-	exit (code);
 }

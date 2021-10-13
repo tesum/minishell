@@ -6,11 +6,14 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:12:48 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 09:28:04 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:47:18 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*redirect_handler(char const *input, int *i, int *this_is_redirect);
+static int	set_redirect(char *str);
 
 void	pipe_handler(int *i)
 {
@@ -51,7 +54,7 @@ char	*double_redirect_handler(char const *input, int *i, \
 	return (redirect_handler(input, i, this_is_redirect));
 }
 
-char	*redirect_handler(char const *input, int *i, int *this_is_redirect)
+static char	*redirect_handler(char const *input, int *i, int *this_is_redirect)
 {
 	char	*redirect;
 	char	*tmp;
@@ -72,7 +75,7 @@ char	*redirect_handler(char const *input, int *i, int *this_is_redirect)
 	return (NULL);
 }
 
-int	set_redirect(char *str)
+static int	set_redirect(char *str)
 {
 	t_command	*tmp;
 	t_list		*new;

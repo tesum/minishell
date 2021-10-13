@@ -6,11 +6,23 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:55:02 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/11 16:55:03 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:56:30 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	set_new_env(t_env *new, char *str, int i, int j)
+{
+	if (j != 0)
+		new->value = ft_substr(str, j, i);
+	else
+	{
+		new->key = ft_substr(str, 0, i);
+		new->value = ft_strdup("");
+	}
+	new->next = NULL;
+}
 
 t_env	*init_env(char **env)
 {
@@ -24,7 +36,7 @@ t_env	*init_env(char **env)
 	{
 		str = ft_strdup(env[i]);
 		if (str == NULL)
-			exit_malloc_error();
+			exit_error("Malloc error\n", -1);
 		envs = new_env(str, 1, 1);
 		free(str);
 	}
@@ -32,24 +44,12 @@ t_env	*init_env(char **env)
 	{
 		str = ft_strdup(env[i]);
 		if (str == NULL)
-			exit_malloc_error();
+			exit_error("Malloc error\n", -1);
 		new = new_env(str, 1, 1);
 		add_back_env(&envs, new);
 		free(str);
 	}
 	return (envs);
-}
-
-void	set_new_env(t_env *new, char *str, int i, int j)
-{
-	if (j != 0)
-		new->value = ft_substr(str, j, i);
-	else
-	{
-		new->key = ft_substr(str, 0, i);
-		new->value = ft_strdup("");
-	}
-	new->next = NULL;
 }
 
 t_env	*new_env(char *str, int env, int exp)
@@ -90,10 +90,4 @@ void	add_back_env(t_env **env, t_env *new)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-}
-
-void	exit_malloc_error(void)
-{
-	ft_putstr_fd("Error malloc", 2);
-	exit (-1);
 }

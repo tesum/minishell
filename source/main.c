@@ -6,11 +6,14 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 09:35:43 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 12:26:13 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	parsing(void);
+static void	init_shell(int argc, char **argv, char **env);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -41,7 +44,7 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-int	parsing(void)
+static int	parsing(void)
 {
 	char	*input;
 
@@ -65,7 +68,7 @@ int	parsing(void)
 	return (0);
 }
 
-void	init_shell(int argc, char **argv, char **env)
+static void	init_shell(int argc, char **argv, char **env)
 {
 	t_command	*new;
 	t_list		*new_list;
@@ -76,13 +79,12 @@ void	init_shell(int argc, char **argv, char **env)
 	g_shell.new_env = init_env(env);
 	edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
-	// g_shell.error_malloc = 0;
 	g_shell.fd_1 = dup(1);
 	g_shell.fd_0 = dup(0);
 	new = command_new();
 	new_list = ft_lstnew((void *)new);
 	if (new_list == NULL)
-		free(new);
+		exit_error("Error malloc\n", -1);
 	ft_lstadd_back(&g_shell.cmd, (void *)new_list);
 }
 

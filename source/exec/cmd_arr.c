@@ -6,14 +6,13 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:59:22 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 07:09:20 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:53:21 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include "../includes/minishell.h"
 
-int	get_cmd_char(char *cmd)
+static int	get_cmd_char(char *cmd)
 {
 	int		i;
 	char	*cmds[8];
@@ -36,7 +35,7 @@ int	get_cmd_char(char *cmd)
 	return (-1);
 }
 
-void	cmd_func(int cmd, char **cmd_ex)
+static void	cmd_func(int cmd, char **cmd_ex)
 {
 	void	(*cmds[8])(char **cmd);
 	int		i;
@@ -55,22 +54,6 @@ void	cmd_func(int cmd, char **cmd_ex)
 		if (i == cmd)
 			cmds[i](cmd_ex);
 	}
-}
-
-void	cleaning(void)
-{
-	t_list	*tmp;
-
-	while (g_shell.cmd)
-	{
-		ft_lstclear(&(((t_command *)g_shell.cmd->content)->argv), free);
-		ft_lstclear(&(((t_command *)g_shell.cmd->content)->redirect), free);
-		tmp = g_shell.cmd->next;
-		ft_lstdelone(g_shell.cmd, free);
-		g_shell.cmd = tmp;
-	}
-	g_shell.cmd = NULL;
-	ft_lstadd_back(&g_shell.cmd, ft_lstnew((void *)command_new()));
 }
 
 int	builtins(char **cmd)

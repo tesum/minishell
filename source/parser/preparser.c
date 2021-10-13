@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 07:11:59 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 07:12:00 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 11:55:37 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	check_begin(char const *input)
 		ft_putstr_fd("syntax error near unexpected token `;'\n", 2);
 		return (-1);
 	}
-	check_invalid(input);
-	return (0);
+	i = check_invalid(input);
+	return (i);
 }
 
 int	check_invalid(char const *input)

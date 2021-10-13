@@ -6,11 +6,13 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:55:15 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 10:02:24 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 10:48:20 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*find_env(char *str);
 
 char	*dollar(char *input, int *i)
 {
@@ -41,7 +43,7 @@ char	*dollar(char *input, int *i)
 	return (tmp);
 }
 
-char	*find_env(char *str)
+static char	*find_env(char *str)
 {
 	char	**env;
 	int		i;

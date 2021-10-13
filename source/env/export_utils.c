@@ -6,13 +6,13 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:03:40 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 10:05:22 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/13 12:05:30 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export_plus(t_env *env, char *key, char *value)
+static void	export_plus(t_env *env, char *key, char *value)
 {
 	t_env	*tmp;
 
@@ -21,6 +21,34 @@ void	export_plus(t_env *env, char *key, char *value)
 	if (value)
 		tmp->env = 1;
 	tmp->exp = 1;
+}
+
+void	logic_export(int *flags, int i, t_env *env, char *arg)
+{
+	char	*key;
+	char	*value;
+	int		f_eq;
+	int		f_plus;
+
+	f_plus = flags[0];
+	f_eq = flags[1];
+	key = ft_substr(arg, 0, i);
+	if (f_plus)
+		value = ft_substr(arg, i + 2, ft_strlen(arg) - i);
+	else
+		value = ft_substr(arg, i + 1, ft_strlen(arg) - i);
+	if (find_list_env(env, key) && !f_plus)
+		edit_env_line(env, key, value);
+	else if (find_list_env(env, key) && f_plus)
+		export_plus(env, key, value);
+	else if (f_eq)
+		add_back_env(&env, new_env(arg, 1, 1));
+	else
+		add_back_env(&env, new_env(arg, 0, 1));
+	if (key)
+		try_free(key);
+	if (value)
+		try_free(value);
 }
 
 t_env	*find_list_env(t_env *env, char *str)
@@ -50,17 +78,6 @@ void	edit_shlvl(t_env *env)
 	num += 1;
 	try_free(tmp->value);
 	tmp->value = ft_itoa(num);
-}
-
-void	clear_env(t_env **env)
-{
-	if ((*env)->next)
-		clear_env(&(*env)->next);
-	try_free((*env)->key);
-	try_free((*env)->value);
-	(*env)->next = NULL;
-	try_free((*env));
-	(*env) = NULL;
 }
 
 int	env_size(t_env *env)
