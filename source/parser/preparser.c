@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 07:11:59 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 13:05:49 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 09:14:08 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	check_second_quote(char quote, char const *input, int *i)
 	while (input[*i])
 	{
 		if (input[*i] == quote)
-			return (++(*i));
+			return (*i);
 		(*i)++;
 	}
 	return (-1);

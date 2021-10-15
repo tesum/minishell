@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/15 08:02:16 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 09:31:21 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	parsing(void)
 {
 	char	*input;
 
-	signal(SIGQUIT, SIG_IGN), signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN), signal(SIGINT, &ctrl_c);
 	g_shell.signal = 0;
 	input = readline("minishell$ ");
 	if (!input)
@@ -90,9 +90,12 @@ static void	init_shell(int argc, char **argv, char **env)
 
 void	ctrl_c(int signal)
 {
-	rl_on_new_line();
-	ft_putchar_fd('\n', 2);
-	rl_replace_line("", 2);
-	rl_redisplay();
-	g_shell.result = 128 + signal;
+	if (signal == SIGINT)
+	{
+		ft_putchar_fd('\n', 2);
+		rl_replace_line("", 2);
+		rl_on_new_line();
+		rl_redisplay();
+		g_shell.result = signal - 1;
+	}
 }

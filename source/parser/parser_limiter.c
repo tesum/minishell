@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 09:20:41 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/15 07:19:20 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 08:43:14 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ char	*limiter_handler(char *rd, char *limiter)
 		if (WIFSIGNALED(g_shell.result))
 		{
 			g_shell.signal = 1;
-			g_shell.result = WTERMSIG(g_shell.result) - 1;
-			close(pip[0]), try_free(limiter), close(pip[1]);
+			ft_putchar_fd('\r', 2), close(pip[0]);
+			try_free(limiter), close(pip[1]);
 			return (NULL);
 		}
+		if (WIFEXITED(g_shell.result))
+			g_shell.result = WEXITSTATUS(g_shell.result);
 	}
 	close(pip[1]);
 	limiter = ft_itoa(pip[0]);

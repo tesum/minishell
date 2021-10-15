@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:51:16 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/13 08:01:56 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 08:10:32 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_cd(char **argv)
 	if (dir == -1)
 	{
 		ft_putendl_fd("No such file or directory", 2);
+		g_shell.result = 1;
 		return ;
 	}
 	pwd = getcwd(buf, 0);

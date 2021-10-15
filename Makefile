@@ -6,7 +6,7 @@
 #    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/10/13 12:01:20 by caugusta         ###   ########.fr        #
+#    Updated: 2021/10/15 09:10:31 by caugusta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,6 @@ RESET				=	\033[0m
 
 all : $(OBJ_DIRS) $(LIBFT) $(NAME)
 	@echo "\n$(GREEN)COMPLETE$(RESET)"
-	@${MAKE} run
 
 $(OBJ_DIRS):
 	@mkdir -p $@

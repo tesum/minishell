@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/15 07:41:36 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 08:42:04 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,8 @@ void	status_handler(void)
 	if (WIFEXITED(g_shell.result))
 		g_shell.result = WEXITSTATUS(g_shell.result);
 	if (WIFSIGNALED(g_shell.result))
+	{
 		g_shell.result = 128 + WTERMSIG(g_shell.result);
+		ft_putchar_fd('\r', 2);
+	}
 }
