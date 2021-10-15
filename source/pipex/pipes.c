@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:05:23 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/13 10:38:54 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 07:41:36 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	pipes(int argc)
 	while (pipex.iter < pipex.c_pipe)
 	{
 		waitpid(pid[pipex.iter], &g_shell.result, 0);
-		g_shell.result /= 256;
+		status_handler();
 		pipex.iter++;
 	}
 	try_free(pid);

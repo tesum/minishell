@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:59:34 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 13:08:50 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 07:41:36 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void		try_free(void *target);
 void		cleaning(void);
 char		**free_2d_arr(char **arr);
 void		exit_error(char *str, int code);
-void		ctrl_c_(int signal);
+void		status_handler(void);
 void		ctrl_c(int signal);
 
 #endif

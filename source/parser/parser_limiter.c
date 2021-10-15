@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 09:20:41 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 09:23:38 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 07:19:20 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,28 @@ char	*limiter_handler(char *rd, char *limiter)
 	if (pid == 0)
 		limiter_child(pip, limiter);
 	else
-		waitpid(pid, &g_shell.signal, 0);
-	if (g_shell.signal != 0)
 	{
-		g_shell.result = g_shell.signal / 256;
-		close(pip[0]), try_free(limiter), close(pip[1]);
-		return (NULL);
+		waitpid(pid, &g_shell.signal, 0);
+		if (WIFSIGNALED(g_shell.result))
+		{
+			g_shell.signal = 1;
+			g_shell.result = WTERMSIG(g_shell.result) - 1;
+			close(pip[0]), try_free(limiter), close(pip[1]);
+			return (NULL);
+		}
 	}
-	try_free(limiter), close(pip[1]);
-	return (ft_itoa(pip[0]));
+	close(pip[1]);
+	limiter = ft_itoa(pip[0]);
+	if (limiter == NULL)
+		exit_error("Malloc error", -1);
+	return (limiter);
 }
 
 static void	limiter_child(int *pip, char *limiter)
 {
 	char	*input;
 
-	signal(SIGINT, ctrl_c_), close (pip[0]);
+	signal(SIGINT, SIG_DFL), close (pip[0]);
 	while (1)
 	{
 		input = readline("> ");

@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:04:57 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 12:24:31 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 05:33:46 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static int	redirect_create(t_list *tmp)
 	char	*str;
 	int		fd[2];
 
-	fd[0] = 0;
-	fd[1] = 1;
+	fd[0] = dup(0);
+	fd[1] = dup(1);
 	if (tmp)
 	{
 		while (tmp)

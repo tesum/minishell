@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/13 10:59:32 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 07:41:36 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ char	**env_arr(t_env *new_env, int export)
 	return (env);
 }
 
-void	ctrl_c_(int signal)
+void	status_handler(void)
 {
-	(void)signal;
-	ft_putchar_fd('\r', 2);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	exit(130);
+	if (WIFEXITED(g_shell.result))
+		g_shell.result = WEXITSTATUS(g_shell.result);
+	if (WIFSIGNALED(g_shell.result))
+		g_shell.result = 128 + WTERMSIG(g_shell.result);
 }

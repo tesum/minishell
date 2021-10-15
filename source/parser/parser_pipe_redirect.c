@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:12:48 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 10:47:18 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 07:08:06 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ char	*double_redirect_handler(char const *input, int *i, \
 		*i += 2;
 		tmp = other_handler(input, i);
 		if (redirect != NULL && tmp != NULL && !ft_strncmp(redirect, "<<", 2))
-			redirect = limiter_handler(redirect, tmp);
-		else
 		{
-			redirect = ft_strjoin_gnl(redirect, tmp);
-			try_free(tmp);
+			redirect = limiter_handler(redirect, tmp);
+			if (redirect == NULL)
+				return (NULL);
 		}
+		else
+			redirect = ft_strjoin_gnl(redirect, tmp);
+		try_free(tmp);
 		if (set_redirect(redirect) == 0)
 			return (redirect);
 	}
-	if (*this_is_redirect == -1)
-		exit_error("Malloc error", -1);
 	return (redirect_handler(input, i, this_is_redirect));
 }
 
@@ -80,11 +80,6 @@ static int	set_redirect(char *str)
 	t_command	*tmp;
 	t_list		*new;
 
-	if (g_shell.signal != 0)
-	{
-		try_free(str);
-		return (0);
-	}
 	if (str == NULL)
 		exit_error("Malloc error\n", -1);
 	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;

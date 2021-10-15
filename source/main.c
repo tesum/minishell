@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 12:26:13 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 08:02:16 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	parsing(void)
 		return (-1);
 	if (ft_strlen(input) == 0)
 	{
-		free(input);
+		try_free(input);
 		input = NULL;
 		return (1);
 	}
@@ -64,7 +64,7 @@ static int	parsing(void)
 		parser(input);
 	else
 		return (1);
-	free(input);
+	try_free(input);
 	return (0);
 }
 
@@ -90,10 +90,9 @@ static void	init_shell(int argc, char **argv, char **env)
 
 void	ctrl_c(int signal)
 {
-	(void)signal;
-	ft_putchar_fd('\n', 2);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	ft_putchar_fd('\n', 2);
+	rl_replace_line("", 2);
 	rl_redisplay();
-	g_shell.result = 130;
+	g_shell.result = 128 + signal;
 }

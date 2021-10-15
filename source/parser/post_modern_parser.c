@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:08:15 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 12:25:43 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 07:41:36 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	who_is_your_daddy(void)
 	else
 	{
 		waitpid(pid, &g_shell.result, 0);
-		g_shell.result /= 256;
+		status_handler();
 	}
 }
 
