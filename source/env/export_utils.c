@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:03:40 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 14:11:23 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/16 18:24:43 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	edit_shlvl(t_env *env)
 	int		num;
 	t_env	*tmp;
 
+	if (env == NULL)
+		return ;
 	tmp = find_list_env(env, "SHLVL");
 	num = atoi(tmp->value);
 	num += 1;
