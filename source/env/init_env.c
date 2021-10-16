@@ -3,24 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:55:02 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 10:56:30 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:13:19 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	set_new_env(t_env *new, char *str, int i, int j)
+static void	set_new_env(t_env *new, char *str, int j)
 {
-	if (j != 0)
-		new->value = ft_substr(str, j, i);
+	if (j != 0 && str[j])
+		new->value = ft_strdup(str + j);
 	else
-	{
-		new->key = ft_substr(str, 0, i);
 		new->value = ft_strdup("");
-	}
+	if (new->value == NULL)
+		exit_error("Malloc error\n", -1);
 	new->next = NULL;
 }
 
@@ -60,7 +59,7 @@ t_env	*new_env(char *str, int env, int exp)
 
 	new = malloc(sizeof(t_env));
 	if (new == NULL)
-		return (NULL);
+		exit_error("Malloc error\n", -1);
 	i = -1;
 	j = 0;
 	while (str[++i])
@@ -69,9 +68,11 @@ t_env	*new_env(char *str, int env, int exp)
 		{
 			j = i + 1;
 			new->key = ft_substr(str, 0, i);
+			if (new->key == NULL)
+				exit_error("Malloc error\n", -1);
 		}
 	}
-	set_new_env(new, str, i, j);
+	set_new_env(new, str, j);
 	new->env = env;
 	new->exp = exp;
 	return (new);

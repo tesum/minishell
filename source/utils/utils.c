@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/16 14:16:22 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:23:52 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 	if (edit)
 		tmp->env = 1;
 	free(tmp->value);
-	tmp->value = edit;
+	tmp->value = NULL;
+	tmp->value = ft_strdup(edit);
 }
 
 char	**env_arr(t_env *new_env, int export)
