@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+         #
+#    By: demilan <demilan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/10 22:20:54 by caugusta          #+#    #+#              #
-#    Updated: 2021/10/15 09:10:31 by caugusta         ###   ########.fr        #
+#    Updated: 2021/10/16 14:00:39 by demilan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ INCFLAGS			=	-I ./includes/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include
 READLINEFLAGS		=	-L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -ltermcap
 
 CMD					=	cd.c echo.c env.c exit.c export.c pwd.c unset.c
-ENV					=	export_utils.c init_env.c
+ENV					=	export_utils.c init_env.c export_utils_2.c
 EXEC				=	cmd_arr.c exec.c
 PARSER				=	parser.c parser_dollar.c parser_pipe_redirect.c post_modern_parser.c preparser.c parser_limiter.c
 PIPEX				=	pipes.c

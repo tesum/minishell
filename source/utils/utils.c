@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/15 12:36:14 by arsenijdroz      ###   ########.fr       */
+/*   Updated: 2021/10/16 13:50:31 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 		tmp->env = 1;
 	free(tmp->value);
 	tmp->value = NULL;
-	tmp->value = edit;
+	tmp->value = ft_strdup(edit);
 }
 
 char	**env_arr(t_env *new_env, int export)
