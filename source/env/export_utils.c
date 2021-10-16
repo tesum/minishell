@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:03:40 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 12:05:30 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 13:50:03 by arsenijdroz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,20 @@ static void	export_plus(t_env *env, char *key, char *value)
 	tmp->exp = 1;
 }
 
+int	check_value(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i] != '=')
+	{
+		i++;
+	}
+	if (!value[i])
+		return (1);
+	return (0);
+}
+
 void	logic_export(int *flags, int i, t_env *env, char *arg)
 {
 	char	*key;
@@ -33,10 +47,20 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 	f_plus = flags[0];
 	f_eq = flags[1];
 	key = ft_substr(arg, 0, i);
-	if (f_plus)
-		value = ft_substr(arg, i + 2, ft_strlen(arg) - i);
-	else
-		value = ft_substr(arg, i + 1, ft_strlen(arg) - i);
+	// if (check_value(arg))
+	// {
+	// 	value = NULL;
+	// }
+	// else
+	// {
+		if (f_plus)
+			value = ft_strdup(arg + i + 2);
+			// value = ft_substr(arg, i + 2, ft_strlen(arg) - i);
+		else
+			value = ft_strdup(arg + i + 1);
+	// }
+		// value = ft_substr(arg, i + 1, ft_strlen(arg) - i);
+	// if (!value)
 	if (find_list_env(env, key) && !f_plus)
 		edit_env_line(env, key, value);
 	else if (find_list_env(env, key) && f_plus)
@@ -45,10 +69,12 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 		add_back_env(&env, new_env(arg, 1, 1));
 	else
 		add_back_env(&env, new_env(arg, 0, 1));
-	if (key)
-		try_free(key);
-	if (value)
-		try_free(value);
+	free(key);
+	// if (value)
+	// 	free(value);
+	// if (key)
+	// 	try_free(key);
+	// 	try_free(value);
 }
 
 t_env	*find_list_env(t_env *env, char *str)

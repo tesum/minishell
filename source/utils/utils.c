@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/15 08:42:04 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:36:14 by arsenijdroz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 	if (edit)
 		tmp->env = 1;
 	free(tmp->value);
+	tmp->value = NULL;
 	tmp->value = edit;
 }
 

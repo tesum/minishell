@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:20:44 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/13 10:08:20 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/15 12:28:26 by arsenijdroz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**sort_export(char **exp)
 		if (!export_sort(exp))
 			break ;
 		i = 0;
-		while (exp[i + 1] != '\0')
+		while (exp[i + 1] != NULL)
 		{
 			if (exp[i][0] < exp[i + 1][0])
 				i++;
