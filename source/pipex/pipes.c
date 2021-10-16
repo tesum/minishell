@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:05:23 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/15 07:41:36 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:21:57 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ static void	child(int flag, t_pipex *pipex, int *a, int *b)
 	if (!flag && pipex->iter == 0)
 	{
 		close(a[0]);
-		dup2(a[1], 1);
+		try_dup2(a[1], 1);
 		close(a[1]);
 	}
 	else if (!flag)
 	{
-		dup2(b[0], 0);
+		try_dup2(b[0], 0);
 		close(a[0]);
-		dup2(a[1], 1);
+		try_dup2(a[1], 1);
 	}
 	else if (flag)
 	{
-		dup2(a[0], 0);
+		try_dup2(a[0], 0);
 		close(a[0]);
 		close(b[0]);
-		dup2(b[1], 1);
+		try_dup2(b[1], 1);
 	}
 }
 
@@ -39,15 +39,19 @@ static void	parent(int flag, t_list *cmd, int *a, int *b)
 {
 	if (!flag && !cmd->next)
 	{
-		close(a[0]);
-		close(b[1]);
+		if (a[0])
+			close(a[0]);
+		if (b[1])
+			close(b[1]);
 	}
 	else if (flag && !cmd->next)
 	{
-		close(a[1]);
-		close(b[0]);
+		if (a[1])
+			close(a[1]);
+		if (b[0])
+			close(b[0]);
 	}
-	if (!flag)
+	else if (!flag)
 	{
 		if (b[0])
 			close(b[0]);
@@ -55,8 +59,10 @@ static void	parent(int flag, t_list *cmd, int *a, int *b)
 	}
 	else
 	{
-		close(a[0]);
-		close(b[1]);
+		if (a[0])
+			close(a[0]);
+		if (b[1])
+			close(b[1]);
 	}
 }
 
@@ -68,9 +74,9 @@ static void	procces_pipe(t_pipex *pipex, int *a, int *b, pid_t *pid)
 		if (!pipex->cmd->next)
 		{
 			if (!pipex->flag)
-				dup2(b[0], 0);
+				try_dup2(b[0], 0);
 			else
-				dup2(a[0], 0);
+				try_dup2(a[0], 0);
 			executing(pipex->cmd);
 		}
 		else
@@ -105,11 +111,7 @@ void	pipes(int argc)
 	t_pipex	pipex;
 	pid_t	*pid;
 
-	pipex.cmd = g_shell.cmd;
-	pipex.flag = 0;
-	pipex.iter = 0;
-	pipex.c_pipe = argc;
-	pid = malloc(sizeof(pid_t) * pipex.c_pipe);
+	pid = init_pipes(argc, &pipex, a, b);
 	while (pipex.cmd)
 	{
 		if_have_next(&pipex, a, b);

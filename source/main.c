@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/15 09:31:21 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 13:25:22 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **env)
 				pipes(ft_lstsize(g_shell.cmd));
 			else
 				who_is_your_daddy();
-			dup2(g_shell.fd_1, 1), dup2(g_shell.fd_0, 0);
+			try_dup2(g_shell.fd_1, 1), try_dup2(g_shell.fd_0, 0);
 		}
 		cleaning();
 	}
@@ -79,8 +79,8 @@ static void	init_shell(int argc, char **argv, char **env)
 	g_shell.new_env = init_env(env);
 	edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
-	g_shell.fd_1 = dup(1);
-	g_shell.fd_0 = dup(0);
+	g_shell.fd_1 = try_dup(1);
+	g_shell.fd_0 = try_dup(0);
 	new = command_new();
 	new_list = ft_lstnew((void *)new);
 	if (new_list == NULL)

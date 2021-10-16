@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:07:33 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/15 08:42:04 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:16:22 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,25 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 char	**env_arr(t_env *new_env, int export)
 {
 	char	**env;
-	char	*str;
 	int		i;
 	int		j;
 
 	i = env_size(new_env);
 	env = malloc(sizeof(char *) * (i + 1));
+	if (env == NULL)
+		exit_error("Error malloc\n", -1);
 	j = 0;
 	env[i] = NULL;
 	while (j < i)
 	{
 		if ((export && new_env->exp) || !export)
 		{
-			str = ft_strdup("");
-			str = ft_strjoin_gnl(str, new_env->key);
-			str = ft_strjoin_gnl(str, "=");
-			str = ft_strjoin_gnl(str, new_env->value);
-			env[j] = str;
+			env[j] = ft_strdup("");
+			env[j] = ft_strjoin_gnl(env[j], new_env->key);
+			env[j] = ft_strjoin_gnl(env[j], "=");
+			env[j] = ft_strjoin_gnl(env[j], new_env->value);
+			if (env[j] == NULL)
+				exit_error("Error malloc\n", -1);
 		}
 		j++;
 		new_env = new_env->next;
@@ -60,4 +62,24 @@ void	status_handler(void)
 		g_shell.result = 128 + WTERMSIG(g_shell.result);
 		ft_putchar_fd('\r', 2);
 	}
+}
+
+int	try_dup(int fd)
+{
+	int	dupp;
+
+	dupp = dup(fd);
+	if (dupp == -1)
+		exit_error("Fildes error, when dup called\n", 1);
+	return (dupp);
+}
+
+int	try_dup2(int fd, int fd2)
+{
+	int	dupp;
+
+	dupp = dup2(fd, fd2);
+	if (dupp == -1)
+		exit_error("Fildes error, when dup2 called\n", 1);
+	return (dupp);
 }
