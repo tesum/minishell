@@ -18,7 +18,7 @@ t_command	*command_new(void)
 
 	new = malloc(sizeof(t_command));
 	if (new == NULL)
-		exit_error("Error malloc\n", -1);
+		exit_error("Error malloc", -1);
 	new->argv = NULL;
 	new->redirect = NULL;
 	return (new);
@@ -35,7 +35,8 @@ static int	help_redirect(char *str, int *fd)
 		if (access(str + 1, R_OK) != 0)
 		{
 			ft_putstr_fd(str + 1, 2);
-			ft_putendl_fd(": No such file or directory", 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(errno), 2);
 			g_shell.result = 1;
 			return (-1);
 		}
@@ -43,9 +44,10 @@ static int	help_redirect(char *str, int *fd)
 	}
 	else
 		fd[0] = ft_atoi(str);
-	if (fd[0] < 0 || fd < 0)
+	if (fd[0] < 0 || fd[1] < 0)
 	{
-		ft_putendl_fd("Bad file discriptor", 2);
+		ft_putstr_fd(str + 1, 2), ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		return (-1);
 	}
 	return (0);
@@ -64,7 +66,7 @@ static int	redirect_create(t_list *tmp)
 		{
 			str = (void *)clear_quotes(((char *)tmp->content));
 			if (str == NULL)
-				exit_error("Error malloc\n", -1);
+				exit_error("Error malloc", -1);
 			if (help_redirect(str, fd) < 0)
 			{
 				try_free(str);
@@ -90,12 +92,12 @@ static char	**argv_create(t_list *tmp_arg)
 	{
 		cmd = malloc(sizeof(char *) * (ft_lstsize(tmp_arg) + 1));
 		if (cmd == NULL)
-			exit_error("Error malloc\n", -1);
+			exit_error("Error malloc", -1);
 		while (tmp_arg)
 		{
 			cmd[i] = clear_quotes((char *)tmp_arg->content);
 			if (cmd[i] == NULL)
-				exit_error("Error malloc\n", -1);
+				exit_error("Error malloc", -1);
 			i++;
 			tmp_arg = tmp_arg->next;
 		}

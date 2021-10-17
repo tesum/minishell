@@ -37,7 +37,7 @@ void	ft_cd(char **argv)
 	dir = chdir(argv[1]);
 	if (dir == -1)
 	{
-		ft_putendl_fd("No such file or directory", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		g_shell.result = 1;
 		return ;
 	}

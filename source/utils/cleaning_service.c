@@ -40,7 +40,7 @@ char	**free_2d_arr(char **arr)
 
 void	exit_error(char *str, int code)
 {
-	ft_putstr_fd(str, 2);
+	ft_putendl_fd(str, 2);
 	exit (code);
 }
 

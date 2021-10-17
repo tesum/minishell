@@ -54,13 +54,21 @@ void	edit_shlvl(t_env *env)
 	int		num;
 	t_env	*tmp;
 
-	if (env == NULL)
-		return ;
 	tmp = find_list_env(env, "SHLVL");
-	num = atoi(tmp->value);
-	num += 1;
-	try_free(tmp->value);
-	tmp->value = ft_itoa(num);
+	if (tmp != NULL)
+	{
+		num = atoi(tmp->value);
+		num += 1;
+		try_free(tmp->value);
+		tmp->value = ft_itoa(num);
+	}
+	else
+	{
+		tmp = new_env("SHLVL=1", 1, 1);
+		if (tmp == NULL)
+			exit_error("Error Malloc", -1);
+		add_back_env(&env, tmp);
+	}
 }
 
 int	env_size(t_env *env)

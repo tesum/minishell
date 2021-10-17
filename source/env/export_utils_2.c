@@ -57,5 +57,5 @@ void	export_get_value(char *arg, int i, char **value, int f_plus)
 			*value = ft_strdup(arg + i + 1);
 	}
 	if (*value == NULL)
-		exit_error("Malloc error\n", -1);
+		exit_error("Malloc error", -1);
 }

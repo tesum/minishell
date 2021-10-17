@@ -92,7 +92,7 @@ static char	*quote_helper(char *tmp_str2, int quote)
 	int	j;
 
 	if (tmp_str2 == NULL)
-		exit_error("Malloc error\n", -1);
+		exit_error("Malloc error", -1);
 	if (quote == 34)
 	{
 		j = 0;

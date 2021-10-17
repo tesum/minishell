@@ -22,7 +22,7 @@ pid_t	*init_pipes(int argc, t_pipex *pipex, int *a, int *b)
 	pipex->c_pipe = argc;
 	pid = malloc(sizeof(pid_t) * pipex->c_pipe);
 	if (pid == NULL)
-		exit_error("Error malloc\n", -1);
+		exit_error("Error malloc", -1);
 	a[0] = 0;
 	a[1] = 0;
 	b[0] = 0;

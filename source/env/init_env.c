@@ -19,7 +19,7 @@ static void	set_new_env(t_env *new, char *str, int j)
 	else
 		new->value = ft_strdup("");
 	if (new->value == NULL)
-		exit_error("Malloc error\n", -1);
+		exit_error("Malloc error", -1);
 	new->next = NULL;
 }
 
@@ -35,7 +35,7 @@ t_env	*init_env(char **env)
 	{
 		str = ft_strdup(env[i]);
 		if (str == NULL)
-			exit_error("Malloc error\n", -1);
+			exit_error("Malloc error", -1);
 		envs = new_env(str, 1, 1);
 		free(str);
 	}
@@ -43,7 +43,7 @@ t_env	*init_env(char **env)
 	{
 		str = ft_strdup(env[i]);
 		if (str == NULL)
-			exit_error("Malloc error\n", -1);
+			exit_error("Malloc error", -1);
 		new = new_env(str, 1, 1);
 		add_back_env(&envs, new);
 		free(str);
@@ -59,7 +59,7 @@ t_env	*new_env(char *str, int env, int exp)
 
 	new = malloc(sizeof(t_env));
 	if (new == NULL)
-		exit_error("Malloc error\n", -1);
+		exit_error("Malloc error", -1);
 	i = -1;
 	j = 0;
 	while (str[++i])
@@ -69,7 +69,7 @@ t_env	*new_env(char *str, int env, int exp)
 			j = i + 1;
 			new->key = ft_substr(str, 0, i);
 			if (new->key == NULL)
-				exit_error("Malloc error\n", -1);
+				exit_error("Malloc error", -1);
 		}
 	}
 	set_new_env(new, str, j);
