@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 08:59:37 by arsenijdroz       #+#    #+#             */
-/*   Updated: 2021/10/18 15:02:31 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/18 16:22:49 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@ void	ft_pwd(char **argv)
 {
 	char	*pwd;
 	char	*buf;
+	t_env	*pwd_env;
 
 	(void)argv;
 	buf = NULL;
-	pwd = find_list_env(g_shell.new_env, "PWD")->value;
-	if (!pwd)
+	pwd_env = find_list_env(g_shell.new_env, "PWD");
+	if (pwd_env)
+		pwd = pwd_env->value;
+	else
 		pwd = getcwd(buf, 0);
 	if (!pwd)
 	{
