@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:51:16 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/18 14:47:46 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:01:24 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void	ft_cd(char **argv)
 	}
 	pwd = getcwd(NULL, 0);
 	edit_pwd(g_shell.new_env, pwd, oldpwd);
-	free(oldpwd);
-	free(pwd);
+	try_free(oldpwd);
+	try_free(pwd);
 }
