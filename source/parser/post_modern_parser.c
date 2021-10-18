@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   post_modern_parser.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:08:15 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/15 07:41:36 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/18 11:27:35 by arsenijdroz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	who_is_your_daddy(void)
 	cmd = set_command_struct(g_shell.cmd);
 	if (cmd == NULL || builtins(cmd))
 	{
-		if (cmd != NULL)
+		if (cmd)
 			free_2d_arr(cmd);
 		return ;
 	}
