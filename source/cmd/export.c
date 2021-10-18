@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:20:44 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/15 12:28:26 by arsenijdroz      ###   ########.fr       */
+/*   Updated: 2021/10/18 13:20:51 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static	int	check_arg(char *arg, t_env *env)
 	flags[1] = 0;
 	while (arg[++i])
 	{
+		if (arg[i] == '+' && arg[i + 1] != '=')
+			return (0);
 		if (arg[i] == '+' && arg[i + 1] == '=')
 		{
 			flags[0] = 1;

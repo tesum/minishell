@@ -81,11 +81,11 @@ static int	set_redirect(char *str)
 	t_list		*new;
 
 	if (str == NULL)
-		exit_error("Malloc error\n", -1);
+		exit_error("Malloc error", -1);
 	tmp = (t_command *)ft_lstlast(g_shell.cmd)->content;
 	new = ft_lstnew((void *)str);
 	if (new == NULL)
-		exit_error("Malloc error\n", -1);
+		exit_error("Malloc error", -1);
 	ft_lstadd_back(&tmp->redirect, new);
 	return (0);
 }

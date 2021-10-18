@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:03:40 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 16:47:09 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/18 13:45:59 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ static void	export_plus(t_env *env, char *key, char *value)
 	t_env	*tmp;
 
 	tmp = find_list_env(env, key);
+	if (!tmp)
+	{
+		add_back_env(&env, new_env(key, 1, 1));
+		tmp = find_list_env(env, key);
+	}
 	tmp->value = ft_strjoin_gnl(tmp->value, value);
 	if (value)
 		tmp->env = 1;
@@ -36,7 +41,7 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 	export_get_value(arg, i, &value, f_plus);
 	if (find_list_env(env, key) && !f_plus && f_eq)
 		edit_env_line(env, key, value);
-	else if (find_list_env(env, key) && f_plus)
+	else if (f_plus)
 		export_plus(env, key, value);
 	else if (f_eq)
 		add_back_env(&env, new_env(arg, 1, 1));
@@ -55,10 +60,20 @@ void	edit_shlvl(t_env *env)
 	t_env	*tmp;
 
 	tmp = find_list_env(env, "SHLVL");
-	num = atoi(tmp->value);
-	num += 1;
-	try_free(tmp->value);
-	tmp->value = ft_itoa(num);
+	if (tmp != NULL)
+	{
+		num = atoi(tmp->value);
+		num += 1;
+		try_free(tmp->value);
+		tmp->value = ft_itoa(num);
+	}
+	else
+	{
+		tmp = new_env("SHLVL=1", 1, 1);
+		if (tmp == NULL)
+			exit_error("Error Malloc", -1);
+		add_back_env(&env, tmp);
+	}
 }
 
 int	env_size(t_env *env)

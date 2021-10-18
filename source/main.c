@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 15:39:35 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/18 13:46:36 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	init_shell(int argc, char **argv, char **env);
 int	main(int argc, char **argv, char **env)
 {
 	int	status;
-
 
 	rl_outstream = stderr;
 	init_shell(argc, argv, env);
@@ -77,7 +76,10 @@ static void	init_shell(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	g_shell.env = NULL;
-	g_shell.new_env = init_env(env);
+	if (env[0] != NULL)
+		g_shell.new_env = init_env(env);
+	else
+		g_shell.new_env = NULL;
 	edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
 	g_shell.fd_1 = try_dup(1);

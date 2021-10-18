@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning_service.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 10:50:16 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 12:05:26 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/18 11:27:50 by arsenijdroz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**free_2d_arr(char **arr)
 
 void	exit_error(char *str, int code)
 {
-	ft_putstr_fd(str, 2);
+	ft_putendl_fd(str, 2);
 	exit (code);
 }
 
