@@ -19,7 +19,7 @@ static void	export_plus(t_env *env, char *key, char *value)
 	tmp = find_list_env(env, key);
 	if (!tmp)
 	{
-		add_back_env(&env, new_env(key, 1, 1));
+		add_back_env(&g_shell.new_env, new_env(key, 1, 1));
 		tmp = find_list_env(env, key);
 	}
 	tmp->value = ft_strjoin_gnl(tmp->value, value);
@@ -44,11 +44,11 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 	else if (f_plus)
 		export_plus(env, key, value);
 	else if (f_eq)
-		add_back_env(&env, new_env(arg, 1, 1));
+		add_back_env(&g_shell.new_env, new_env(arg, 1, 1));
 	else if (!f_eq && find_list_env(env, key))
 		NULL;
 	else
-		add_back_env(&env, new_env(arg, 0, 1));
+		add_back_env(&g_shell.new_env, new_env(arg, 0, 1));
 	free(key);
 	if (value)
 		free(value);
@@ -72,7 +72,29 @@ void	edit_shlvl(t_env *env)
 		tmp = new_env("SHLVL=1", 1, 1);
 		if (tmp == NULL)
 			exit_error("Error Malloc", -1);
-		add_back_env(&env, tmp);
+		add_back_env(&g_shell.new_env, tmp);
+	}
+}
+
+void	start_pwd(t_env *env)
+{
+	char	*pwd;
+	char	*buf;
+	t_env	*tmp;
+
+	tmp = find_list_env(env, "PWD");
+	buf = NULL;
+	if (tmp == NULL)
+	{
+		pwd = getcwd(buf, 0);
+		if (!pwd)
+		{
+			ft_putendl_fd(strerror(errno), 2);
+			g_shell.result = 1;
+			exit(-1);
+		}
+		edit_env_line(env, "PWD", pwd);
+		try_free(pwd);
 	}
 }
 

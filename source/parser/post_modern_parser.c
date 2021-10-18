@@ -72,18 +72,18 @@ static char	*quote_handler(char *input, int quote, int *i)
 	input[*i] = '\0';
 	j = ++(*i);
 	tmp_str = ft_strdup(input);
-	input[*i - 1] = quote;
+	input[*i - 1] = (char)quote;
 	while (input[*i] != quote && input[*i] != '\0')
 		(*i)++;
 	tmp_str2 = ft_substr(input, j, *i - j);
 	tmp_str3 = ft_strdup(input + (*i + 1));
 	tmp_str2 = quote_helper(tmp_str2, quote);
 	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str2);
-	*i = ft_strlen(tmp_str);
+	*i = (int)ft_strlen(tmp_str);
 	tmp_str = ft_strjoin_gnl(tmp_str, tmp_str3);
 	if (!tmp_str || !tmp_str2 || !tmp_str3)
 		exit_error("Malloc error", -1);
-	try_free(input), try_free(tmp_str2), try_free(tmp_str3);
+	try_free3(input, tmp_str2, tmp_str3);
 	return (tmp_str);
 }
 
@@ -98,10 +98,12 @@ static char	*quote_helper(char *tmp_str2, int quote)
 		j = 0;
 		while (tmp_str2 != NULL && tmp_str2[j])
 		{
-			if (tmp_str2 != NULL && tmp_str2[j] == '$')
+			if (tmp_str2[j] == '$')
 				tmp_str2 = dollar(tmp_str2, &j);
 			else
 				j++;
+			if (tmp_str2 == NULL)
+				exit_error("Malloc error", -1);
 		}
 	}
 	return (tmp_str2);

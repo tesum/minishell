@@ -83,6 +83,7 @@ void		add_back_env(t_env **env, t_env *new);
 void		logic_export(int *flags, int i, t_env *env, char *arg);
 t_env		*find_list_env(t_env *env, char *str);
 void		edit_shlvl(t_env *env);
+void		start_pwd(t_env *env);
 int			env_size(t_env *env);
 
 // exec
@@ -110,7 +111,10 @@ t_command	*command_new(void);
 char		**set_command_struct(t_list *lst_cmd);
 void		edit_env_line(t_env *env, char *find, char *edit);
 char		**env_arr(t_env *new_env, int export);
+void		err_msg(char *str);
+void		sup_dup(int *fd);
 void		try_free(void *target);
+void		try_free3(void *a, void *b, void *c);
 void		cleaning(void);
 char		**free_2d_arr(char **arr);
 void		exit_error(char *str, int code);

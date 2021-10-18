@@ -53,12 +53,12 @@ static char	**find_path(void)
 		if (ft_strncmp("PATH=", g_shell.env[i], 5) == 0)
 		{
 			path = ft_split(g_shell.env[i] + 5, ':');
+			if (path == NULL)
+				exit_error("Error malloc", -1);
 			break ;
 		}
 		i++;
 	}
-	if (path == NULL)
-		exit_error("Error malloc", -1);
 	return (path);
 }
 
@@ -72,7 +72,7 @@ static char	*correct_path(char **cmd)
 	if (ft_access(cmd[0]) != 0)
 		return (cmd[0]);
 	path = find_path();
-	while (path[i])
+	while (path && path[i])
 	{
 		path[i] = ft_strjoin_gnl(path[i], "/");
 		path[i] = ft_strjoin_gnl(path[i], cmd[0]);
@@ -96,7 +96,8 @@ void	executing(t_list *lst_cmd)
 	char	*path;
 	char	**cmd;
 
-	signal(SIGQUIT, SIG_DFL), signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	cmd = set_command_struct(lst_cmd);
 	if (cmd == NULL || builtins(cmd))
 		exit(g_shell.result);

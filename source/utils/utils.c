@@ -23,7 +23,7 @@ void	edit_env_line(t_env *env, char *find, char *edit)
 		tmp = new_env(find, 0, 1);
 		if (tmp == NULL)
 			exit_error("Error Malloc", -1);
-		add_back_env(&env, tmp);
+		add_back_env(&g_shell.new_env, tmp);
 	}
 	if (edit)
 	{

@@ -37,18 +37,19 @@ int	main(int argc, char **argv, char **env)
 				pipes(ft_lstsize(g_shell.cmd));
 			else
 				who_is_your_daddy();
-			try_dup2(g_shell.fd_1, 1), try_dup2(g_shell.fd_0, 0);
+			try_dup2(g_shell.fd_1, 1);
+			try_dup2(g_shell.fd_0, 0);
 		}
 		cleaning();
 	}
-	return (0);
 }
 
 static int	parsing(void)
 {
 	char	*input;
 
-	signal(SIGQUIT, SIG_IGN), signal(SIGINT, &ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, &ctrl_c);
 	g_shell.signal = 0;
 	input = readline("minishell$ ");
 	if (!input)
@@ -76,10 +77,11 @@ static void	init_shell(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	g_shell.env = NULL;
-	if (env[0] != NULL)
+	if (env && env[0] != NULL)
 		g_shell.new_env = init_env(env);
 	else
 		g_shell.new_env = NULL;
+	start_pwd(g_shell.new_env);
 	edit_shlvl(g_shell.new_env);
 	g_shell.result = 0;
 	g_shell.fd_1 = try_dup(1);

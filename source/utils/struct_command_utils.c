@@ -34,20 +34,17 @@ static int	help_redirect(char *str, int *fd)
 	{
 		if (access(str + 1, R_OK) != 0)
 		{
-			ft_putstr_fd(str + 1, 2);
-			ft_putstr_fd(": ", 2);
-			ft_putendl_fd(strerror(errno), 2);
+			err_msg(str);
 			g_shell.result = 1;
 			return (-1);
 		}
 		fd[0] = open(str + 1, O_RDONLY);
 	}
 	else
-		fd[0] = ft_atoi(str);
+		fd[0] = (int)ft_atoi(str);
 	if (fd[0] < 0 || fd[1] < 0)
 	{
-		ft_putstr_fd(str + 1, 2), ft_putstr_fd(": ", 2);
-		ft_putendl_fd(strerror(errno), 2);
+		err_msg(str);
 		return (-1);
 	}
 	return (0);
@@ -75,8 +72,7 @@ static int	redirect_create(t_list *tmp)
 			try_free(str);
 			tmp = tmp->next;
 		}
-		try_dup2(fd[1], 1), try_dup2(fd[0], 0);
-		close(fd[0]), close(fd[1]);
+		sup_dup(fd);
 	}
 	return (0);
 }
@@ -110,7 +106,8 @@ char	**set_command_struct(t_list *lst_cmd)
 {
 	if (g_shell.env != NULL)
 		g_shell.env = free_2d_arr(g_shell.env);
-	g_shell.env = env_arr(g_shell.new_env, 0);
+	if (g_shell.new_env != NULL)
+		g_shell.env = env_arr(g_shell.new_env, 0);
 	if (redirect_create(((t_command *)lst_cmd->content)->redirect) < 0)
 		return (NULL);
 	return (argv_create(((t_command *)lst_cmd->content)->argv));

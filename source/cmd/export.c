@@ -86,6 +86,8 @@ void	put_export(t_env *env)
 	char	**exp;
 	int		i;
 
+	if (!env)
+		return ;
 	exp = env_arr(env, 1);
 	exp = sort_export(exp);
 	i = 0;

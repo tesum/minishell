@@ -52,6 +52,8 @@ $(NAME) : $(OBJ)
 	@ar rcs $(NAME) $?
 	@echo "$(GREEN)+$(RESET)\c"
 
+include $(D_FILES)
+
 bonus : all
 
 clean :

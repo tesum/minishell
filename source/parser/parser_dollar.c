@@ -14,6 +14,13 @@
 
 static char	*find_env(char *str);
 
+void	try_free3(void *a, void *b, void *c)
+{
+	try_free(a);
+	try_free(b);
+	try_free(c);
+}
+
 char	*dollar(char *input, int *i)
 {
 	char	*tmp;
@@ -35,11 +42,11 @@ char	*dollar(char *input, int *i)
 	tmp2 = find_env(tmp2);
 	tmp3 = ft_strdup(input + j);
 	tmp = ft_strjoin_gnl(tmp, tmp2);
-	*i = ft_strlen(tmp) - 1;
+	*i = (int)ft_strlen(tmp) - 1;
 	tmp = ft_strjoin_gnl(tmp, tmp3);
 	if (!tmp || !tmp2 || !tmp3)
 		exit_error("Malloc error", -1);
-	try_free(input), try_free(tmp2), try_free(tmp3);
+	try_free3(input, tmp2, tmp3);
 	return (tmp);
 }
 
@@ -50,16 +57,14 @@ static char	*find_env(char *str)
 	int		j;
 
 	i = 0;
-	if (str == NULL)
-		return (NULL);
-	j = ft_strlen(str);
+	j = (int)ft_strlen(str);
 	env = g_shell.env;
 	if (str[0] == '?')
 	{
 		try_free(str);
 		return (ft_itoa(g_shell.result));
 	}
-	while (env[i])
+	while (env && env[i])
 	{
 		if (ft_strncmp(env[i], str, j) == 0)
 		{

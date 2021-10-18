@@ -86,6 +86,8 @@ void	add_back_env(t_env **env, t_env *new)
 	t_env	*tmp;
 
 	tmp = *env;
+	if (new == NULL)
+		exit_error("Malloc error", -1);
 	if (tmp == NULL)
 		*env = new;
 	else
