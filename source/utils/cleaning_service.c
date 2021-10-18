@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning_service.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 10:50:16 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/18 11:27:50 by arsenijdroz      ###   ########.fr       */
+/*   Updated: 2021/10/18 16:57:19 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void	try_free(void *target)
 		return ;
 	free(target);
 	target = NULL;
+}
+
+void	try_free3(void *a, void *b, void *c)
+{
+	try_free(a);
+	try_free(b);
+	try_free(c);
 }
 
 char	**free_2d_arr(char **arr)

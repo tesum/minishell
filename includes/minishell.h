@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:59:34 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 14:30:30 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/18 17:09:44 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char		*clear_quotes(char *input);
 // pipes
 void		pipes(int argc);
 pid_t		*init_pipes(int argc, t_pipex *pipex, int *a, int *b);
+void		closer_pipes(int *a, int *b);
 
 // utils
 t_command	*command_new(void);
@@ -123,6 +124,5 @@ void		ctrl_c(int signal);
 int			try_dup(int fd);
 int			try_dup2(int fd, int fd2);
 void		export_get_value(char *arg, int i, char **value, int f_plus);
-void		closer_pipes(int *a, int *b);
 
 #endif

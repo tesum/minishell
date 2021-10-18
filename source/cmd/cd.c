@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:51:16 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/18 15:01:24 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/18 17:05:53 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,11 @@ void	ft_cd(char **argv)
 	dir = chdir(to_dir);
 	if (dir == -1)
 	{
+		ft_putstr_fd(to_dir, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 		g_shell.result = 1;
+		try_free(oldpwd);
 		return ;
 	}
 	pwd = getcwd(NULL, 0);

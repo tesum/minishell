@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 13:55:16 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 14:21:07 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/18 17:09:20 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,12 @@ pid_t	*init_pipes(int argc, t_pipex *pipex, int *a, int *b)
 	b[0] = 0;
 	b[1] = 0;
 	return (pid);
+}
+
+void	closer_pipes(int *a, int *b)
+{
+	if (a[0])
+		close(a[0]);
+	if (b[1])
+		close(b[1]);
 }

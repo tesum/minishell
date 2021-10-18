@@ -6,20 +6,13 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:55:15 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/13 10:48:20 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/18 16:57:11 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*find_env(char *str);
-
-void	try_free3(void *a, void *b, void *c)
-{
-	try_free(a);
-	try_free(b);
-	try_free(c);
-}
 
 char	*dollar(char *input, int *i)
 {
