@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:51:16 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/15 12:03:25 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 16:53:45 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_cd(char **argv)
 	buf = NULL;
 	if (!argv[1] || !ft_strncmp(argv[1], "~", 1))
 		argv[1] = find_list_env(g_shell.new_env, "HOME")->value;
-	if (!argv[1] || !ft_strncmp(argv[1], "-", 1))
+	if (!ft_strncmp(argv[1], "-", 1))
 	{
 		argv[1] = find_list_env(g_shell.new_env, "OLDPWD")->value;
 		ft_putendl_fd(argv[1], 1);

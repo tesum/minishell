@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:59:34 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 14:23:25 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:30:30 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ void		ctrl_c(int signal);
 int			try_dup(int fd);
 int			try_dup2(int fd, int fd2);
 void		export_get_value(char *arg, int i, char **value, int f_plus);
+void		closer_pipes(int *a, int *b);
 
 #endif

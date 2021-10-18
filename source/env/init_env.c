@@ -6,7 +6,7 @@
 /*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:55:02 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 14:13:19 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/16 16:46:34 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	set_new_env(t_env *new, char *str, int j)
 	if (j != 0 && str[j])
 		new->value = ft_strdup(str + j);
 	else
+	{
+		new->key = ft_strdup(str);
 		new->value = ft_strdup("");
+	}
 	if (new->value == NULL)
 		exit_error("Malloc error\n", -1);
 	new->next = NULL;

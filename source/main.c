@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:01:00 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 13:25:22 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 15:39:35 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	init_shell(int argc, char **argv, char **env);
 int	main(int argc, char **argv, char **env)
 {
 	int	status;
+
 
 	rl_outstream = stderr;
 	init_shell(argc, argv, env);

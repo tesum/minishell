@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 01:05:23 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/16 14:21:57 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/16 14:30:08 by demilan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,7 @@ static void	child(int flag, t_pipex *pipex, int *a, int *b)
 static void	parent(int flag, t_list *cmd, int *a, int *b)
 {
 	if (!flag && !cmd->next)
-	{
-		if (a[0])
-			close(a[0]);
-		if (b[1])
-			close(b[1]);
-	}
+		closer_pipes(a, b);
 	else if (flag && !cmd->next)
 	{
 		if (a[1])
