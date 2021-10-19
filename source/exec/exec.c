@@ -6,7 +6,7 @@
 /*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:59:59 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/16 18:29:21 by caugusta         ###   ########.fr       */
+/*   Updated: 2021/10/19 12:06:24 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static char	**find_path(void)
 
 	i = 0;
 	path = NULL;
+	if (g_shell.env == NULL)
+		return (NULL);
 	while (g_shell.env[i])
 	{
 		if (ft_strncmp("PATH=", g_shell.env[i], 5) == 0)
