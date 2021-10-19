@@ -60,7 +60,7 @@ static void	limiter_child(int *pip, char *limiter)
 	while (1)
 	{
 		input = readline("> ");
-		if (!input || !ft_strncmp(input, limiter, ft_strlen(limiter)))
+		if (!input || !ft_strncmp(input, limiter, ft_strlen(limiter) + 1))
 		{
 			try_free(input);
 			exit(0);

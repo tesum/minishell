@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 20:52:26 by demilan           #+#    #+#             */
-/*   Updated: 2021/10/18 14:37:59 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/19 11:36:36 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,68 +15,65 @@
 static	int	check_arg(char *arg)
 {
 	int	i;
-	int	r;
 
 	i = 0;
-	r = 0;
-	if (arg[i] == '=')
-		return (1);
+	if (!ft_isalpha(arg[i]) && arg[i] != '_')
+		return (0);
 	while (arg[i])
 	{
-		if (arg[i] == '=')
-			return (1);
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
-void	del_env_line(t_env *env, char *key)
+static void	del_env_line(t_env *env, char *key)
 {
-	t_env	*tmp;
-	t_env	*tmp_del;
+	t_env	*iterator;
+	t_env	*prev;
 
-	tmp_del = find_list_env(env, key);
-	if (!tmp_del)
+	if (env == NULL)
 		return ;
-	tmp = env;
-	if (ft_strncmp(tmp->key, key, ft_strlen(key)))
+	prev = env;
+	iterator = prev->next;
+	if (!ft_strncmp(prev->key, key, ft_strlen(key) + 1))
 	{
-		while (tmp)
-		{
-			if (!ft_strncmp(tmp->next->key, key, ft_strlen(key)))
-				break ;
-			tmp = tmp->next;
-		}
+		try_free3(prev->key, prev->value, prev);
+		g_shell.new_env = iterator;
+		return ;
 	}
-	if (ft_strncmp(tmp->key, key, ft_strlen(key)))
-		tmp->next = tmp_del->next;
-	else
-		g_shell.new_env = tmp_del->next;
-	try_free(tmp_del->key);
-	try_free(tmp_del->value);
-	tmp_del->next = NULL;
-	try_free(tmp_del);
-	tmp_del = NULL;
+	while (iterator && ft_strncmp(iterator->key, key, ft_strlen(key) + 1))
+	{
+		prev = iterator;
+		iterator = iterator->next;
+	}
+	if (iterator && !ft_strncmp(iterator->key, key, ft_strlen(key) + 1))
+	{
+		prev->next = iterator->next;
+		try_free3(iterator->key, iterator->value, iterator);
+	}
 }
 
 void	ft_unset(char **argv)
 {
 	int	i;
+	int	res;
 
 	i = 1;
-	if (argv[1])
+	res = 0;
+	while (argv[i])
 	{
-		while (argv[i])
+		if (!check_arg(argv[i]))
 		{
-			if (check_arg(argv[i]))
-			{
-				ft_putstr_fd("unset: Invalid parameter name\n", 2);
-				return ;
-			}
-			else
-				del_env_line(g_shell.new_env, argv[i]);
-			i++;
+			ft_putstr_fd("unset: '", 2);
+			ft_putstr_fd(argv[i], 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+			res = 1;
 		}
+		else
+			del_env_line(g_shell.new_env, argv[i]);
+		i++;
 	}
-	return ;
+	g_shell.result = res;
 }

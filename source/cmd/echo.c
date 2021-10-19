@@ -41,10 +41,9 @@ void	ft_echo(char **argv)
 		return ;
 	}
 	if (argv[i][0] == '-' && argv[i][1] == 'n')
-	{
 		i = flag_n(argv, i);
+	if (i > 1)
 		k = 1;
-	}
 	while (argv[i])
 	{
 		ft_putstr_fd(argv[i], STDOUT_FILENO);

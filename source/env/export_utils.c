@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: caugusta <caugusta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:03:40 by caugusta          #+#    #+#             */
-/*   Updated: 2021/10/18 13:45:59 by demilan          ###   ########.fr       */
+/*   Updated: 2021/10/19 11:13:12 by caugusta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	export_get_value(char *arg, int i, char **value, int f_plus)
+{
+	int	j;
+
+	j = 0;
+	while (arg[j] != '\0')
+	{
+		if (arg[j] == '=')
+			break ;
+		j++;
+	}
+	if (arg[j] == '\0')
+		*value = NULL;
+	else
+	{
+		if (f_plus)
+			*value = ft_strdup(arg + i + 2);
+		else
+			*value = ft_strdup(arg + i + 1);
+		if (*value == NULL)
+			exit_error("Malloc error", -1);
+	}
+}
 
 static void	export_plus(t_env *env, char *key, char *value)
 {
@@ -22,9 +46,18 @@ static void	export_plus(t_env *env, char *key, char *value)
 		add_back_env(&g_shell.new_env, new_env(key, 1, 1));
 		tmp = find_list_env(env, key);
 	}
-	tmp->value = ft_strjoin_gnl(tmp->value, value);
 	if (value)
-		tmp->env = 1;
+	{
+		if (tmp->value)
+			tmp->value = ft_strjoin_gnl(tmp->value, value);
+		else
+			tmp->value = ft_strjoin_gnl(ft_strdup(""), value);
+	}
+	else
+		tmp->value = ft_strdup("");
+	if (tmp->value == NULL)
+		exit_error("Malloc error", -1);
+	tmp->env = 1;
 	tmp->exp = 1;
 }
 
@@ -49,64 +82,20 @@ void	logic_export(int *flags, int i, t_env *env, char *arg)
 		NULL;
 	else
 		add_back_env(&g_shell.new_env, new_env(arg, 0, 1));
-	free(key);
-	if (value)
-		free(value);
+	try_free(key);
+	try_free(value);
 }
 
-void	edit_shlvl(t_env *env)
+t_env	*find_list_env(t_env *env, char *str)
 {
-	int		num;
 	t_env	*tmp;
 
-	tmp = find_list_env(env, "SHLVL");
-	if (tmp != NULL)
+	tmp = env;
+	while (tmp)
 	{
-		num = atoi(tmp->value);
-		num += 1;
-		try_free(tmp->value);
-		tmp->value = ft_itoa(num);
+		if (!ft_strncmp(tmp->key, str, ft_strlen(str) + 1))
+			return (tmp);
+		tmp = tmp->next;
 	}
-	else
-	{
-		tmp = new_env("SHLVL=1", 1, 1);
-		if (tmp == NULL)
-			exit_error("Error Malloc", -1);
-		add_back_env(&g_shell.new_env, tmp);
-	}
-}
-
-void	start_pwd(t_env *env)
-{
-	char	*pwd;
-	char	*buf;
-	t_env	*tmp;
-
-	tmp = find_list_env(env, "PWD");
-	buf = NULL;
-	if (tmp == NULL)
-	{
-		pwd = getcwd(buf, 0);
-		if (!pwd)
-		{
-			ft_putendl_fd(strerror(errno), 2);
-			g_shell.result = 1;
-			exit(-1);
-		}
-		edit_env_line(env, "PWD", pwd);
-		try_free(pwd);
-	}
-}
-
-int	env_size(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
+	return (NULL);
 }

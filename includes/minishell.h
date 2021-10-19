@@ -43,7 +43,6 @@ typedef struct s_shell
 {
 	char	**env;
 	t_env	*new_env;
-	pid_t	*pid;
 	t_list	*cmd;
 	int		fd_1;
 	int		fd_0;
@@ -53,7 +52,6 @@ typedef struct s_shell
 
 typedef struct s_pipex
 {
-	char	**path;
 	t_list	*cmd;
 	int		c_pipe;
 	int		iter;
@@ -64,10 +62,8 @@ t_shell	g_shell;
 
 //signal
 void		ctrl_c(int signal);
-void		ctrl_c_(int signal);
 
 // builtins
-int			builtins(char **cmd);
 void		ft_pwd(char **argv);
 void		ft_echo(char **argv);
 void		ft_cd(char **argv);
@@ -84,7 +80,7 @@ void		logic_export(int *flags, int i, t_env *env, char *arg);
 t_env		*find_list_env(t_env *env, char *str);
 void		edit_shlvl(t_env *env);
 void		start_pwd(t_env *env);
-int			env_size(t_env *env);
+void		export_get_value(char *arg, int i, char **value, int f_plus);
 
 // exec
 void		executing(t_list *lst_cmd);
@@ -111,7 +107,7 @@ void		closer_pipes(int *a, int *b);
 t_command	*command_new(void);
 char		**set_command_struct(t_list *lst_cmd);
 void		edit_env_line(t_env *env, char *find, char *edit);
-char		**env_arr(t_env *new_env, int export);
+char		**env_arr(t_env *env, int export);
 void		err_msg(char *str);
 void		sup_dup(int *fd);
 void		try_free(void *target);
@@ -120,9 +116,7 @@ void		cleaning(void);
 char		**free_2d_arr(char **arr);
 void		exit_error(char *str, int code);
 void		status_handler(void);
-void		ctrl_c(int signal);
 int			try_dup(int fd);
 int			try_dup2(int fd, int fd2);
-void		export_get_value(char *arg, int i, char **value, int f_plus);
 
 #endif

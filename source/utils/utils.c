@@ -12,57 +12,6 @@
 
 #include "minishell.h"
 
-// utils env
-void	edit_env_line(t_env *env, char *find, char *edit)
-{
-	t_env	*tmp;
-
-	tmp = find_list_env(env, find);
-	if (tmp == NULL)
-	{
-		tmp = new_env(find, 0, 1);
-		if (tmp == NULL)
-			exit_error("Error Malloc", -1);
-		add_back_env(&g_shell.new_env, tmp);
-	}
-	if (edit)
-	{
-		tmp->env = 1;
-		try_free(tmp->value);
-		tmp->value = NULL;
-		tmp->value = ft_strdup(edit);
-	}
-}
-
-char	**env_arr(t_env *new_env, int export)
-{
-	char	**env;
-	int		i;
-	int		j;
-
-	i = env_size(new_env);
-	env = malloc(sizeof(char *) * (i + 1));
-	if (env == NULL)
-		exit_error("Error malloc", -1);
-	j = 0;
-	env[i] = NULL;
-	while (j < i)
-	{
-		if ((export && new_env->exp) || !export)
-		{
-			env[j] = ft_strjoin_gnl(ft_strdup(""), new_env->key);
-			if (new_env->env)
-				env[j] = ft_strjoin_gnl(ft_strjoin_gnl(env[j], "="), \
-					new_env->value);
-			if (env[j] == NULL)
-				exit_error("Error malloc", -1);
-		}
-		j++;
-		new_env = new_env->next;
-	}
-	return (env);
-}
-
 void	status_handler(void)
 {
 	if (WIFEXITED(g_shell.result))
